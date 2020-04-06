@@ -5,6 +5,11 @@ from django.http import Http404
 from django.urls import reverse
 
 
+# def index(request):
+#     #context = {}
+#     return render(request, 'main/index.html')
+
+
 def index(request):
     return HttpResponse("hi")
 
