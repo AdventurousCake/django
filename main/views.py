@@ -11,8 +11,8 @@ from django.urls import reverse
 
 
 def index(request):
-    return HttpResponse("hi")
-
+    # return HttpResponse("hi")
+    return render(request, 'main/hi.html', {})
 
 # def index(request):
 #     template = loader.get_template('main/index.html')
