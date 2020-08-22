@@ -19,10 +19,10 @@ from django.urls import path, include
 from django.contrib.auth import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name='admin'),
+    path('admin/', admin.site.urls, name='admin_page'),
     path('polls/', include('polls.urls')),
-    path('', include('main.urls')),
+    path('', include('main.urls'), name='home'),
     path('simplesite1/', include('simplesite1.urls')),
     path('blog/', include('blog.urls')),
-    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    # path('accounts/login/', views.LoginView.as_view(), name='login'),
 ]
