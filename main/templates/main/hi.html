@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Django Project</title>
-</head>
-<body>
+{% extends 'main/base.html' %}
+
+{% block content %}
     <h1>Hi {{ user.get_username }}</h1>
     <a href="{% url 'post_list' %}">GO TO BLOG</a>
 {#if logged?:#}
 {#    <a href="{% url 'django1:admin_page' %}">ADMIN</a>#}
     <a href="/admin">ADMIN</a>
-</body>
-</html>
+{% endblock %}

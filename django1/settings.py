@@ -25,7 +25,7 @@ SECRET_KEY = '35v8fq@foht=8#@f-n1%nmj@zlq&0l1nk2gpbyj$nm$56dyk$3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -78,12 +78,12 @@ WSGI_APPLICATION = 'django1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -126,3 +126,20 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # LOGIN_REDIRECT_URL = '/'
+
+
+# temp settings
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+
+...
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django1',
+        'USER': 'name',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}

@@ -43,6 +43,8 @@ def post_new(request):
 @login_required()
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
+
+    # если данные типа POST (принять данные)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
