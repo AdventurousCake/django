@@ -1,9 +1,22 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <h1>Hi {{ user.get_username }}</h1>
+
+    {% if user.is_authenticated %}
+        <h1>Hi, {{ user.get_username }}</h1>
+    {% else %}
+        <p>Welcome, new user. Please log in.</p>
+    {% endif %}
+
     <a href="{% url 'post_list' %}">GO TO BLOG</a>
-{#if logged?:#}
-{#    <a href="{% url 'django1:admin_page' %}">ADMIN</a>#}
+    {#if logged?:#}
+    {#    <a href="{% url 'django1:admin_page' %}">ADMIN</a>#}
     <a href="/admin">ADMIN</a>
+    <a href="/accounts">Accounts</a>
+
+    <div class="auth">
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'logout' %}">Log out</a>
+    </div>
+
 {% endblock %}
