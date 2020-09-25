@@ -8,3 +8,7 @@ urlpatterns = [
     path('post/new/', views.post_new, name='post_new'),
     path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
 ]
+
+urlpatterns += [
+    path('secure_eif-h219105', views.hidden_page, name='test_secure')
+]
