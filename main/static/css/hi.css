@@ -18,6 +18,9 @@ html {
     color: white;
     text-decoration: none;
     padding: 10px;
+    /*left or right padding*/
+
+    transition: all 0.27s cubic-bezier(0.000, 0.000, 0.580, 1.000);
 }
 
 .header a:hover {
@@ -31,4 +34,21 @@ body {
 
 .content {
     margin: 1em;
+    display: block;
+}
+
+.sidebar {
+    margin-right: 50px;
+    float: left;
+    /*position: fixed;*/
+    /*padding: 1em;*/
+    /*display: block;*/
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-width: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+    .sidebar li {font-size: 30px;}
+    .sidebar p {font-size: 50px;}
 }
