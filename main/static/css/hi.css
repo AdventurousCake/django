@@ -25,7 +25,7 @@ html {
 
 .header a:hover {
     color: black;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 body {
@@ -51,4 +51,29 @@ body {
     .sidebar a {font-size: 18px;}
     .sidebar li {font-size: 30px;}
     .sidebar p {font-size: 50px;}
+}
+
+.footer {
+    background-color: black;
+    color: white;
+    font-size: 15px;
+    padding: 1em;
+    margin-top: 8em;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    transition: all 0.27s cubic-bezier(0.000, 0.000, 0.580, 1.000);
+}
+
+.footer p {
+    padding: 10px;
+    margin: 0;
+}
+
+.footer .auth {
+    border-bottom: 2px solid #636466;
+    padding-bottom: 10px;
 }

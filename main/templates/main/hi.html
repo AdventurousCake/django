@@ -23,12 +23,14 @@
     {% else %}
         <p>Welcome, new user. Please log in.</p>
     {% endif %}
-
-    <div class="auth">
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'logout' %}">Log out</a>
     </div>
 
+    <div class="footer">
+        <div class="auth">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'logout' %}">Log out</a>
+        </div>
+        <p>2020
     </div>
 
 {% endblock %}
