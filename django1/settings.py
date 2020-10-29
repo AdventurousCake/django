@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'simplesite1.apps.Simplesite1Config',
     'main.apps.MainConfig',
-    'blog'
+    'blog',
+    'people',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +156,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+from django.urls import reverse_lazy
+ABSOLUTE_URL_OVERRIDES = {'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])}
+
+THUMBNAIL_DEBUG=True
