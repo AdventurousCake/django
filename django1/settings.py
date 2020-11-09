@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'blog',
     'people',
     'sorl.thumbnail',
+    'myshop.apps.MyshopConfig'
 ]
 
 MIDDLEWARE = [
