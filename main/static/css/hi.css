@@ -12,6 +12,8 @@ html {
     font-size: 30px;
     color: wheat;
     /*box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);*/
+    /*backdrop-filter: blur(16px);*/
+
 }
 
 .header a {
