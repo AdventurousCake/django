@@ -27,6 +27,7 @@ urlpatterns = [
     path('simplesite1/', include('simplesite1.urls')),
     path('blog/', include('blog.urls')),
     path('people/', include('people.urls')),
+    path('cart/', include('myshop_cart.urls', namespace='cart')),   # порядок важен
     path('shop/', include('myshop.urls', namespace='shop')),
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
 ]

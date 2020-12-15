@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'blog',
     'people',
     'sorl.thumbnail',
-    'myshop.apps.MyshopConfig'
+    'myshop.apps.MyshopConfig',
+    'myshop_cart.apps.MyshopCartConfig'
 ]
 
 MIDDLEWARE = [
@@ -159,4 +160,10 @@ ABSOLUTE_URL_OVERRIDES = {'auth.user': lambda u: reverse_lazy('user_detail', arg
 THUMBNAIL_DEBUG = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CART_SESSION_ID = 'cart_1'
+"""Это ключ, по которому мы будем хранить данные корзины в сессии. 
+Так как сессии Django ассоциируются с конкретным посетителем сайта,
+мы можем использовать один и тот же ключ для разных пользователей. 
+Это не приведет к конфликту данных."""
