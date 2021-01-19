@@ -22,7 +22,7 @@ html {
     padding: 10px;
     /*left or right padding*/
 
-    transition: all 0.27s cubic-bezier(0.000, 0.000, 0.580, 1.000);
+    transition: all 0.17s cubic-bezier(0.000, 0.000, 0.580, 1.000);
 }
 
 .header a:hover {
@@ -35,7 +35,7 @@ body {
 }
 
 .content {
-    margin: 1em;
+    margin: 2em;
     display: block;
 }
 
@@ -60,6 +60,8 @@ body {
     color: white;
     font-size: 15px;
     padding: 1em;
+    
+    /*fix*/
     margin-top: 14em;
 }
 
