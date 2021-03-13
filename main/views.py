@@ -7,7 +7,7 @@ from django.urls import reverse
 
 def index(request):
     # return HttpResponse("hi")
-    return render(request, 'main/hi.html', {})
+    return render(request, 'main/index.html', {})
 
 # def index(request):
 #     template = loader.get_template('main/index.html')
