@@ -1,35 +1,42 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <div class="header">
-        <a href="{% url 'post_list' %}">GO TO BLOG</a>
+{#    <div class="header">#}
+{#        <a href="{% url 'post_list' %}">GO TO BLOG</a>#}
 {#        if logged?:#}
 {#            <a href="{% url 'django1:admin_page' %}">ADMIN</a>#}
-        <a href="/admin">ADMIN</a>
-        <a href="/accounts">Accounts</a>
-        <a href="{% url "user_list" %}">People</a>
-        <a href="{% url "shop:product_list" %}">Shop</a>
+{#        <a href="/admin">ADMIN</a>#}
+{#        <a href="/accounts">Accounts</a>#}
+{#        <a href="{% url "user_list" %}">People</a>#}
+{#        <a href="{% url "shop:product_list" %}">Shop</a>#}
 {#     <li {% if section == "people" %}class="selected"{% endif %}> </li>#}
-    </div>
+{#    </div>#}
 
-{#    <nav class="navbar navbar-expand-lg navbar-light bg-primary">#}
-{#        <a class="navbar-brand" href="#">Django project</a>#}
-{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
-{#            <span class="navbar-toggler-icon"></span>#}
-{#        </button>#}
-{##}
-{#        <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
-{#            <ul class="navbar-nav mr-auto">#}
-{#                <li class="nav-item active">#}
-{#                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="#">Link</a>#}
-{#                    <a class="nav-link" href="#">Link2</a>#}
-{#                </li>#}
-{#            </ul>#}
-{#        </div>#}
-{#    </nav>#}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+    <nav id="navbar" class="navbar navbar-expand-md navbar-light bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Django project</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ml-auto">
+{#                    <li class="nav-item active">#}
+{#                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
+{#                    </li>#}
+                    <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/accounts">Accounts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url "user_list" %}">People</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url "shop:product_list" %}">Shop</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 
     <div class="content">
