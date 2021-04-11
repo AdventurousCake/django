@@ -22,9 +22,9 @@ from django.contrib.auth import views
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_page'),
-    path('polls/', include('polls.urls')),
-    path('', include('main.urls'), name='home'),
-    path('simplesite1/', include('simplesite1.urls')),
+    path('polls/', include('polls.urls'), name='polls'),
+    path('', include('home_page.urls'), name='home'),
+    path('simplesite1/', include('simplesite1_bstrap.urls')),
     path('blog/', include('blog.urls')),
     path('people/', include('people.urls')),
     path('orders/', include('myshop_orders.urls', namespace='orders')),

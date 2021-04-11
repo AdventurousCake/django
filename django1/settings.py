@@ -25,7 +25,8 @@ SECRET_KEY = '35v8fq@foht=8#@f-n1%nmj@zlq&0l1nk2gpbyj$nm$56dyk$3'
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['158.101.173.182', '165.227.163.73', '127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['158.101.173.182', '165.227.163.73', '127.0.0.1', '.herokuapp.com',
+                 'do.testig.ml', 'do2.testig.ml', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
 
 # Application definition
 
@@ -37,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls.apps.PollsConfig',
-    'simplesite1.apps.Simplesite1Config',
-    'main.apps.MainConfig',
+    'simplesite1_bstrap.apps.Simplesite1Config',
+    'home_page.apps.MainConfig',
     'blog',
     'people',
     'sorl.thumbnail',
