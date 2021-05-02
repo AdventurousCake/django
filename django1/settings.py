@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'simplesite1_bstrap.apps.Simplesite1Config',
     'home_page.apps.MainConfig',
-    'blog',
+    'blog.apps.BlogConfig',
     'people',
     'sorl.thumbnail',
     'myshop.apps.MyshopConfig',
@@ -133,10 +133,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # LOGIN_REDIRECT_URL = '/'
 
 
-# temp settings
-# ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
-#
-#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',

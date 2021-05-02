@@ -82,3 +82,18 @@ body {
     border-bottom: 2px solid #636466;
     padding-bottom: 10px;
 }
+
+.data-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.data-container div {
+    padding: 3em;
+    margin: 1em 1.5em 1em 0;
+    background-color: #cde4f5;
+    border-radius: 1em;
+    box-shadow: 12px 12px 2px 1px rgb(93, 111, 227);
+    flex-basis: 100vw;
+}
