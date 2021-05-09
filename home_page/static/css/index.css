@@ -87,13 +87,37 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    margin-bottom: 1em;
+    justify-content: space-between;
 }
 
-.data-container div {
-    padding: 3em;
+.data-container > div {
+    padding: 2em;
+    /*font-size: 2em;*/
     margin: 1em 1.5em 1em 0;
-    background-color: #cde4f5;
+    background-color: #ecff06;
     border-radius: 1em;
-    box-shadow: 12px 12px 2px 1px rgb(93, 111, 227);
+    box-shadow: 12px 12px 12px 0 rgb(212 213 216);
     flex-basis: 100vw;
+}
+
+.flex-block > div:nth-child(1) {
+    border-bottom: 2px solid #00000078;
+    padding-bottom: 0.5em;
+    font-size: 32px;
+    color: black;
+}
+
+.data-container hr{
+    color: white;
+    height: 10px;
+}
+
+.data-container > div:hover{
+    transform:scale(1.1,1.1);
+}
+
+.btn:hover {
+    box-shadow: 12px 12px 12px 0 rgb(212 213 216);
+    transform:scale(1.1,1.1);
 }
