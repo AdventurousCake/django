@@ -42,6 +42,15 @@ body {
     display: block;
 }
 
+h1.greeting {
+    /*margin: 0 auto;*/
+    text-align: center;
+}
+
+#btn1 {
+    text-align: center;
+}
+
 .sidebar {
     margin-right: 50px;
     float: left;
@@ -87,23 +96,33 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    margin-bottom: 1em;
-    justify-content: space-between;
+    margin: 1em 0;
+    justify-content: center;
+    /*flex-basis: 70vw;*/
+}
+
+/*flex blocks*/
+@media screen and (min-width: 1000px) {
+    .data-container {
+        margin: 1em auto;
+        max-width: 900px;
+    }
 }
 
 .data-container > div {
     padding: 2em;
     /*font-size: 2em;*/
-    margin: 1em 1.5em 1em 0;
+    /*margin: 1em 1.5em 1em 0;*/
+    margin: 1em 0.5em;
     background-color: #ecff06;
     border-radius: 1em;
     box-shadow: 12px 12px 12px 0 rgb(212 213 216);
-    flex-basis: 100vw;
+    flex-basis: 70vw;
 }
 
 .flex-block > div:nth-child(1) {
     border-bottom: 2px solid #00000078;
-    padding-bottom: 0.5em;
+    padding-bottom: 0.25em;
     font-size: 32px;
     color: black;
 }
