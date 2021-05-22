@@ -49,6 +49,7 @@ h1.greeting {
 
 #btn1 {
     text-align: center;
+    margin: 1em 0;
 }
 
 .sidebar {
@@ -92,6 +93,11 @@ h1.greeting {
     padding-bottom: 10px;
 }
 
+.data-container-column {
+    display: flex;
+    flex-direction: column;
+}
+
 .data-container {
     display: flex;
     flex-direction: row;
@@ -110,14 +116,18 @@ h1.greeting {
 }
 
 .data-container > div {
-    padding: 2em;
+    padding: 1.25em;
     /*font-size: 2em;*/
     /*margin: 1em 1.5em 1em 0;*/
     margin: 1em 0.5em;
     background-color: #ecff06;
     border-radius: 1em;
-    box-shadow: 12px 12px 12px 0 rgb(212 213 216);
+    box-shadow: 5px 6px 12px 0 rgb(212 213 216);
     flex-basis: 70vw;
+}
+
+#c2 > div{
+    background-color: #f44336;
 }
 
 .flex-block > div:nth-child(1) {
