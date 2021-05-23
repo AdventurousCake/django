@@ -3,11 +3,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.http import Http404
 from django.urls import reverse
+import datetime
 
 
 def index(request):
     # return HttpResponse("hi")
-    return render(request, 'home/index.html', {})
+    return render(request, 'home/index.html', {'date': str(datetime.datetime.now())})
 
 # def index(request):
 #     template = loader.get_template('main/index.html')

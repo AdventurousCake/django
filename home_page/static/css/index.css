@@ -38,7 +38,7 @@ body {
 }
 
 .content {
-    margin: 2em;
+    margin: 1em 0.5em;
     display: block;
 }
 
@@ -68,31 +68,6 @@ h1.greeting {
     .sidebar p {font-size: 50px;}
 }
 
-.footer {
-    background-color: black;
-    color: white;
-    font-size: 15px;
-    padding: 1em;
-    margin-top: auto;
-}
-
-.footer a {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    transition: all 0.27s cubic-bezier(0.000, 0.000, 0.580, 1.000);
-}
-
-.footer p {
-    padding: 10px;
-    margin: 0;
-}
-
-.footer .auth {
-    border-bottom: 2px solid #636466;
-    padding-bottom: 10px;
-}
-
 .data-container-column {
     display: flex;
     flex-direction: column;
@@ -116,14 +91,15 @@ h1.greeting {
 }
 
 .data-container > div {
-    padding: 1.25em;
+    padding: 1em;
     /*font-size: 2em;*/
     /*margin: 1em 1.5em 1em 0;*/
     margin: 1em 0.5em;
     background-color: #ecff06;
     border-radius: 1em;
     box-shadow: 5px 6px 12px 0 rgb(212 213 216);
-    flex-basis: 70vw;
+    flex-basis: 80vw;   /* constraint by max-width */
+    word-break: break-all;
 }
 
 #c2 > div{
@@ -149,4 +125,29 @@ h1.greeting {
 .btn:hover {
     box-shadow: 12px 12px 12px 0 rgb(212 213 216);
     transform:scale(1.1,1.1);
+}
+
+.footer {
+    background-color: black;
+    color: white;
+    font-size: 15px;
+    padding: 1em;
+    margin-top: auto;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    transition: all 0.27s cubic-bezier(0.000, 0.000, 0.580, 1.000);
+}
+
+.footer p {
+    padding: 10px;
+    margin: 0;
+}
+
+.footer .auth {
+    border-bottom: 2px solid #636466;
+    padding-bottom: 10px;
 }
