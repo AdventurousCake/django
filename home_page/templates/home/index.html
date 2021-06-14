@@ -1,17 +1,7 @@
 {% extends 'home/base.html' %}
+{% load static %}
 
 {% block content %}
-{#    <div class="header">#}
-{#        <a href="{% url 'post_list' %}">GO TO BLOG</a>#}
-{#        if logged?:#}
-{#            <a href="{% url 'django1:admin_page' %}">ADMIN</a>#}
-{#        <a href="/admin">ADMIN</a>#}
-{#        <a href="/accounts">Accounts</a>#}
-{#        <a href="{% url "user_list" %}">People</a>#}
-{#        <a href="{% url "shop:product_list" %}">Shop</a>#}
-{#     <li {% if section == "people" %}class="selected"{% endif %}> </li>#}
-{#    </div>#}
-
     <nav id="navbar" class="navbar navbar-expand-md navbar-dark" style="background-color: #14375a">
         <div class="container">
             <a class="navbar-brand" href="#">🚀 My Django Project</a>
@@ -48,12 +38,11 @@
 {#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
 {#                !!!#}
 {#            </div>#}
-            <h1 class="greeting">Hi, {{ user.get_username }}</h1>
+            <h1 class="greeting">Hi, {{ user.get_username }} ✨</h1>
 
             <div id="btn1">
                 <button class="btn btn-primary" type="button">Default button</button>
             </div>
-{#          <button class="btn" type="button">Default button</button>#}
 
 
             <div class="data-container">
@@ -68,7 +57,7 @@
 
             <div class="data-container" id="c2">
                 <div class="flex-block">
-                    <div>title</div>
+                    <div>Date</div>
                     {{ date }}
                 </div>
                 <div class="flex-block">
@@ -87,10 +76,10 @@
 
     <footer class="footer">
         <div class="auth">
-            {% if not user.is_authenticated %}
-            <a href="admin/login/?next=/">Login</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Log out</a>
             {% else %}
-            <a href="{% url 'logout' %}">Log out</a>
+                <a href="admin/login/?next=/">Login</a>
             {% endif %}
         </div>
         <p>2021</p>
@@ -100,5 +89,20 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 
+{#    {% if user.is_authenticated %}#}
+{#    <script src="{% static 'js/js.js' %}"></script>#}
+{#    {% endif %}#}
 
 {% endblock %}
+
+{#    old header#}
+{#    <div class="header">#}
+{#        <a href="{% url 'post_list' %}">GO TO BLOG</a>#}
+{#        if logged?:#}
+{#            <a href="{% url 'django1:admin_page' %}">ADMIN</a>#}
+{#        <a href="/admin">ADMIN</a>#}
+{#        <a href="/accounts">Accounts</a>#}
+{#        <a href="{% url "user_list" %}">People</a>#}
+{#        <a href="{% url "shop:product_list" %}">Shop</a>#}
+{#     <li {% if section == "people" %}class="selected"{% endif %}> </li>#}
+{#    </div>#}

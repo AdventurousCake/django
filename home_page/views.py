@@ -8,7 +8,8 @@ import datetime
 
 def index(request):
     # return HttpResponse("hi")
-    return render(request, 'home/index.html', {'date': str(datetime.datetime.now())})
+    data = {'date': str(datetime.datetime.now())}
+    return render(request, 'home/index.html', data)
 
 # def index(request):
 #     template = loader.get_template('main/index.html')

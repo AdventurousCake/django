@@ -52,6 +52,16 @@ h1.greeting {
     margin: 1em 0;
 }
 
+/*btn custom*/
+/*.btn-primary,*/
+/*.btn-primary:hover,*/
+/*.btn-primary:active,*/
+/*.btn-primary:visited,*/
+/*.btn-primary:focus {*/
+/*    background-color: #efbb00 !important;*/
+/*    border-color: #ff4f2d !important;*/
+/*}*/
+
 .sidebar {
     margin-right: 50px;
     float: left;
@@ -123,7 +133,7 @@ h1.greeting {
 }
 
 .btn:hover {
-    box-shadow: 12px 12px 12px 0 rgb(212 213 216);
+    box-shadow: 5px 5px 5px 0 rgb(212 213 216);
     transform:scale(1.1,1.1);
 }
 
