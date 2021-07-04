@@ -12,8 +12,8 @@ def index(request):
     if req.status_code != 200:
         raise ConnectionError(f"Status code: {req.status_code}")
 
-    data = {'date': str(datetime.datetime.now()),
-            'bot': req.text,
+    data = {'date': str(datetime.datetime.now().isoformat(' ', 'seconds')),
+            'bot': req.json()['status'],
             }
     return render(request, 'home/index.html', data)
     # return HttpResponse("hi")

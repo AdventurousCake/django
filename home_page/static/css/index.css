@@ -134,10 +134,13 @@ h1.greeting {
     transform:scale(1.1,1.1);
 }
 
+.btn {
+    transition: all 0.17s cubic-bezier(0.000, 0.000, 0.580, 1.000);
+}
+
 .btn:hover {
     box-shadow: 5px 5px 5px 0 rgb(212 213 216);
     transform:scale(1.1,1.1);
-    transition: all 0.17s cubic-bezier(0.000, 0.000, 0.580, 1.000);
 }
 
 .footer {
