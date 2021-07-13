@@ -97,7 +97,11 @@ h1.greeting {
 @media screen and (min-width: 1000px) {
     .data-container {
         margin: 1em auto;
-        max-width: 900px;
+        /*max-width: 900px;*/
+    }
+    .content {
+        width: 900px;
+        margin: 1em auto;
     }
 }
 
@@ -134,7 +138,7 @@ h1.greeting {
     transform:scale(1.1,1.1);
 }
 
-.btn {
+.btn.btn-primary {
     transition: all 0.17s cubic-bezier(0.000, 0.000, 0.580, 1.000);
 }
 
