@@ -122,6 +122,10 @@ h1.greeting {
     background-color: #f44336;
 }
 
+/*#active {*/
+/*    background-color: cornflowerblue;*/
+/*}*/
+
 .flex-block > div:nth-child(1) {
     border-bottom: 2px solid #00000078;
     padding-bottom: 0.25em;

@@ -8,16 +8,13 @@ window.onload = function () {
         fetch("http://127.0.0.1:8000/ping/").then(function(response) {
         // data.innerHTML = response.json()
         // first parse response then use value
+            // {% url "ping" %}
         return response.text();
     }).then(function(data) {
         console.log(data);
         // let x = data1
         data1.innerHTML = data
     })
-
-        // let data = data
-        // data.innerHTML = ""
-
     }
 }
 

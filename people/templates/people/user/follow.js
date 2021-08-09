@@ -1,3 +1,4 @@
+// uses jquery
 $('a.follow').click(function(e) {
     e.preventDefault();
     $.post('{% url "user_follow" %}', {

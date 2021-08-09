@@ -20,7 +20,7 @@ def ping():
     req = requests.get("http://api1.testig.ml/ping")
     if req.status_code != 200:
         raise ConnectionError(f"Status code: {req.status_code}")
-    return req.json()['status'], str(datetime.datetime.now().isoformat(' ', 'seconds'))
+    return req.json()['status'], " "+str(datetime.datetime.now().isoformat(' ', 'seconds'))
 
 
 def ping_req(request):
