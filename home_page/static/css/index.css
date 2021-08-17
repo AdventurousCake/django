@@ -35,7 +35,8 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /*for footer*/
+    background-color: seashell !important;
 }
 
 .content {
@@ -112,7 +113,7 @@ h1.greeting {
     margin: 1em 0.5em;
     background-color: #ecff06;
     border-radius: 1em;
-    box-shadow: 5px 6px 12px 0 rgb(212 213 216);
+    box-shadow: 0px 6px 12px 0 rgb(221 217 217);
     /*flex-basis: 80vw;   !* constraint by max-width *!*/
     flex-basis: 30%; /* ширина элемента */
     flex-grow: 1;
@@ -126,7 +127,8 @@ h1.greeting {
 }
 
 .active {
-    background-color: cornflowerblue !important;
+    background-color: #ffe100 !important;
+    border: solid !important;
 }
 
 .flex-block > div:nth-child(1) {

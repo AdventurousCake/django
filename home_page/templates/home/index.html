@@ -123,9 +123,10 @@
                     return response.text();
                 }).then(function(data) {
                     console.log(data);
+                    {#console.log(item.id, item.id === '#ping');#}
 
                     data1.innerHTML = data
-                    if (item.id === '#ping'){
+                    if (item.id === 'ping'){
                         if (item.classList.contains('active')) {
                             item.classList.remove("active");
                         } else {
