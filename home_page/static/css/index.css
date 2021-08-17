@@ -113,7 +113,10 @@ h1.greeting {
     background-color: #ecff06;
     border-radius: 1em;
     box-shadow: 5px 6px 12px 0 rgb(212 213 216);
-    flex-basis: 80vw;   /* constraint by max-width */
+    /*flex-basis: 80vw;   !* constraint by max-width *!*/
+    flex-basis: 30%; /* ширина элемента */
+    flex-grow: 1;
+    /*flex-shrink: 1;*/
     word-break: break-all;
     transition: all 0.17s cubic-bezier(0.000, 0.000, 0.580, 1.000);
 }
@@ -122,9 +125,9 @@ h1.greeting {
     background-color: #f44336;
 }
 
-/*#active {*/
-/*    background-color: cornflowerblue;*/
-/*}*/
+.active {
+    background-color: cornflowerblue !important;
+}
 
 .flex-block > div:nth-child(1) {
     border-bottom: 2px solid #00000078;

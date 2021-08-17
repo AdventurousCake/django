@@ -40,7 +40,7 @@
             <h1 class="greeting">Hello, {{ user.get_username }} ✨</h1>
 
             <div id="btn1">
-                <button class="btn btn-primary" type="button">Default button</button>
+                <button class="btn btn-primary" type="button">Update</button>
             </div>
 
 
@@ -97,23 +97,44 @@
     {% if user.is_authenticated %}
     <script type="application/javascript">
         "use strict";
+
+        function setAttrs(el, attrs){
+            for(let key in attrs){
+                el.setAttribute(attrs[key])
+            }
+        }
+
+        function addActive(item){
+
+        }
+
         window.onload = function () {
             let item = document.querySelector("#ping")
             let data1 = document.querySelector("#ping-data")
+            let btn1 = document.querySelector("#btn1")
 
-            item.onclick = () => {
+            let a = [item, btn1]
+            a.forEach(item =>
+                {#item.onclick = () => {#}
+                item.addEventListener('click', event => {
                 fetch("{% url "home:ping" %}").then(function(response) {
                     // data.innerHTML = response.json()
                     // first parse response then use value
                     return response.text();
                 }).then(function(data) {
                     console.log(data);
-                    // let x = data1
+
                     data1.innerHTML = data
-                    item.setAttribute('id', 'active')
-                    {#element.classList.add("my-class");#}
+                    if (item.id === '#ping'){
+                        if (item.classList.contains('active')) {
+                            item.classList.remove("active");
+                        } else {
+                            item.classList.add("active");
+                        }
+                    }
                 })
             }
+            ))
         }
     </script>
     {% endif %}
