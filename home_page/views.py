@@ -26,6 +26,14 @@ def ping():
 def ping_req(request):
     return HttpResponse(ping())
 
+
+def bot_users():
+    req = requests.get("http://api1.testig.ml/ping")
+    if req.status_code != 200:
+        raise ConnectionError(f"Status code: {req.status_code}")
+    data = req.json()
+
+
 # def index(request):
 #     template = loader.get_template('main/index.html')
 #     return HttpResponse(template.render(template, request))
