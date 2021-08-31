@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.template import loader
+# from django.template import loader
 from django.http import Http404
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 import datetime
 import requests
 
@@ -16,6 +17,7 @@ def index(request):
     # return HttpResponse("hi")
 
 
+@login_required
 def ping():
     req = requests.get("http://api1.testig.ml/ping")
     if req.status_code != 200:
