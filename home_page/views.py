@@ -17,7 +17,6 @@ def index(request):
     # return HttpResponse("hi")
 
 
-@login_required
 def ping():
     req = requests.get("http://api1.testig.ml/ping")
     if req.status_code != 200:
@@ -25,6 +24,7 @@ def ping():
     return req.json()['status'], " "+str(datetime.datetime.now().isoformat(' ', 'seconds'))
 
 
+@login_required
 def ping_req(request):
     return HttpResponse(ping())
 
