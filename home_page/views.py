@@ -11,14 +11,15 @@ import requests
 def index(request):
     date_now = str(datetime.datetime.now().isoformat(' ', 'seconds'))
     data = {'date': date_now,
-            'bot': ping(),
+            'bot': _ping(),
             }
     return render(request, 'home/index.html', data)
     # return HttpResponse("hi")
 
 
-def ping():
+def _ping():
     req = requests.get("http://api1.testig.ml/ping")
+    # req.raise_for_status()
     if req.status_code != 200:
         raise ConnectionError(f"Status code: {req.status_code}")
     return req.json()['status'], " "+str(datetime.datetime.now().isoformat(' ', 'seconds'))
@@ -26,7 +27,7 @@ def ping():
 
 @login_required
 def ping_req(request):
-    return HttpResponse(ping())
+    return HttpResponse(_ping())
 
 
 def bot_users():

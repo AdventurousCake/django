@@ -89,7 +89,9 @@ h1.greeting {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    margin: 1em 0;
+    /*compact for mobile*/
+    /*margin: 1em 0;*/
+    font-size: 0.85em;
     justify-content: center;
     /*flex-basis: 70vw;*/
 }
@@ -98,6 +100,7 @@ h1.greeting {
 @media screen and (min-width: 1000px) {
     .data-container {
         margin: 1em auto;
+        font-size: 1em;
         /*max-width: 900px;*/
     }
     .content {
@@ -123,7 +126,7 @@ h1.greeting {
 }
 
 #c2 > div{
-    background-color: #f44336;
+    background-color: #ffc107;
 }
 
 /*active block*/
