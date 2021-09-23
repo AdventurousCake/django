@@ -30,7 +30,7 @@ def ping_req(request):
     return HttpResponse(_ping())
 
 
-def bot_users():
+def _bot_stats():
     req = requests.get("http://api1.testig.ml/ping")
     if req.status_code != 200:
         raise ConnectionError(f"Status code: {req.status_code}")

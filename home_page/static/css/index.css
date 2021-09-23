@@ -49,11 +49,6 @@ h1.greeting {
     text-align: center;
 }
 
-#btn1 {
-    text-align: center;
-    margin: 1em 0;
-}
-
 /*btn custom*/
 /*.btn-primary,*/
 /*.btn-primary:hover,*/
@@ -152,11 +147,14 @@ h1.greeting {
     transform:scale(1.1,1.1);
 }
 
-.btn.btn-primary {
+#btn1 {
     transition: all 0.17s cubic-bezier(0.000, 0.000, 0.580, 1.000);
+    display: block;
+    text-align: center;
+    margin: 1em auto;
 }
 
-.btn:hover {
+#btn1:hover {
     box-shadow: 5px 5px 5px 0 rgb(212 213 216);
     transform:scale(1.1,1.1);
 }
