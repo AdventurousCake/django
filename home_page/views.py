@@ -6,6 +6,10 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import datetime
 import requests
+import logging
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
 def index(request):
@@ -21,7 +25,9 @@ def _ping():
     req = requests.get("http://api1.testig.ml/ping")
     # req.raise_for_status()
     if req.status_code != 200:
-        raise ConnectionError(f"Status code: {req.status_code}")
+        # raise ConnectionError(f"Status code: {req.status_code}")
+        log.error(f"Status code: {req.status_code}")
+        return 0
     return req.json()['status'], " "+str(datetime.datetime.now().isoformat(' ', 'seconds'))
 
 
@@ -33,8 +39,11 @@ def ping_req(request):
 def _bot_stats():
     req = requests.get("http://api1.testig.ml/ping")
     if req.status_code != 200:
-        raise ConnectionError(f"Status code: {req.status_code}")
+        log.error(f"Status code: {req.status_code}")
+        # raise ConnectionError(f"Status code: {req.status_code}")
+        return 0
     data = req.json()
+    return data
 
 
 # def index(request):
