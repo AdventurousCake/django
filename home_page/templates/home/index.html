@@ -7,37 +7,47 @@
             <a class="navbar-brand" href="#">🚀 My Django Project</a>
 
             {% if user.is_authenticated %}
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="nav">
-                <ul class="navbar-nav ml-auto">
-{#                    <li class="nav-item active">#}
-{#                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
-{#                    </li>#}
-                    <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/accounts">Accounts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url "user_list" %}">People</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url "shop:product_list" %}">Shop</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url "polls:index" %}">Polls</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url "simplesite1:index" %}">Simple site</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url "post_list" %}">Blog</a></li>
+                <div class="collapse navbar-collapse" id="nav">
+                    <ul class="navbar-nav ml-auto">
+                        {#                    <li class="nav-item active">#}
+                        {#                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
+                        {#                    </li>#}
+                        <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/accounts">Accounts</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "user_list" %}">People</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "shop:product_list" %}">Shop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "polls:index" %}">Polls</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "simplesite1:index" %}">Simple site</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "post_list" %}">Blog</a></li>
 
-                </ul>
-            </div>
+                    </ul>
+                </div>
             {% endif %}
         </div>
     </nav>
 
+{#        sidebar#}
+{#    {% if user.is_authenticated %}#}
+{#    <div id="mySidebar" class="sidebar1" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">#}
+{#        <a href="#"><span><i class="material-icons">info</i><span class="icon-text">about</span></a><br>#}
+{#        <a href="#"><i class="material-icons">spa</i><span class="icon-text"></span>services</a></span></a><br>#}
+{#        <a href="#"><i class="material-icons">monetization_on</i><span class="icon-text"></span>clients</span></a><br>#}
+{#        <a href="#"><i class="material-icons">email</i><span class="icon-text"></span>contact<span></a>#}
+{#    </div>#}
+{#    {% endif %}#}
 
-    <div class="content">
+    <div class="content noselect">
         {% if user.is_authenticated %}
-{#            <div class="alert alert-info">#}
-{#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
-{#                !!!#}
-{#            </div>#}
-{#            <h1 class="greeting">Hello, {{ user.get_username }} ✨</h1>#}
+            {#            <div class="alert alert-info">#}
+            {#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
+            {#                !!!#}
+            {#            </div>#}
+            {#            <h1 class="greeting">Hello, {{ user.get_username }} ✨</h1>#}
             <h1 class="greeting"><b>Hello!</b> ✨</h1>
 
             <button id="btn1" class="btn btn-primary" type="button">Update</button>
@@ -47,10 +57,10 @@
             <div class="data-container">
                 <div class="flex-block">
                     <div>Keep evolve</div>
-{#                    <hr>#}
+                    {#                    <hr>#}
                 </div>
-{#                <div>321</div>#}
-{#                <div>123</div>#}
+                {#                <div>321</div>#}
+                {#                <div>123</div>#}
             </div>
 
             <div class="data-container" id="c2">
@@ -86,79 +96,101 @@
         <p>2021</p>
     </footer>
 
-{#    {% if user.is_authenticated %}#}
-{#    <script src="{% static 'js path' %}"></script>#}
-{#    {% endif %}#}
+    {#    {% if user.is_authenticated %}#}
+    {#    <script src="{% static 'js path' %}"></script>#}
+    {#    {% endif %}#}
 
     {% if user.is_authenticated %}
-    <script type="application/javascript">
-        "use strict";
+        <script type="application/javascript">
+            "use strict";
 
-        function setAttrs(el, attrs){
-            for(let key in attrs){
-                el.setAttribute(attrs[key])
+            function setAttrs(el, attrs) {
+                for (let key in attrs) {
+                    el.setAttribute(attrs[key])
+                }
             }
-        }
 
-        function addActive(item){
-        }
+            function addActive(item) {
+            }
 
-        window.onload = function () {
-            let item = document.querySelector("#ping")
-            {#document.querySelectorAll("#ping, #btn")#}
-            let data1 = document.querySelector("#ping-data")
-            let btn1 = document.querySelector("#btn1")
+            window.onload = function () {
+                let item = document.querySelector("#ping")
+                {#document.querySelectorAll("#ping, #btn")#}
+                let data1 = document.querySelector("#ping-data")
+                let btn1 = document.querySelector("#btn1")
 
-            let a = [item, btn1]
-            a.forEach(item =>
-                {#item.onclick = () => {#}
-                item.addEventListener('click', event => {
-                fetch("{% url "home:ping" %}").then(function(response) {
-                    // data.innerHTML = response.json()
-                    // first parse response then use value
-                    return response.text();
-                }).then(function(data) {
-                    console.log(data);
-                    {#console.log(item.id, item.id === '#ping');#}
+                let a = [item, btn1]
+                a.forEach(item =>
+                    {#item.onclick = () => {#}
+                    item.addEventListener('click', event => {
+                            fetch("{% url "home:ping" %}").then(function (response) {
+                                // data.innerHTML = response.json()
+                                // first parse response then use value
+                                return response.text();
+                            }).then(function (data) {
+                                console.log(data);
+                                {#console.log(item.id, item.id === '#ping');#}
 
-                    data1.innerHTML = data
-                    if (item.id === 'ping'){
-                        if (item.classList.contains('active')) {
-                            item.classList.remove("active");
-                        } else {
-                            item.classList.add("active");
+                                data1.innerHTML = data
+                                if (item.id === 'ping') {
+                                    if (item.classList.contains('active')) {
+                                        item.classList.remove("active");
+                                    } else {
+                                        item.classList.add("active");
+                                    }
+                                }
+                            })
                         }
-                    }
-                })
+                    ))
             }
-            ))
-        }
-    </script>
+            // sidebar
+            let mini = true;
+            function toggleSidebar() {
+                if (mini) {
+                    console.log('opening sidebar');
+                    document.getElementById('mySidebar').style.width = '250px';
+                    {#document.getElementById(“main”).style.marginLeft = “250px”;#}
+                    mini = false;
+                } else {
+                    console.log('closing sidebar');
+                    document.getElementById('mySidebar').style.width = '85px';
+                    {#document.getElementById(“main”).style.marginLeft = “100px”;#}
+                    mini = true;
+                }
+            }
+
+        </script>
     {% endif %}
 
-{#lib scripts#}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    {#lib scripts#}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+            integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+            crossorigin="anonymous"></script>
 
 
     {#    <script id="hello-data">#}
-{#    {% block domready %}#}
-{#    "use strict";#}
-{##}
-{#window.onload = function () {#}
-{#    let item = document.querySelector("#ping")#}
-{#    let data = document.querySelector("#ping-data")#}
-{##}
-{#    item.onclick = () => {#}
-{#        fetch("http://127.0.0.1:8000/ping").then(function(response) {#}
-{#        data.innerHTML = response.json()#}
-{#        return response.json();#}
-{#    }).then(function(data) {#}
-{#        console.log(data);#}
-{#    })#}
-{#    }#}
-{#    </script>#}
+    {#    {% block domready %}#}
+    {#    "use strict";#}
+    {##}
+    {#window.onload = function () {#}
+    {#    let item = document.querySelector("#ping")#}
+    {#    let data = document.querySelector("#ping-data")#}
+    {##}
+    {#    item.onclick = () => {#}
+    {#        fetch("http://127.0.0.1:8000/ping").then(function(response) {#}
+    {#        data.innerHTML = response.json()#}
+    {#        return response.json();#}
+    {#    }).then(function(data) {#}
+    {#        console.log(data);#}
+    {#    })#}
+    {#    }#}
+    {#    </script>#}
 
 {% endblock %}
 

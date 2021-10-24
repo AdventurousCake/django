@@ -2,7 +2,7 @@ html {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
-/*old header*/
+/* !!!old header*/
 .header {
     padding: 1rem;
     margin-bottom: 1rem;
@@ -29,6 +29,10 @@ html {
 .header a:hover {
     color: black;
     text-decoration: none;
+}
+
+#navbar{
+    z-index: 2;
 }
 
 body {
@@ -144,7 +148,8 @@ h1.greeting {
 }
 
 .data-container > div:hover{
-    transform:scale(1.1,1.1);
+    transform:scale(1.06,1.06);
+    /*transform:scale(1.1,1.1);*/
 }
 
 #btn1 {
@@ -158,6 +163,48 @@ h1.greeting {
     box-shadow: 5px 5px 5px 0 rgb(212 213 216);
     transform:scale(1.1,1.1);
 }
+
+/*sidebar*/
+.sidebar1 {
+    height: 100%;
+    width: 85px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    transition: 0.5s;
+    padding-top: 60px;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.sidebar1 a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #a2a2a2;
+    display: block;
+}
+
+.sidebar1 a:hover {
+    color: #f1f1f1;
+}
+
+#__main {
+    transition: margin-left .5s;
+    padding: 16px;
+    margin-left: 85px;
+}
+
+.material-icons,
+.icon-text {
+    vertical-align: middle;
+}
+.material-icons {
+    margin-right: 30px;
+}
+
 
 /*footer*/
 .footer {
@@ -183,4 +230,15 @@ h1.greeting {
 .footer .auth {
     border-bottom: 2px solid #636466;
     padding-bottom: 10px;
+}
+
+/*other*/
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
