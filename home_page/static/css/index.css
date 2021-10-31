@@ -113,7 +113,8 @@ h1.greeting {
     /*font-size: 2em;*/
     /*margin: 1em 1.5em 1em 0;*/
     margin: 1em 0.5em;
-    background-color: #ecff06;
+    /*background-color: #ecff06;*/
+    background: linear-gradient(#ffbc16,#ecff06);
     border-radius: 1em;
     box-shadow: 0px 6px 12px 0 rgb(221 217 217);
     /*flex-basis: 80vw;   !* constraint by max-width *!*/
@@ -125,7 +126,8 @@ h1.greeting {
 }
 
 #c2 > div{
-    background-color: #ffc107;
+    background: linear-gradient(yellow,#ffc107);
+    /*background-color: #ffc107;*/
 }
 
 /*active block*/
@@ -213,6 +215,7 @@ h1.greeting {
     font-size: 15px;
     padding: 1em;
     margin-top: auto;
+    z-index: 2;
 }
 
 .footer a {

@@ -27,7 +27,7 @@ def _ping():
     if req.status_code != 200:
         # raise ConnectionError(f"Status code: {req.status_code}")
         log.error(f"ping bot: Status code: {req.status_code}")
-        return 0
+        return f"ping bot: Status code: {req.status_code}"
     return req.json()['status'], " "+str(datetime.datetime.now().isoformat(' ', 'seconds'))
 
 
