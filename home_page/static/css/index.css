@@ -77,6 +77,10 @@ h1.greeting {
     .sidebar a {font-size: 18px;}
     .sidebar li {font-size: 30px;}
     .sidebar p {font-size: 50px;}
+
+    .sidebar1{
+        display: none;
+    }
 }
 
 .data-container-column {
@@ -96,6 +100,7 @@ h1.greeting {
 }
 
 /*flex blocks*/
+/*pc*/
 @media screen and (min-width: 1000px) {
     .data-container {
         margin: 1em auto;
@@ -136,6 +141,10 @@ h1.greeting {
     border: solid !important;
 }
 
+.hide {
+    display: none;
+}
+
 /*block with underline*/
 .flex-block > div:nth-child(1) {
     border-bottom: 2px solid #00000078;
@@ -163,7 +172,12 @@ h1.greeting {
 
 #btn1:hover {
     box-shadow: 5px 5px 5px 0 rgb(212 213 216);
-    transform:scale(1.1,1.1);
+    transform: scale(1.1,1.1);
+}
+
+#msg {
+font-weight: 300;
+text-align: center;
 }
 
 /*sidebar*/
@@ -175,7 +189,7 @@ h1.greeting {
     top: 0;
     left: 0;
     background-color: #111;
-    transition: 0.5s;
+    transition: 0.4s;
     padding-top: 60px;
     white-space: nowrap;
     overflow-x: hidden;
@@ -193,6 +207,7 @@ h1.greeting {
     color: #f1f1f1;
 }
 
+/*сдвиг страницы*/
 #__main {
     transition: margin-left .5s;
     padding: 16px;

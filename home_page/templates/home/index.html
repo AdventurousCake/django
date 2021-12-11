@@ -32,14 +32,15 @@
     </nav>
 
 {#        sidebar#}
-{#    {% if user.is_authenticated %}#}
-{#    <div id="mySidebar" class="sidebar1" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">#}
+    {% if user.is_authenticated %}
+    <div id="mySidebar" class="sidebar1" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">
+        <a href="#" id="btn-adv"><span><i class="material-icons">build</i><span class="icon-text">ADV</span></a><br>
 {#        <a href="#"><span><i class="material-icons">info</i><span class="icon-text">about</span></a><br>#}
 {#        <a href="#"><i class="material-icons">spa</i><span class="icon-text"></span>services</a></span></a><br>#}
 {#        <a href="#"><i class="material-icons">monetization_on</i><span class="icon-text"></span>clients</span></a><br>#}
 {#        <a href="#"><i class="material-icons">email</i><span class="icon-text"></span>contact<span></a>#}
-{#    </div>#}
-{#    {% endif %}#}
+    </div>
+    {% endif %}
 
     <div class="content noselect">
         {% if user.is_authenticated %}
@@ -48,17 +49,18 @@
             {#                !!!#}
             {#            </div>#}
             {#            <h1 class="greeting">Hello, {{ user.get_username }} ✨</h1>#}
+
             <h1 class="greeting"><b>Hello!</b> ✨</h1>
 
             <button id="btn1" class="btn btn-primary" type="button">Update</button>
 
 
-
             <div class="data-container">
-                <div class="flex-block">
+                <div class="flex-block" id="msg">
                     <div>Keep evolve</div>
-                    {#                    <hr>#}
+                    {#<hr>#}
                 </div>
+
                 {#                <div>321</div>#}
                 {#                <div>123</div>#}
             </div>
@@ -142,6 +144,15 @@
                             })
                         }
                     ))
+
+                // sidebar actions
+                let btn_adv = document.querySelector("#btn-adv")
+
+                btn_adv.addEventListener('click', event => {
+                    console.log("click side");
+                    {#btn1.classList.toggle('hide')#}
+                    btn1.style.display = 'none';
+                })
             }
             // sidebar
             let mini = true;

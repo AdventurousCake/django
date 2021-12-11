@@ -22,7 +22,7 @@ def index(request):
 
 
 def _ping():
-    req = requests.get("http://api1.testig.ml/ping")
+    req = requests.get("https://api1.testig.ml/ping")
     # req.raise_for_status()
     if req.status_code != 200:
         # raise ConnectionError(f"Status code: {req.status_code}")
@@ -37,7 +37,8 @@ def ping_req(request):
 
 
 def _bot_stats():
-    req = requests.get("http://api1.testig.ml/ping")
+    # example
+    req = requests.get("https://api1.testig.ml/URL")
     if req.status_code != 200:
         log.error(f"stats bot: Status code: {req.status_code}")
         # raise ConnectionError(f"Status code: {req.status_code}")
