@@ -34,7 +34,9 @@
 {#        sidebar#}
     {% if user.is_authenticated %}
     <div id="mySidebar" class="sidebar1" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">
-        <a href="#" id="btn-adv"><span><i class="material-icons">build</i><span class="icon-text">ADV</span></a><br>
+
+        <a href="#" id="btn-adv" data-action="adv"><span><i class="material-icons">build</i><span class="icon-text">ADV</span></a><br>
+
 {#        <a href="#"><span><i class="material-icons">info</i><span class="icon-text">about</span></a><br>#}
 {#        <a href="#"><i class="material-icons">spa</i><span class="icon-text"></span>services</a></span></a><br>#}
 {#        <a href="#"><i class="material-icons">monetization_on</i><span class="icon-text"></span>clients</span></a><br>#}
@@ -42,12 +44,14 @@
     </div>
     {% endif %}
 
+    {# MAIN CONTENT #}
     <div class="content noselect">
         {% if user.is_authenticated %}
             {#            <div class="alert alert-info">#}
             {#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
             {#                !!!#}
             {#            </div>#}
+
             {#            <h1 class="greeting">Hello, {{ user.get_username }} ✨</h1>#}
 
             <h1 class="greeting"><b>Hello!</b> ✨</h1>
@@ -115,7 +119,10 @@
             function addActive(item) {
             }
 
+            // ONLOAD
             window.onload = function () {
+                console.log("page is loaded");
+
                 let item = document.querySelector("#ping")
                 {#document.querySelectorAll("#ping, #btn")#}
                 let data1 = document.querySelector("#ping-data")
@@ -147,11 +154,15 @@
 
                 // sidebar actions
                 let btn_adv = document.querySelector("#btn-adv")
+                let btn_adv_icon = document.querySelector(".sidebar1 > a")
 
                 btn_adv.addEventListener('click', event => {
-                    console.log("click side");
-                    {#btn1.classList.toggle('hide')#}
-                    btn1.style.display = 'none';
+                    console.log("click side ADV tools");
+
+                    btn_adv_icon.classList.toggle('active-icon')
+
+                    btn1.hidden = !btn1.hidden
+                    {#btn1.style.display = 'none';#}
                 })
             }
             // sidebar
