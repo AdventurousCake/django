@@ -3,6 +3,8 @@
 ---
 With some code from book Antonio Mele
 
-###Main features
+![img](md_images/md_img.png)
+
+##Main features
 * Dashboard for own projects
 * Shop example
