@@ -1,10 +1,10 @@
-#Django testing ground / Dashboard
+#  ⚡ Django testing ground / Dashboard
 
 ---
-With some code from book Antonio Mele
+Private dashboard, user management and store with some code from book Antonio Mele
 
 ![img](md_images/md_img.png)
 
-##Main features
+##  Main features
 * Dashboard for own projects
 * Shop example

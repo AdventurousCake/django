@@ -1,5 +1,6 @@
 html {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    --header-color: darkblue;
 }
 
 /* !!!old header*/
@@ -117,9 +118,9 @@ h1.greeting {
 }
 
 @media screen and (max-width: 999px) {
-    /*.sidebar1 {*/
-    /*    display: none !important;*/
-    /*}*/
+    #c2 > .flex-block > div:first-child{
+        font-size: 24px;
+    }
 }
 
 .data-container > div {
@@ -203,7 +204,8 @@ background: linear-gradient(yellow,#16ffdd);
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    /*background-color: #111;*/
+    background-color: #fff;
     transition: 0.4s;
     padding-top: 60px;
     white-space: nowrap;
@@ -219,7 +221,8 @@ background: linear-gradient(yellow,#16ffdd);
 }
 
 .sidebar1 a:hover {
-    color: #f1f1f1;
+    /*color: #f1f1f1;*/
+    color: black;
 }
 
 /*сдвиг страницы для sidebar*/
@@ -237,13 +240,18 @@ background: linear-gradient(yellow,#16ffdd);
     margin-right: 30px;
 }
 
+#ping-circle {
+    color: green;
+    display: inline;
+}
+
 
 /*footer*/
 .footer {
     background-color: black;
     color: white;
     font-size: 15px;
-    padding: 1em;
+    padding: 1em 0;
     margin-top: auto;
     z-index: 2;
 }
