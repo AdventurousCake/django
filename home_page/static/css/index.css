@@ -148,7 +148,7 @@ h1.greeting {
 /*active block*/
 .active {
     background-color: #ffe100 !important;
-    border: inset !important;
+    border: solid !important;
 }
 
 .active-icon {
