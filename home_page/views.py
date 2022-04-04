@@ -22,7 +22,12 @@ def index(request):
 
 
 def _ping():
-    req = requests.get("https://api1.testig.ml/ping")
+    try:
+        req = requests.get("https://api1.testig.ml/ping", timeout=1)
+    except Exception as e:
+        print(e)
+        return None
+
     # req.raise_for_status()
     if req.status_code != 200:
         # raise ConnectionError(f"Status code: {req.status_code}")
