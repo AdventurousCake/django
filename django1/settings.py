@@ -28,6 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = ['158.101.173.182', '165.227.163.73', '127.0.0.1', '.herokuapp.com',
                  'do.testig.ml', 'do2.testig.ml', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
 
+# debug tools ip
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,10 +50,17 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'myshop.apps.MyshopConfig',
     'myshop_cart.apps.MyshopCartConfig',
-    'myshop_orders.apps.MyshopOrdersConfig'
+    'myshop_orders.apps.MyshopOrdersConfig',
+
+    # debug tools
+    "debug_toolbar",
+
 ]
 
 MIDDLEWARE = [
+    # debug tools
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

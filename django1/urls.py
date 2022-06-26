@@ -31,6 +31,9 @@ urlpatterns = [
     path('cart/', include('myshop_cart.urls', namespace='cart')),   # порядок важен
     path('shop/', include('myshop.urls', namespace='shop')),
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
+
+    # debug tools
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 #Add Django site authentication urls (for login, logout, password management)
