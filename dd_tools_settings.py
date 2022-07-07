@@ -5,6 +5,7 @@ MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 INSTALLED_APPS.append("debug_toolbar")
 
 INTERNAL_IPS = [
+    # localhost only
     "127.0.0.1",
 ]
 
