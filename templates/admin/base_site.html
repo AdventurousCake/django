@@ -2,14 +2,19 @@
 {% load static %}
 
 {% block extrastyle %}
-<link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
+
+{#    js#}
+    <script src="{% static 'js/admin_scripts.js' %}" defer></script>
 {% endblock %}
 
-{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | Django site admin {% endblock %}
+{#IN BROWSER TAB#}
+{% block title %}🔸 My site admin{% endblock %}
+{#{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | Django site admin {% endblock %}#}
 
 {% block branding %}
-{#<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django admin 🧊') }}</a></h1>#}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">Django admin 🧊</a></h1>
+    {#<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django admin 🧊') }}</a></h1>#}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">Django Admin 🧊</a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

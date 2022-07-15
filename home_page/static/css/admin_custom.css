@@ -11,3 +11,7 @@
 #header:hover, .module caption:hover, #site-name>a:hover, #site-name>a:visited{
     color: black !important;
 }
+
+#content h1{
+    font-weight: bold;
+}
