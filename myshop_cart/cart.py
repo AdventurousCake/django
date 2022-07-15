@@ -8,8 +8,10 @@ class Cart:
         """инициализация объекта корзины"""
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
-        # cart is dict object
+
+        # cart is dict object with 'product_id' keys
         if not cart:
+
             # сохр в сессии пустую корзину
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart

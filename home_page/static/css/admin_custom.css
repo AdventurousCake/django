@@ -1,0 +1,13 @@
+/*:root{*/
+/*    --accent: green;*/
+/*    --breadcrumbs-bg: green;*/
+/*}*/
+
+#header, .module caption, #site-name>a {
+    background: #f5dd5d !important;
+    color: black !important;
+}
+
+#header:hover, .module caption:hover, #site-name>a:hover, #site-name>a:visited{
+    color: black !important;
+}
