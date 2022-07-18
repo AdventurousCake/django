@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 from django.contrib.auth import views
 
+# ORDER IS IMPORTANT
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_page'),
     path('polls/', include('polls.urls'), name='polls'),
