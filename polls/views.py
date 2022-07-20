@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -10,6 +12,7 @@ from .models import Question, Choice
 
 
 class IndexViews(generic.ListView):
+# class IndexViews(LoginRequiredMixin, generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
 
@@ -47,7 +50,11 @@ def results(request, question_id):
     return render(request, 'polls/results.html', {'question': question})
 
 
+# @login_required()
 def vote(request, question_id):
+    # if not request.user.is_authenticated:
+    #     pass
+
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])

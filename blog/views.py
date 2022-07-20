@@ -58,5 +58,6 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
+@login_required()
 def hidden_page(request):
     return HttpResponse('Hidden page')

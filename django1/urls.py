@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from django.contrib.auth import views
 
 # ORDER IS IMPORTANT
+
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_page'),
     path('polls/', include('polls.urls'), name='polls'),
@@ -29,15 +31,18 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('people/', include('people.urls')),
     path('orders/', include('myshop_orders.urls', namespace='orders')),
-    path('cart/', include('myshop_cart.urls', namespace='cart')),   # порядок важен
+    path('cart/', include('myshop_cart.urls', namespace='cart')),  # порядок важен
     path('shop/', include('myshop.urls', namespace='shop')),
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
+
+    # robots
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), ),
 
     # debug tools
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 
-#Add Django site authentication urls (for login, logout, password management)
+# Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
     # custom login
     path('accounts/', include('django.contrib.auth.urls')),
@@ -46,4 +51,4 @@ urlpatterns += [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL)   #media root
+    urlpatterns += static(settings.MEDIA_URL)  # media root
