@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from environs import Env
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = env.str("KEY")
 # UPD DB AFTER KEY
 env = Env()
-env.read_env(path=BASE_DIR.join('/.env'))
+env.read_env(path=os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = '35v8fq@foht=8#@f-n1%nmj@zlq&0l1nk2gpbyj$nm$56dyk$3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -154,7 +153,6 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -184,8 +182,8 @@ THUMBNAIL_DEBUG = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CART_SESSION_ID = 'cart_1'
-"""Это ключ, по которому мы будем хранить данные корзины в сессии. 
-Так как сессии Django ассоциируются с конкретным посетителем сайта,
-мы можем использовать один и тот же ключ для разных пользователей. 
-Это не приведет к конфликту данных."""
+CART_SESSION_ID = 'cart_1' \
+                  """Это ключ, по которому мы будем хранить данные корзины в сессии. 
+                  Так как сессии Django ассоциируются с конкретным посетителем сайта,
+                  мы можем использовать один и тот же ключ для разных пользователей. 
+                  Это не приведет к конфликту данных."""
