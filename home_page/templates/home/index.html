@@ -90,7 +90,7 @@
 
         {% else %}
             <h1 class="greeting">Welcome, new user.<br/>
-                <b>Please <a href="{% url 'admin_old' %}/login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>
+                <b>Please <a href="{% url 'admin_old' %}login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>
         {% endif %}
 
     </div>
@@ -103,7 +103,7 @@
                     <a href="{% url 'logout' %}">Log out</a>
                 {% else %}
 {#                    !!!#}
-                    <a href="{% url 'admin_old' %}/login/?next=/">Login</a>
+                    <a href="{% url 'admin_old' %}login/?next=/">Login</a>
                 {% endif %}
             </div>
             <p>2022</p>
