@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = env.str("KEY")
 # UPD DB AFTER KEY
 env = Env()
-env.read_env(path=BASE_DIR)
+env.read_env(path=BASE_DIR.join('/.env'))
 SECRET_KEY = '35v8fq@foht=8#@f-n1%nmj@zlq&0l1nk2gpbyj$nm$56dyk$3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
