@@ -8,6 +8,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}">
+
+{#    modile color#}
+    <meta name="theme-color" content="#FFE900">
+
     <meta name="google" content="notranslate">
 
 {#    disable robots#}
@@ -24,8 +28,11 @@
 </head>
 
 <body>
+<main>
 {% block content %}
+    No data
 {% endblock %}
+</main>
 </body>
 
 {% block scripts %}

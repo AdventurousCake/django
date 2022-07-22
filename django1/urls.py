@@ -20,11 +20,14 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 from django.contrib.auth import views
+from home_page.views import admin_old_page
 
 # ORDER IS IMPORTANT
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name='admin_page'),
+    # path('admin/', admin.site.urls, name='admin_page'),
+    path('admin/', admin_old_page, name='admin'),
+    path('admin-secure1/', admin.site.urls, name='admin_page'),
     path('polls/', include('polls.urls'), name='polls'),
     path('', include('home_page.urls'), name='home'),
     path('simplesite1/', include('simplesite1_bstrap.urls')),
