@@ -4,8 +4,10 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
 
+    {% if user.is_authenticated %}
 {#    js#}
     <script src="{% static 'js/admin_scripts.js' %}" defer></script>
+    {% endif %}
 {% endblock %}
 
 {#IN BROWSER TAB#}
