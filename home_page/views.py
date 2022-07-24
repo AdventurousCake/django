@@ -52,6 +52,9 @@ def _bot_stats():
     return data
 
 
+def admin_old_page(request):
+    return HttpResponse("<h1>new admin</h1>")
+
 # def index(request):
 #     template = loader.get_template('main/index.html')
 #     return HttpResponse(template.render(template, request))
