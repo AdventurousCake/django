@@ -25,7 +25,7 @@ from django.db import models
 class Message(models.Model):
     # NEED MIGRATION
     # author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    id = models.IntegerField(null=False, unique=True, primary_key=True)
+    id = models.IntegerField(null=False, unique=True, primary_key=True, max_length=10)  # limit int
     name = models.CharField(null=False, max_length=10)
     text = models.TextField(null=False, max_length=100)
     created_date = models.DateTimeField(null=False, auto_now_add=True)
