@@ -16,15 +16,19 @@ log.setLevel(logging.INFO)
 
 @login_required()
 def send_msg(request):
+    title = "Send msg"
+    btn_caption = "Send"
+
     form = MsgForm(request.POST or None)
-    if form.is_valid():
+    if form.is_valid() and request.method == "POST":
         form.save(commit=True)
         # fields actions
         # form.save()
         return redirect('home:index')
+    return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption})
 
-
-def index(request):
+# @login_required
+def index_page(request):
     date_now = str(datetime.datetime.now().isoformat(' ', 'seconds'))
     data = {'date': date_now,
             'bot': _ping(),

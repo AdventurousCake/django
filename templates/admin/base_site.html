@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
 
     {% if user.is_authenticated %}
+{#    can display in "reset pass" templates if not auth#}
 {#    js#}
     <script src="{% static 'js/admin_scripts.js' %}" defer></script>
     {% endif %}

@@ -17,7 +17,7 @@
 {#    disable robots#}
     <meta name="robots" content="noindex,nofollow">
 
-    <title>My Django Project</title>
+    <title>{% block title %}{% endblock %} My Django Project</title>
 
     {#общие стили#}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">

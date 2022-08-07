@@ -39,7 +39,7 @@ urlpatterns = [
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
 
     # robots
-    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), ),
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name='robots'),
 
     # debug tools
     path('__debug__/', include('debug_toolbar.urls')),
