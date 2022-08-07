@@ -1,5 +1,5 @@
 # from django.conf import settings
-# from django.db import models
+from django.db import models
 # from django.utils import timezone
 #
 #
@@ -21,3 +21,14 @@
 #
 #     def __str__(self):
 #         return 'USER'+self.name
+
+class Message(models.Model):
+    # NEED MIGRATION
+    # author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    id = models.IntegerField(null=False, unique=True, primary_key=True)
+    name = models.CharField(null=False, max_length=10)
+    text = models.TextField(null=False, max_length=100)
+    created_date = models.DateTimeField(null=False, auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} {self.text}"

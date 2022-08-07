@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 # from django.template import loader
 from django.http import Http404
@@ -8,8 +8,20 @@ import datetime
 import requests
 import logging
 
+from home_page.forms import MsgForm
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
+
+
+@login_required()
+def send_msg(request):
+    form = MsgForm(request.POST or None)
+    if form.is_valid():
+        form.save(commit=True)
+        # fields actions
+        # form.save()
+        return redirect('home:index')
 
 
 def index(request):
@@ -33,7 +45,7 @@ def _ping():
         # raise ConnectionError(f"Status code: {req.status_code}")
         log.error(f"ping bot: Status code: {req.status_code}")
         return f"ping bot: Status code: {req.status_code}"
-    return req.json()['status'], " "+str(datetime.datetime.now().isoformat(' ', 'seconds'))
+    return req.json()['status'], " " + str(datetime.datetime.now().isoformat(' ', 'seconds'))
 
 
 @login_required

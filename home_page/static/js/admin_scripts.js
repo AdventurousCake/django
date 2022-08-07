@@ -1,9 +1,10 @@
 "use strict";
 
-const el_id= "#content > h1"
+const el_id = "#content > h1"
+const target = "API"
 
 // Set the date we're counting down to
-const countDownDate = new Date("Jul 27, 2022 15:37:25").getTime();
+const countDownDate = new Date("Aug 9, 2022 15:37:25").getTime();
 
 // Update the count down every 1 second
 let x = setInterval(function() {
@@ -11,7 +12,7 @@ let x = setInterval(function() {
   // Get today's date and time
   let now = new Date().getTime();
 
-  // Find the distance between now and the count down date
+  // Find the distance between now and the count down date; IN SEC
   let distance = countDownDate - now;
 
   // Time calculations for days, hours, minutes and seconds
@@ -21,7 +22,7 @@ let x = setInterval(function() {
   let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   // Display the result in the element with id="demo"
-  let time_str = "🔥 " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+  let time_str = "🔥 " + target + " " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
   document.querySelector(el_id).innerHTML = time_str
   // document.querySelector(el_id).append(time_str);
