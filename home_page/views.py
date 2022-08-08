@@ -1,9 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 # from django.template import loader
 from django.http import Http404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView
+
 import datetime
 import requests
 import logging
@@ -13,10 +16,16 @@ from home_page.forms import MsgForm
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
+# alternative for send_msg
+# class MsgFormView(LoginRequiredMixin, CreateView):
+#     form_class = MsgForm
+#     success_url = reverse_lazy('home:index')
+#     template_name = "home/msg_send.html"
+
 
 @login_required()
 def send_msg(request):
-    title = "Send msg"
+    title = "📨 Send msg"
     btn_caption = "Send"
 
     form = MsgForm(request.POST or None)
@@ -25,6 +34,10 @@ def send_msg(request):
         # fields actions
         # form.save()
         return redirect('home:index')
+    else:
+        # form is non-valid, show alert
+        pass
+
     return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption})
 
 # @login_required

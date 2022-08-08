@@ -22,6 +22,7 @@ from django.db import models
 #     def __str__(self):
 #         return 'USER'+self.name
 
+
 class Message(models.Model):
     # NEED MIGRATION
     # author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

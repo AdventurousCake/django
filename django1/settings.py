@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'myshop.apps.MyshopConfig',
     'myshop_cart.apps.MyshopCartConfig',
     'myshop_orders.apps.MyshopOrdersConfig',
+    'core',
 
     # debug tools
     "debug_toolbar",
