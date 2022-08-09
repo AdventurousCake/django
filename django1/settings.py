@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     'myshop_orders.apps.MyshopOrdersConfig',
     'core',
 
+    'api',
+    'rest_framework',
+
     # debug tools
     "debug_toolbar",
 
@@ -189,3 +192,17 @@ CART_SESSION_ID = 'cart_1' \
                   Так как сессии Django ассоциируются с конкретным посетителем сайта,
                   мы можем использовать один и тот же ключ для разных пользователей. 
                   Это не приведет к конфликту данных."""
+
+# rest api
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}

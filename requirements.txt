@@ -13,3 +13,4 @@ django-debug-toolbar
 requests~=2.28.1
 # python-dotenv
 environs~=9.5.0
+djangorestframework

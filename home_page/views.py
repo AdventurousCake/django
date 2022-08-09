@@ -27,6 +27,7 @@ log.setLevel(logging.INFO)
 def send_msg(request):
     title = "📨 Send msg"
     btn_caption = "Send"
+    error = ''
 
     form = MsgForm(request.POST or None)
     if form.is_valid() and request.method == "POST":
@@ -35,10 +36,12 @@ def send_msg(request):
         # form.save()
         return redirect('home:index')
     else:
-        # form is non-valid, show alert
+        # error = 'Incorrect form'
+        # return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
+        # todo form is non-valid, show alert
         pass
 
-    return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption})
+    return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
 
 # @login_required
 def index_page(request):
