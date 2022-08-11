@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
     'api',
     'rest_framework',
+    'corsheaders',
 
     # debug tools
     "debug_toolbar",
@@ -73,6 +74,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',  # api cors, перед django CommonMiddleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -204,5 +207,24 @@ REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+
+    # THROTTLE
+    #  не будем подключать классы глобально
+    #  подключим их только в тех view-классах, где надо установить лимиты
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+        # 'rest_framework.throttling.UserRateThrottle',
+        # 'rest_framework.throttling.AnonRateThrottle',
+    ],
+    #  лимиты будут доступны из всего кода проекта
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '10000/day',  # лимит для UserRateThrottle
+        'anon': '1000/day',  # лимит для AnonRateThrottle
+        'low_request': '5/minute',
+    },
 }
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
