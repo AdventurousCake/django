@@ -1,6 +1,14 @@
 from rest_framework import serializers
-
+from core.models import User
 from home_page.models import Message
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        # нельзя вместе fields и exclude, и без них по отдельности
+        # fields = '__all__'
+        exclude = ('password',)
+        model = User
 
 
 class MsgSerializer(serializers.ModelSerializer):
