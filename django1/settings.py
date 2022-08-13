@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_filters',  # api filters
+    'rest_framework.authtoken',
 
     # debug tools
     "debug_toolbar",

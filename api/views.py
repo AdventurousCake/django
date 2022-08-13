@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from api.serializers import MsgSerializer, UserSerializer
+from api.serializers import MsgSerializer, UserSerializer, MsgSerializerSearch
 from home_page.models import Message
 from core.models import User
 
@@ -18,12 +18,15 @@ class UserList(APIView):
         return Response(serializer.data)
 
 
+# GET http://127.0.0.1:8000/api/v1/msg_search/?search=123
+# GET http://127.0.0.1:8000/api/v1/msg_search/?text=236263
 class MsgList(ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MsgSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['text', 'name']
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    search_fields = ['text',]  # 'name'
+    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     ordering_fields = ['-created_date']
 
 

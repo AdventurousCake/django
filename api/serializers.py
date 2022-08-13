@@ -11,6 +11,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
 
 
+class MsgSerializerSearch(serializers.ModelSerializer):
+    # author = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        fields = ('text',)
+        model = Message
+
+
 class MsgSerializer(serializers.ModelSerializer):
     # author = serializers.StringRelatedField(read_only=True)
 
