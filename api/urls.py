@@ -8,11 +8,13 @@ router = DefaultRouter()
 router.register('msg', MessagesViewSet)
 router.register('msg_search', MsgList)
 
+# if config.DEV:
+#     urlpatterns.append(path())
 
-
+# порядок важен, частный случай выше
 urlpatterns = [
+    path('', include(router.urls)),
     path('', hello),
     path('api-token-auth/', views.obtain_auth_token),
-    path('', include(router.urls)),
     path('users/<str:username>', UserList.as_view())
 ]

@@ -36,8 +36,10 @@ urlpatterns = [
     path('orders/', include('myshop_orders.urls', namespace='orders')),  # namespace?
     path('cart/', include('myshop_cart.urls', namespace='cart')),  # порядок важен
     path('shop/', include('myshop.urls', namespace='shop')),
-    path('api/v1/', include('api.urls'), name='api'),
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
+
+    # api root; BELOW
+    # path('api/v1/', include('api.urls'), name='api'),
 
     # robots
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name='robots'),
@@ -45,6 +47,13 @@ urlpatterns = [
     # debug tools
     path('__debug__/', include('debug_toolbar.urls')),
 ]
+
+# api root; PRIVATE URL API
+API_PATH = 'api/v1/'
+if settings.IS_SERVER:
+    API_PATH = 'api-secure1/v1/'
+urlpatterns.append(path(API_PATH, include('api.urls'), name='api'))
+
 
 # Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
@@ -54,5 +63,6 @@ urlpatterns += [
     # path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
 
+# check for nginx static
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL)  # media root

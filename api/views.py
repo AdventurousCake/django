@@ -24,7 +24,7 @@ class MsgList(ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MsgSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['text',]  # 'name'
+    search_fields = ['text', ]  # 'name'
     permission_classes = (permissions.IsAuthenticated,)
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     ordering_fields = ['-created_date']
