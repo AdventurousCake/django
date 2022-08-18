@@ -21,9 +21,10 @@ class MsgSerializerSearch(serializers.ModelSerializer):
 
 class MsgSerializer(serializers.ModelSerializer):
     # author = serializers.StringRelatedField(read_only=True)
+    author = UserSerializer(read_only=True)  # not many!
 
     class Meta:
-        fields = ('id', 'name', 'text', 'created_date')
+        fields = ('id', 'name', 'author', 'text', 'created_date')
         # read_only_fields = ('post', 'created')
         model = Message
 

@@ -10,7 +10,13 @@ from home_page.models import Message
 from core.models import User
 
 
-# global permissions dep; необходимо каждый раз передавать пароль в body
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+# global permissions dep; необходимо каждый раз передавать token, получив через auth
 class UserList(APIView):
     def get(self, request, username):
         users = User.objects.filter(username=username)
@@ -20,6 +26,7 @@ class UserList(APIView):
 
 # GET http://127.0.0.1:8000/api/v1/msg_search/?search=123
 # GET http://127.0.0.1:8000/api/v1/msg_search/?text=236263
+# viewset с фильтром и поиском
 class MsgList(ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MsgSerializer
@@ -30,14 +37,6 @@ class MsgList(ModelViewSet):
     ordering_fields = ['-created_date']
 
 
-@api_view(['GET', 'POST'])
-@throttle_classes([UserRateThrottle])
-def hello(request):
-    if request.method == 'POST':
-        return Response({'message': f'Привет {request.data}'})
-    return Response({'message': 'Привет, мир!'})
-
-
 # viewset - multiple actions
 class MessagesViewSet(ModelViewSet):
     queryset = Message.objects.all()
@@ -45,6 +44,14 @@ class MessagesViewSet(ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     # throttle_classes = [UserRateThrottle]
     throttle_scope = 'low_request'
+
+
+@api_view(['GET', 'POST'])
+@throttle_classes([UserRateThrottle])
+def hello(request):
+    if request.method == 'POST':
+        return Response({'message': f'Привет {request.data}'})
+    return Response({'message': 'Привет, мир!'})
 
 
 class ExampleView(APIView):
