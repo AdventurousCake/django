@@ -1,5 +1,6 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, ValidationError
-
+from core.models import User
 from home_page.models import Message
 
 
@@ -14,3 +15,12 @@ class MsgForm(ModelForm):
         if data != data.lower():
             raise ValidationError('Please use low case')
         return data
+
+
+# форма регистрации
+class CreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        # укажем модель, с которой связана создаваемая форма
+        model = User
+        # укажем, какие поля должны быть видны в форме и в каком порядке
+        fields = ("first_name", "last_name", "username", "email")

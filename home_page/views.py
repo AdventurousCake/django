@@ -11,16 +11,23 @@ import datetime
 import requests
 import logging
 
-from home_page.forms import MsgForm
+from home_page.forms import MsgForm, CreationForm
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
+
 
 # alternative for send_msg
 # class MsgFormView(LoginRequiredMixin, CreateView):
 #     form_class = MsgForm
 #     success_url = reverse_lazy('home:index')
 #     template_name = "home/msg_send.html"
+
+class SignUp(CreateView):
+    form_class = CreationForm
+    success_url = reverse_lazy("home:index")
+    # success_url = reverse_lazy("login")  # где login — это параметр "name" в path()
+    template_name = "home/signup.html"
 
 
 @login_required()
@@ -41,13 +48,19 @@ def send_msg(request):
         # todo form is non-valid, show alert
         pass
 
-    return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
+    return render(request, "home/msg_send.html",
+                  {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
+
 
 # @login_required
 def index_page(request):
     date_now = str(datetime.datetime.now().isoformat(' ', 'seconds'))
     data = {'date': date_now,
             'bot': _ping(),
+            'userinfo': {
+                'username': request.user.username,
+                'is_staff': request.user.is_staff
+            }
             }
     return render(request, 'home/index.html', data)
     # return HttpResponse("hi")
