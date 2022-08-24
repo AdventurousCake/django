@@ -4,7 +4,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from api.serializers import MsgSerializer, UserSerializer, MsgSerializerSearch
 from home_page.models import Message
 from core.models import User
@@ -14,6 +14,12 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+# alt users ReadOnlyModelViewSet; др юзеры не могут менять данные
+class UserViewSetRO(ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer = UserSerializer
 
 
 # global permissions dep; необходимо каждый раз передавать token, получив через auth
@@ -45,6 +51,12 @@ class MessagesViewSet(ModelViewSet):
     # throttle_classes = [UserRateThrottle]
     throttle_scope = 'low_request'
 
+    def perform_create(self, serializer):
+        if self.request.user:
+            serializer.save(author=self.request.user)
+        else:
+            print(self.request.user)
+            serializer.save(author='unknown')
 
 @api_view(['GET', 'POST'])
 @throttle_classes([UserRateThrottle])

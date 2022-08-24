@@ -21,12 +21,19 @@ class MsgSerializerSearch(serializers.ModelSerializer):
 
 class MsgSerializer(serializers.ModelSerializer):
     # author = serializers.StringRelatedField(read_only=True)
-    author = UserSerializer(read_only=True)  # not many!
+
+    # author = UserSerializer(read_only=True)  # not many!
+    # or save in perform create
 
     class Meta:
         fields = ('id', 'name', 'author', 'text', 'created_date')
-        # read_only_fields = ('post', 'created')
+        # read_only_fields = ('post', 'created', 'OWNER')
         model = Message
+
+    def validate_text(self, value):
+        if value == 'not valid':
+            raise serializers.ValidationError('Проверьте text')
+        return value
 
 
 class CommentSerializer(serializers.ModelSerializer):
