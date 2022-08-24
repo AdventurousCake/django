@@ -26,7 +26,8 @@ class MsgSerializer(serializers.ModelSerializer):
     # or save in perform create
 
     class Meta:
-        fields = ('id', 'name', 'author', 'text', 'created_date')
+        fields = ('id', 'name', 'text', 'created_date')
+        read_only_fields = ('author',)
         # read_only_fields = ('post', 'created', 'OWNER')
         model = Message
 
