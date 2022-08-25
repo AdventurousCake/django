@@ -1,12 +1,12 @@
 from django.urls import path, include
 from rest_framework.authtoken import views
-from .views import hello, MessagesViewSet, UserList, MsgList, UserViewSet
+from .views import hello, MessagesViewSet, UserList, MsgSearch, UserViewSet
 from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
 router.register('msg', MessagesViewSet)
-router.register('msg_search', MsgList)
+router.register('msg_search', MsgSearch)
 router.register('users', UserViewSet)
 
 # if config.DEV:

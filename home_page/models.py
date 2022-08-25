@@ -27,7 +27,7 @@ from core.models import User
 class Message(models.Model):
     # NEED MIGRATION
     author = models.ForeignKey(to=User, related_name='messages', on_delete=models.CASCADE)
-    id = models.IntegerField(null=False, unique=True, primary_key=True, max_length=10)  # limit int
+    id = models.IntegerField(null=False, unique=True, primary_key=True, max_length=10, auto_created=True, blank=True)  # limit int remove
     name = models.CharField(null=False, max_length=10)
     text = models.TextField(null=False, max_length=100)
     created_date = models.DateTimeField(null=False, auto_now_add=True)

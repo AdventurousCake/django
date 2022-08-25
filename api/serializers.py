@@ -33,7 +33,7 @@ class MsgSerializer(serializers.ModelSerializer):
 
     def validate_text(self, value):
         if value == 'not valid':
-            raise serializers.ValidationError('Проверьте text')
+            raise serializers.ValidationError('Проверьте text (validate_text validator)')
         return value
 
 

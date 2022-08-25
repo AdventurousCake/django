@@ -33,12 +33,13 @@ class UserList(APIView):
 # GET http://127.0.0.1:8000/api/v1/msg_search/?search=123
 # GET http://127.0.0.1:8000/api/v1/msg_search/?text=236263
 # viewset с фильтром и поиском
-class MsgList(ModelViewSet):
+class MsgSearch(ModelViewSet):
     queryset = Message.objects.all()
+
     serializer_class = MsgSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['text', ]  # 'name'
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     ordering_fields = ['-created_date']
 
@@ -55,8 +56,10 @@ class MessagesViewSet(ModelViewSet):
         if self.request.user:
             serializer.save(author=self.request.user)
         else:
+            # 401 unauthorized
             print(self.request.user)
             serializer.save(author='unknown')
+
 
 @api_view(['GET', 'POST'])
 @throttle_classes([UserRateThrottle])
