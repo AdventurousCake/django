@@ -9,6 +9,7 @@ class MsgForm(ModelForm):
         model = Message
         fields = '__all__'  # fix ('text',), ('__all__',)
         exclude = ('id',)
+        help_texts = {'text': "Validator check", 'name': 'Your name'}
 
     def clean_text(self):
         data = self.cleaned_data['text']

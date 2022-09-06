@@ -43,10 +43,11 @@ def send_msg(request):
         # form.save()
         return redirect('home:index')
     else:
-        # error = 'Incorrect form'
+        error = f'Incorrect form\n' \
+                f'{form.errors}'
         # return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
         # todo form is non-valid, show alert
-        pass
+        # pass
 
     return render(request, "home/msg_send.html",
                   {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
