@@ -10,6 +10,19 @@ from home_page.models import Message
 from core.models import User
 
 
+class MsgLoadView(APIView):
+    throttle_classes = [UserRateThrottle]
+
+    def get(self, request):
+        # paginator
+        queryset = Message.objects.all()
+
+        text = {
+            'data': queryset
+        }
+        return Response(text)
+
+
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
