@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework import permissions, filters
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.generics import ListAPIView
@@ -12,15 +13,18 @@ from core.models import User
 
 class MsgLoadView(APIView):
     throttle_classes = [UserRateThrottle]
+    permission_classes = (permissions.AllowAny,)
 
     def get(self, request):
         # paginator
-        queryset = Message.objects.all()
+        messages = Message.objects.all()
+        serializer = MsgSerializer(messages, many=True)
 
         text = {
-            'data': queryset
+            'status': 'ok',
+            'data': serializer.data
         }
-        return Response(text)
+        return JsonResponse(text)
 
 
 class UserViewSet(ModelViewSet):
@@ -46,7 +50,7 @@ class UserList(APIView):
 # GET http://127.0.0.1:8000/api/v1/msg_search/?search=123
 # GET http://127.0.0.1:8000/api/v1/msg_search/?text=236263
 # viewset с фильтром и поиском
-class MsgSearch(ModelViewSet):
+class MsgSearchViewSet(ModelViewSet):
     queryset = Message.objects.all()
 
     serializer_class = MsgSerializer
