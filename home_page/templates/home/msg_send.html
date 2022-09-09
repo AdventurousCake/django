@@ -57,6 +57,37 @@
 
             </div> <!-- card body -->
         </div> <!-- card -->
+
+    <div class="table1">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Author</th>
+              <th scope="col">Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Text</th>
+              <th scope="col">Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in data %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ item.author }}</td>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.text }}</td>
+                  <td>{{ item.created_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    </div>
+
     </div> <!-- col -->
     </div> <!-- row -->
 {% endblock %}

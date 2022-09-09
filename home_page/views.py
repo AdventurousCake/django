@@ -12,6 +12,7 @@ import requests
 import logging
 
 from home_page.forms import MsgForm, CreationForm
+from home_page.models import Message
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -35,6 +36,7 @@ def send_msg(request):
     title = "📨 Send msg"
     btn_caption = "Send"
     error = ''
+    data = Message.objects.all().order_by('-created_date')[:5]
 
     form = MsgForm(request.POST or None)
     if form.is_valid() and request.method == "POST":
@@ -46,11 +48,9 @@ def send_msg(request):
         error = f'Incorrect form\n' \
                 f'{form.errors}'
         # return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
-        # todo form is non-valid, show alert
-        # pass
 
     return render(request, "home/msg_send.html",
-                  {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
+                  {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": data})
 
 
 # @login_required
