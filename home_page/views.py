@@ -36,13 +36,20 @@ def send_msg(request):
     title = "📨 Send msg"
     btn_caption = "Send"
     error = ''
-    data = Message.objects.all().order_by('-created_date')[:5]
+
+    # не оптимально, на каждую связанную таблицу будет запрос (author.id...); если будет цикл - то по каждому айтему еще запрос
+    # data = Message.objects.all().order_by('-created_date')[:5]
+
+    # inner join сразу
+    data = Message.objects.select_related().order_by('-created_date')[:5]
 
     form = MsgForm(request.POST or None)
     if form.is_valid() and request.method == "POST":
         form.save(commit=True)
         # fields actions
         # form.save()
+
+        # or render in end
         return redirect('home:index')
     else:
         error = f'Incorrect form\n' \
