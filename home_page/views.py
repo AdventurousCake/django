@@ -40,7 +40,7 @@ def send_msg(request):
     # не оптимально, на каждую связанную таблицу будет запрос (author.id...); если будет цикл - то по каждому айтему еще запрос
     # data = Message.objects.all().order_by('-created_date')[:5]
 
-    # inner join сразу
+    # INNER JOIN сразу
     data = Message.objects.select_related().order_by('-created_date')[:5]
 
     form = MsgForm(request.POST or None)
