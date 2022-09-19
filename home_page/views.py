@@ -50,7 +50,7 @@ def send_msg(request):
         # form.save()
 
         # or render in end
-        return redirect('home:index')
+        # return redirect('home:index')
     else:
         error = f'Incorrect form\n' \
                 f'{form.errors}'
