@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     'myshop_orders.apps.MyshopOrdersConfig',
     'core',
 
+    'Anketa.apps.AnketaConfig',
+
     'api',
     'rest_framework',
     'corsheaders',
