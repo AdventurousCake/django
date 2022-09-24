@@ -2,11 +2,11 @@ from django.db import models
 from django.utils import timezone
 
 
-class SettingsSearchViewEnum(models.TextChoices):
-    FULL = 'FULL'
-    COMPACT = 'COMPACT'
-    COMPACT2 = 'COMPACT2'
-    CUSTOM1 = 'CUSTOM1'
+# class SettingsSearchViewEnum(models.TextChoices):
+#     FULL = 'FULL'
+#     COMPACT = 'COMPACT'
+#     COMPACT2 = 'COMPACT2'
+#     CUSTOM1 = 'CUSTOM1'
 
 
 class UserStatus(models.TextChoices):
@@ -16,7 +16,7 @@ class UserStatus(models.TextChoices):
     REJECTED = 'Отклонено'
 
 
-# o2m
+# m2m
 class UserAnketa(models.Model):
     pass
 
@@ -24,20 +24,20 @@ class UserAnketa(models.Model):
 class UserAccount(models.Model):
     uid = models.BigIntegerField(primary_key=True, unique=True, null=False, auto_created=False)
     username = models.CharField(max_length=255)
+
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, blank=True)
     full_name = models.CharField(max_length=255, blank=True)
-
     country = models.CharField(max_length=255, blank=True)
-    # city = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=255, blank=True)
     # state = models.CharField(max_length=255, blank=True)
     # street = models.CharField(max_length=255, blank=True)
-
     email = models.CharField(max_length=255, blank=True)
     mobile_number = models.CharField(max_length=15, blank=True)
 
     user_anketa_status = models.CharField(choices=UserStatus, default=UserStatus.ACTIVE)
-    user_anketa_data = models.CharField(max_length=255, default=None)
+    user_anketa_data = models.CharField(max_length=4096, default=None, blank=False)
+    # user_anketa_data = models.TextField(max_length=4096, default=None, blank=False)
 
     settings = models.CharField(max_length=50, blank=True, default=None)
     created_date = models.DateTimeField(default=timezone.now, blank=True)
