@@ -25,7 +25,7 @@ class UserType(models.TextChoices):
 
 # m2m
 class UserAnketa(models.Model):
-    pass
+    data = models.CharField(max_length=255, blank=True)
 
 
 class UserAccount(models.Model):
@@ -49,10 +49,13 @@ class UserAccount(models.Model):
     email = models.CharField(max_length=255, blank=True)
     mobile_number = models.CharField(max_length=15, blank=True)
 
+    # MAIN LOGIC
     user_type = models.CharField(choices=UserType.choices, max_length=50, default=UserType.PRIVATE, verbose_name="Тип заявки")
     user_anketa_status = models.CharField(choices=UserStatus.choices, max_length=50, default=UserStatus.ACTIVE, verbose_name="Статус заявки")
     user_anketa_data = models.CharField(max_length=4096, default=None, blank=False, verbose_name="Текст заявки",)
     # user_anketa_data = models.TextField(max_length=4096, default=None, blank=False, verbose_name="Текст заявки")
+
+    user_anketa_list = models.ManyToManyField(to=UserAnketa)
 
     # settings = models.CharField(max_length=50, blank=True, default=None)
     created_date = models.DateTimeField(default=timezone.now, blank=True)

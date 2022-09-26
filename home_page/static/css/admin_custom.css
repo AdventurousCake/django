@@ -1,7 +1,8 @@
-/*:root{*/
+:root{
 /*    --accent: green;*/
-/*    --breadcrumbs-bg: green;*/
-/*}*/
+    --breadcrumbs-bg: #F5AA5D;
+    --breadcrumbs-fg: #ffc
+}
 
 #header, .module caption, #site-name>a {
     background: #f5dd5d !important;
