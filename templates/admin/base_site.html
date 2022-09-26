@@ -5,9 +5,11 @@
     <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
 
     {% if user.is_authenticated %}
-{#    can display in "reset pass" templates if not auth#}
-{#    js#}
-    <script src="{% static 'js/admin_scripts.js' %}" defer></script>
+        {#    can display in "reset pass" templates if not auth#}
+        {#    js#}
+
+{#        <script src="{% static 'js/admin_scripts.js' %}" defer></script>#}
+
     {% endif %}
 {% endblock %}
 
@@ -17,7 +19,8 @@
 
 {% block branding %}
     {#<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django admin 🧊') }}</a></h1>#}
-    <h1 id="site-name"><a href="{% url 'admin:index' %}">Django Admin 🧊</a></h1>
+    {#    <h1 id="site-name"><a href="{% url 'admin:index' %}">Django Admin 🧊</a></h1>#}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">Administration</a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

@@ -39,7 +39,7 @@ urlpatterns = [
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
 
     # C WORK
-    path('anketa/', include('Anketa.urls', namespace='anketa')),
+    path('anketa/', include('Anketa.urls'), name='anketa'),
 
     # api root; BELOW
     # path('api/v1/', include('api.urls'), name='api'),
