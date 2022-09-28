@@ -38,7 +38,7 @@ SECRET_KEY = '35v8fq@foht=8#@f-n1%nmj@zlq&0l1nk2gpbyj$nm$56dyk$3'
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['158.101.173.182', '165.227.163.73', '127.0.0.1', '.herokuapp.com',
+ALLOWED_HOSTS = ['158.101.173.182', '165.227.163.73', '127.0.0.1',
                  'do.testig.ml', 'do2.testig.ml', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
 
 # debug tools ip
@@ -55,28 +55,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'sorl.thumbnail',
+    'rest_framework',
+    'corsheaders',
+    'django_filters',  # api filters
+    'rest_framework.authtoken',
+    # debug tools
+    "debug_toolbar",
+    'social_django',
+
     'polls.apps.PollsConfig',
     'simplesite1_bstrap.apps.Simplesite1Config',
     'home_page.apps.MainConfig',
     'blog.apps.BlogConfig',
     'people',
-    'sorl.thumbnail',
     'myshop.apps.MyshopConfig',
     'myshop_cart.apps.MyshopCartConfig',
     'myshop_orders.apps.MyshopOrdersConfig',
     'core',
 
     'Anketa.apps.AnketaConfig',
-
     'api',
-    'rest_framework',
-    'corsheaders',
-    'django_filters',  # api filters
-    'rest_framework.authtoken',
-
-    # debug tools
-    "debug_toolbar",
-
 ]
 
 MIDDLEWARE = [
@@ -160,6 +160,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = '7fca0d975389a21a06e8'
+SOCIAL_AUTH_GITHUB_SECRET = 'dc9e715ff25878393d021b67c09ec8f811e3a02c'
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

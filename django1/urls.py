@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 from django.contrib.auth import views
+
+from core.views import core_auth
 from home_page.views import admin_old_page
 
 # ORDER IS IMPORTANT
@@ -40,6 +42,8 @@ urlpatterns = [
 
     # C WORK
     path('anketa/', include('Anketa.urls'), name='anketa'),
+    path('auth_github/', include('social_django.urls', namespace='social')),
+    path('page_github/', core_auth),
 
     # api root; BELOW
     # path('api/v1/', include('api.urls'), name='api'),

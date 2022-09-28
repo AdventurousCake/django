@@ -12,6 +12,7 @@ class UserAccount2Admin(admin.ModelAdmin):
 
     form = UserAdminForm
 
+
 admin.site.register(UserAnketa)
 
 # @admin.register(UserAccount)
