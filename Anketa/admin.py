@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib import admin
 
 from .forms import UserAdminForm
-from .models import UserAccount, UserAnketa
+from .models import UserAccount, UserAnketa, UserAnketa2
 
 
 @admin.register(UserAccount)
@@ -14,6 +14,7 @@ class UserAccount2Admin(admin.ModelAdmin):
 
 
 admin.site.register(UserAnketa)
+admin.site.register(UserAnketa2)
 
 # @admin.register(UserAccount)
 # class UserAccount2Admin(admin.ModelAdmin):

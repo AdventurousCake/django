@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     # debug tools
     "debug_toolbar",
     'social_django',
+    'request',
 
     'polls.apps.PollsConfig',
     'simplesite1_bstrap.apps.Simplesite1Config',
@@ -93,6 +94,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'request.middleware.RequestMiddleware',
 
 ]
 
@@ -262,3 +265,6 @@ REST_FRAMEWORK = {
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
+
+# django request
+# REQUEST_BASE_URL = ''

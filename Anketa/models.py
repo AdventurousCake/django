@@ -28,6 +28,15 @@ class UserAnketa(models.Model):
     data = models.CharField(max_length=255, blank=True)
 
 
+class UserAnketaBase(models.Model):
+    data = models.CharField(max_length=255, blank=True)
+    class Meta:
+        abstract = True
+
+class UserAnketa2(UserAnketaBase):
+    data2 = models.CharField(max_length=255, blank=True)
+
+
 class UserAccount(models.Model):
     class Meta:
         ordering = ['-created_date']

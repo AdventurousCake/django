@@ -18,3 +18,5 @@ django-cors-headers
 django-filter
 
 social-auth-app-django
+# for requests stats
+django-request
