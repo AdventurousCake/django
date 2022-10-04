@@ -18,6 +18,8 @@ class MsgLoadView(APIView):
     def get(self, request):
         # paginator
         messages = Message.objects.all()
+
+        # OR serializers.ListSerializer FOR MANY=TRUE
         serializer = MsgSerializer(messages, many=True)
 
         text = {
@@ -63,11 +65,16 @@ class MsgSearchViewSet(ModelViewSet):
 
 # viewset - multiple actions
 class MessagesViewSet(ModelViewSet):
-    queryset = Message.objects.all()
+    # queryset = Message.objects.all() # not optimal for author field
+
+    queryset = Message.objects.all().select_related("author")
+    # queryset = Message.objects.all().select_related("author").prefetch_related()
     serializer_class = MsgSerializer
+
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
     # throttle_classes = [UserRateThrottle]
-    throttle_scope = 'low_request'
+    # throttle_scope = 'low_request'
 
     def perform_create(self, serializer):
         if self.request.user:

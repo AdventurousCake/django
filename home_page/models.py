@@ -25,7 +25,7 @@ from core.models import User
 
 
 class Message(models.Model):
-    # NEED MIGRATION
+    # o2m
     author = models.ForeignKey(to=User, related_name='messages', on_delete=models.CASCADE)
     id = models.BigAutoField(null=False, unique=True, primary_key=True, auto_created=True, blank=True)  # limit int remove (max_length)
     name = models.CharField(null=False, max_length=10)

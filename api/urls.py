@@ -15,7 +15,7 @@ router.register('msg_search', MsgSearchViewSet)
 # router.register('msg_load', MsgLoadView, basename="Message")
 
 router.register('users', UserViewSet)
-
+# urlpatterns += router.urls
 
 # if config.DEV:
 #     urlpatterns.append(path())
