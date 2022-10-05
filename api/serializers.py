@@ -15,7 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class MsgSerializerSearch(serializers.ModelSerializer):
     # author = serializers.StringRelatedField(read_only=True)
-
     class Meta:
         fields = ('text',)
         model = Message
@@ -28,7 +27,7 @@ class MsgSerializer(serializers.ModelSerializer):
     # or save in perform create
 
     class Meta:
-        fields = ('id', 'name', 'text', 'created_date', 'author') # 'author'
+        fields = ('id', 'name', 'text', 'created_date', 'author', 'msg_length') # 'author'
         read_only_fields = ('author',)
         # read_only_fields = ('post', 'created', 'OWNER')
         model = Message

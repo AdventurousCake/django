@@ -1,12 +1,10 @@
 from django.http import JsonResponse
 from rest_framework import permissions, filters
-from rest_framework.decorators import api_view, throttle_classes
-from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from api.serializers import MsgSerializer, UserSerializer, MsgSerializerSearch
+from api.serializers import MsgSerializer, UserSerializer
 from home_page.models import Message
 from core.models import User
 
@@ -66,8 +64,10 @@ class MsgSearchViewSet(ModelViewSet):
 # viewset - multiple actions
 class MessagesViewSet(ModelViewSet):
     # queryset = Message.objects.all() # not optimal for author field
-
     queryset = Message.objects.all().select_related("author")
+
+    # queryset = Message.objects.all().select_related("author").prefetch_related("groups", "user_permissions") # invalid parameters in prefetch
+    # queryset = Message.objects.all().select_related("author", "author.groups", "author.user_permissions")
     # queryset = Message.objects.all().select_related("author").prefetch_related()
     serializer_class = MsgSerializer
 
@@ -83,24 +83,3 @@ class MessagesViewSet(ModelViewSet):
             # 401 unauthorized
             print(self.request.user)
             serializer.save(author='unknown')
-
-
-@api_view(['GET', 'POST'])
-@throttle_classes([UserRateThrottle])
-def hello(request):
-    if request.method == 'POST':
-        return Response({'message': f'Привет {request.data}'})
-    return Response({'message': 'Привет, мир!'})
-
-
-class ExampleView(APIView):
-    #  здесь подключили класс UserRateThrottle
-    #  и для этого view-класса сработает лимит "10000/day" для залогиненных пользователей,
-    #  объявленный в settings.py
-    throttle_classes = [UserRateThrottle]
-
-    def get(self, request):
-        text = {
-            'hello': 'world'
-        }
-        return Response(text)

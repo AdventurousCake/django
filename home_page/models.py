@@ -32,5 +32,9 @@ class Message(models.Model):
     text = models.TextField(null=False, max_length=100)
     created_date = models.DateTimeField(null=False, auto_now_add=True)
 
+    # test_field = None
+    def msg_length(self):
+        return len(self.text)
+
     def __str__(self):
         return f"{self.name} {self.text}"

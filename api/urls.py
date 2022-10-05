@@ -2,7 +2,8 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework import permissions
 from rest_framework.authtoken import views
-from .views import hello, MessagesViewSet, UserList, MsgSearchViewSet, UserViewSet, MsgLoadView
+from .views import MessagesViewSet, UserList, MsgSearchViewSet, UserViewSet, MsgLoadView
+from .views_func_and_APIView import hello
 from rest_framework.routers import DefaultRouter
 from rest_framework.schemas import get_schema_view
 
@@ -25,7 +26,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('msg_load/', MsgLoadView.as_view(), name='msg_load'),
 
-    path('hello/', hello),
     path('api-token-auth/', views.obtain_auth_token),
     path('users/<str:username>', UserList.as_view()),
 
