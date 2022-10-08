@@ -6,5 +6,7 @@ urlpatterns = [
     path('', views.index_page, name='index'),
     path('send_msg/', views.send_msg, name='send_msg'),
     path('ping/', views.ping_req, name='ping'),
-    path("signup/", views.SignUp.as_view(), name="signup")
+    path("signup/", views.SignUp.as_view(), name="signup"),
+
+    path("users/<int:pk>/", views.UserDetails.as_view(), name="users_details")
 ]

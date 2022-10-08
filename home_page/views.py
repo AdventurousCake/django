@@ -5,18 +5,29 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http import Http404
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 import datetime
 import requests
 import logging
 
+from core.models import User
 from home_page.forms import MsgForm, CreationForm
 from home_page.models import Message
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
+
+class UserDetails(DetailView):
+    # model = User
+    template_name = 'home/USERPAGE.html'
+    # context_object_name = ''
+    # extra_context = 'доп данные'
+
+    queryset = User.objects.all().select_related()
+    # def get_queryset(self):
+    #     pass
 
 # alternative for send_msg
 # class MsgFormView(LoginRequiredMixin, CreateView):
