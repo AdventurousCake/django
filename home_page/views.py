@@ -44,7 +44,7 @@ class SignUp(CreateView):
 
 @login_required()
 def send_msg(request):
-    title = "📨 Send msg"
+    title = "📨 Send message form"
     btn_caption = "Send"
     error = ''
 

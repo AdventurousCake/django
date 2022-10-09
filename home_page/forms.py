@@ -17,6 +17,12 @@ class MsgForm(ModelForm):
             raise ValidationError('Please use low case')
         return data
 
+    def clean_accept_terms(self):
+        data = self.cleaned_data['accept_terms']
+        if not data:
+            raise ValidationError('You should accept terms')
+        return data
+
 
 # форма регистрации
 class CreationForm(UserCreationForm):

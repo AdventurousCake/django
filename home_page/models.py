@@ -30,6 +30,9 @@ class Message(models.Model):
     id = models.BigAutoField(null=False, unique=True, primary_key=True, auto_created=True, blank=True)  # limit int remove (max_length)
     name = models.CharField(null=False, max_length=10)
     text = models.TextField(null=False, max_length=100)
+    accept_terms = models.BooleanField(null=False, default=False, verbose_name='Согласен с правилами', blank=False)
+    file = models.FileField(null=True, upload_to='form_files/', blank=True)
+    image = models.ImageField(null=True, upload_to='form_imgs/', blank=True)
     created_date = models.DateTimeField(null=False, auto_now_add=True)
 
     # test_field = None
