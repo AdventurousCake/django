@@ -54,7 +54,10 @@ def send_msg(request):
     # INNER JOIN сразу
     data = Message.objects.select_related().order_by('-created_date')[:5]
 
-    form = MsgForm(request.POST or None)
+    # and FILES
+    form = MsgForm(request.POST, request.FILES)
+    # form = MsgForm(request.POST or None)
+
     if form.is_valid() and request.method == "POST":
         form.save(commit=True)
         # fields actions

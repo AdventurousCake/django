@@ -25,14 +25,14 @@ from core.models import User
 
 
 class Message(models.Model):
-    # o2m
+    # o2m; blank true - обяз. в форме
     author = models.ForeignKey(to=User, related_name='messages', on_delete=models.CASCADE)
     id = models.BigAutoField(null=False, unique=True, primary_key=True, auto_created=True, blank=True)  # limit int remove (max_length)
     name = models.CharField(null=False, max_length=10)
     text = models.TextField(null=False, max_length=100)
-    accept_terms = models.BooleanField(null=False, default=False, verbose_name='Согласен с правилами', blank=False)
-    file = models.FileField(null=True, upload_to='form_files/', blank=True)
-    image = models.ImageField(null=True, upload_to='form_imgs/', blank=True)
+    accept_terms = models.BooleanField(null=False, default=False, verbose_name='Согласен с правилами', blank=True)
+    file = models.FileField(null=True, upload_to='form_files/', blank=False)
+    image = models.ImageField(null=True, upload_to='form_imgs/', blank=False)
     created_date = models.DateTimeField(null=False, auto_now_add=True)
 
     # test_field = None
