@@ -47,31 +47,45 @@ def send_msg(request):
     title = "📨 Send message form"
     btn_caption = "Send"
     error = ''
+    form = None
 
     # не оптимально, на каждую связанную таблицу будет запрос (author.id...); если будет цикл - то по каждому айтему еще запрос
     # data = Message.objects.all().order_by('-created_date')[:5]
 
     # INNER JOIN сразу
-    data = Message.objects.select_related().order_by('-created_date')[:5]
+    msgs_data = Message.objects.select_related().order_by('-created_date')[:5]
 
-    # and FILES
-    form = MsgForm(request.POST, request.FILES)
+    form = MsgForm(request.POST or None, request.FILES or None)  # and FILES
     # form = MsgForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
+    # if form.is_valid():
         form.save(commit=True)
+
         # fields actions
+        # cd = form.cleaned_data
         # form.save()
+
+        # # Создаем комментарий, но пока не сохраняем в базе данных.
+        # new_comment = comment_form.save(commit=False)
+        # # Привязываем комментарий к текущей статье.
+        # new_comment.post = post
+        # # Сохраняем комментарий в базе данных.
+        # new_comment.save()
 
         # or render in end
         return redirect('home:index')
     else:
+        # сброс формы с данными
+        # old_form_with_errors = form
+        # form = MsgForm()
+
         error = f'Incorrect form\n' \
                 f'{form.errors}'
         # return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
 
     return render(request, "home/msg_send.html",
-                  {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": data})
+                  {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": msgs_data})
 
 
 # @login_required

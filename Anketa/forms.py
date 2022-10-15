@@ -9,6 +9,7 @@ class UserAdminForm(forms.ModelForm):
         model = UserAccount
         fields = '__all__'
 
+        # widgets field or forms.CharField(required=False,widget=forms.Textarea())
         # for increase charfield
         widgets = {
             'user_anketa_data': forms.Textarea(attrs={'cols': 100, 'rows': 10}),
