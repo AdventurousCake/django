@@ -66,10 +66,13 @@ class MsgSearchViewSet(ModelViewSet):
 # viewset - multiple actions
 class MessagesViewSet(ModelViewSet):
     # queryset = Message.objects.all() # not optimal for author field
-    queryset = Message.objects.all().select_related("author")
+    # queryset = Message.objects.all().select_related("author")
 
     # queryset = Message.objects.all().select_related("author").prefetch_related("groups", "user_permissions") # invalid parameters in prefetch
-    # queryset = Message.objects.all().select_related("author", "author.groups", "author.user_permissions")
+    # queryset = Message.objects.all().select_related("author").prefetch_related("author.groups", "author.user_permissions") # invalid parameters in prefetch
+
+    # UNDERSCORE
+    queryset = Message.objects.all().select_related("author").prefetch_related("author__groups", "author__user_permissions")
     # queryset = Message.objects.all().select_related("author").prefetch_related()
     serializer_class = MsgSerializer
 
