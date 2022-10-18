@@ -26,8 +26,10 @@ class UserDetails(DetailView):
     # extra_context = 'доп данные'
 
     queryset = User.objects.all().select_related()
+
     # def get_queryset(self):
     #     pass
+
 
 # alternative for send_msg
 # class MsgFormView(LoginRequiredMixin, CreateView):
@@ -46,6 +48,8 @@ class SignUp(CreateView):
 def send_msg(request):
     title = "📨 Send message form"
     btn_caption = "Send"
+    template = "home/msg_send.html"
+
     error = ''
     form = None
 
@@ -55,11 +59,12 @@ def send_msg(request):
     # INNER JOIN сразу
     msgs_data = Message.objects.select_related().order_by('-created_date')[:5]
 
-    form = MsgForm(request.POST or None, request.FILES or None)  # and FILES
+    form = MsgForm(request.POST or None, request.FILES or None,
+                   initial={'text': 'example'})  # and FILES
     # form = MsgForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
-    # if form.is_valid():
+        # if form.is_valid():
         form.save(commit=True)
 
         # fields actions
@@ -84,8 +89,8 @@ def send_msg(request):
                 f'{form.errors}'
         # return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
 
-    return render(request, "home/msg_send.html",
-                  {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": msgs_data})
+    return render(request, template_name=template, context=
+    {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": msgs_data})
 
 
 # @login_required

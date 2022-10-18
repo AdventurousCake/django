@@ -7,9 +7,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         # нельзя вместе fields и exclude, и без них по отдельности
         # не юзать лишние поля, которые связаны с правами и группами
-        fields = '__all__'
-        # fields = ('id', 'username')
+
+        # fields = '__all__'
+        fields = ('id', 'username')
         # exclude = ('password',)
+
         model = User
 
 

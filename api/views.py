@@ -66,14 +66,14 @@ class MsgSearchViewSet(ModelViewSet):
 # viewset - multiple actions
 class MessagesViewSet(ModelViewSet):
     # queryset = Message.objects.all() # not optimal for author field
-    # queryset = Message.objects.all().select_related("author")
+    queryset = Message.objects.all().select_related("author") # not optimal for author fields fk
 
     # queryset = Message.objects.all().select_related("author").prefetch_related("groups", "user_permissions") # invalid parameters in prefetch
     # queryset = Message.objects.all().select_related("author").prefetch_related("author.groups", "author.user_permissions") # invalid parameters in prefetch
 
-    # UNDERSCORE
-    queryset = Message.objects.all().select_related("author").prefetch_related("author__groups", "author__user_permissions")
-    # queryset = Message.objects.all().select_related("author").prefetch_related()
+    # FOR ALL USER DATA; UNDERSCORE in fields
+    # queryset = Message.objects.all().select_related("author").prefetch_related("author__groups", "author__user_permissions")
+
     serializer_class = MsgSerializer
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -81,6 +81,10 @@ class MessagesViewSet(ModelViewSet):
     # throttle_classes = [UserRateThrottle]
     # throttle_scope = 'low_request'
 
+    # def create(self, request, *args, **kwargs):
+    #     return super().create(request, *args, **kwargs)
+
+    # TODO; PERFORM CREATE находится внутри create, после валидации! check overrides
     def perform_create(self, serializer):
         if self.request.user:
             serializer.save(author=self.request.user)
