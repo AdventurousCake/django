@@ -20,11 +20,11 @@
                 <div class="card-header">{{ title }}</div>
                 <div class="card-body">
 
-{#                    {% for error in form.errors %}#}
-{#                        <div class="alert alert-danger" role="alert">#}
-{#                            <span>❗ {{ error|capfirst }}</span>#}
-{#                        </div>#}
-{#                    {% endfor %}#}
+                    {#                    {% for error in form.errors %}#}
+                    {#                        <div class="alert alert-danger" role="alert">#}
+                    {#                            <span>❗ {{ error|capfirst }}</span>#}
+                    {#                        </div>#}
+                    {#                    {% endfor %}#}
 
                     {% if form.errors %}
                         <div class="alert alert-danger" role="alert">
@@ -35,7 +35,7 @@
                     {% endif %}
 
                     <form method="post" enctype="multipart/form-data">
-{#                        CSRF#}
+                        {#                        CSRF#}
                         {% csrf_token %}
 
                         {% for field in form %}
@@ -63,48 +63,56 @@
                             </div>
                         {% endfor %}
 
-                    <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
-                        <button type="submit" class="btn btn-primary">
-                            {{ btn_caption }}
-                        </button>
-                    </div>
-                </form>
+            <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
+                <button type="submit" class="btn btn-primary">
+                    {{ btn_caption }}
+                </button>
+            </div>
+            </form>
 
-            </div> <!-- card body -->
-        </div> <!-- card -->
+        </div> <!-- card body -->
+    </div> <!-- card -->
 
-{#    list of msgs#}
-
-    <div class="table-responsive mt-4">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Author</th>
-              <th scope="col">Id</th>
-              <th scope="col">Name</th>
-              <th scope="col">Text</th>
-              <th scope="col">Date</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for item in data %}
+    {#    list of msgs#}
+    {% if data %}
+        <div class="table-responsive mt-4">
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                  <th scope="row">{{ forloop.counter }}</th>
-                  <td>{{ item.author }}</td>
-                  <td>{{ item.id }}</td>
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.text }}</td>
-                  <td>{{ item.created_date }}</td>
+                    <th scope="col">#</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Text</th>
+                    <th scope="col">Date</th>
                 </tr>
-            {% endfor %}
-        </tbody>
+                </thead>
 
-    </table>
+                <tbody>
+                {% for item in data %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ item.author }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.text }}</td>
+                        <td>{{ item.created_date }}</td>
+                        <td><a href="{% url 'home:edit_msg' item.id %}">
+{#                            pencil#}
+                            <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32"
+                                 height="32" fill="none" stroke="currentcolor" stroke-linecap="round"
+                                 stroke-linejoin="round" stroke-width="2">
+                                <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+                            </svg>
+                        </a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
 
-    </div>
+            </table>
+        </div>
+    {% endif %}
 
-    </div> <!-- col -->
-    </div> <!-- row -->
+    {#    </div> <!-- col -->#}
+    {#    </div> <!-- row -->#}
 {% endblock %}

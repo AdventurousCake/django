@@ -11,6 +11,7 @@ class MsgForm(ModelForm):
         exclude = ('id',)
         help_texts = {'text': "Validator check this", 'name': 'Your name'}
 
+    # clean_FIELD validation
     def clean_text(self):
         data = self.cleaned_data['text']
         if data != data.lower():

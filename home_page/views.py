@@ -45,6 +45,27 @@ class SignUp(CreateView):
 
 
 @login_required()
+def edit_msg(request, pk):
+    # msg = Message.objects.get(pk)
+    msg = get_object_or_404(klass=Message, id=pk)
+    title='Edit msg'
+    template = "home/msg_send.html"
+    btn_caption = "Save"
+    error = ''
+
+    form = MsgForm(request.POST or None, files=request.FILES or None, instance=msg)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("home:send_msg")
+    else:
+        error = f'Incorrect form\n' \
+                f'{form.errors}'
+
+    return render(request, template_name=template, context=
+    {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": ""})
+
+
+@login_required()
 def send_msg(request):
     title = "📨 Send message form"
     btn_caption = "Send"
@@ -79,7 +100,8 @@ def send_msg(request):
         # new_comment.save()
 
         # or render in end
-        return redirect('home:index')
+        # return redirect('home:index')
+        return redirect('home:send_msg')
     else:
         # сброс формы с данными
         # old_form_with_errors = form

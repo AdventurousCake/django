@@ -11,6 +11,7 @@ from home_page.models import Message
 from core.models import User
 
 
+# msg_load/
 class MsgLoadView(APIView):
     throttle_classes = [UserRateThrottle]
     permission_classes = (permissions.AllowAny,)
