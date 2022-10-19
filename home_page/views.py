@@ -66,6 +66,18 @@ def edit_msg(request, pk):
 
 
 @login_required()
+def delete_msg(request, pk):
+    # CHECK
+    # if request.user.username != username:
+    #     return redirect(f"/{username}/{post_id}")
+
+    msg = get_object_or_404(klass=Message, id=pk)
+    msg.delete()
+
+    return redirect('home:send_msg')
+
+
+@login_required()
 def send_msg(request):
     title = "📨 Send message form"
     btn_caption = "Send"
