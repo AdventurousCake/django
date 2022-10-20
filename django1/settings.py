@@ -38,8 +38,7 @@ SECRET_KEY = '35v8fq@foht=8#@f-n1%nmj@zlq&0l1nk2gpbyj$nm$56dyk$3'
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['158.101.173.182', '165.227.163.73', '127.0.0.1',
-                 'do.testig.ml', 'do2.testig.ml', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
+ALLOWED_HOSTS = ['158.101.173.182', '127.0.0.1', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
 
 # debug tools ip
 INTERNAL_IPS = [
@@ -226,11 +225,11 @@ THUMBNAIL_DEBUG = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CART_SESSION_ID = 'cart_1' \
-                  """Это ключ, по которому мы будем хранить данные корзины в сессии. 
-                  Так как сессии Django ассоциируются с конкретным посетителем сайта,
-                  мы можем использовать один и тот же ключ для разных пользователей. 
-                  Это не приведет к конфликту данных."""
+CART_SESSION_ID = 'cart_1'
+                  # """Это ключ, по которому мы будем хранить данные корзины в сессии.
+                  # Так как сессии Django ассоциируются с конкретным посетителем сайта,
+                  # мы можем использовать один и тот же ключ для разных пользователей.
+                  # Это не приведет к конфликту данных."""
 
 # rest api
 REST_FRAMEWORK = {
