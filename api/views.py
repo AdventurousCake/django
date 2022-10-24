@@ -44,8 +44,10 @@ class UserViewSetRO(ReadOnlyModelViewSet):
 
 # global permissions dep; необходимо каждый раз передавать token, получив через auth
 class UserList(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, username):
-        users = User.objects.filter(username=username)
+        users = User.objects.select_related().prefetch_related('author__messages').filter(username=username)
+
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 

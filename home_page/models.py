@@ -47,7 +47,10 @@ class Message(models.Model):
     created_date = models.DateTimeField(null=False, auto_now_add=True)
     updated_date = models.DateTimeField(null=False, auto_now=True)
 
-    # test_field = None
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     pass
+
+    # python_field = None
     def msg_length(self):
         return len(self.text)
 
