@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from rest_framework import permissions, filters
+from rest_framework import permissions, filters, status
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
@@ -67,9 +67,17 @@ class MsgSearchViewSet(ModelViewSet):
 
 
 # viewset - multiple actions
+# class ModelViewSet(mixins.CreateModelMixin,
+#                    mixins.RetrieveModelMixin,
+#                    mixins.UpdateModelMixin,
+#                    mixins.DestroyModelMixin,
+#                    mixins.ListModelMixin,
+#                    GenericViewSet)
 class MessagesViewSet(ModelViewSet):
+    http_method_names = ('get', 'post', 'put', 'patch', 'head', 'delete')  # option
+
     # queryset = Message.objects.all() # not optimal for author field
-    queryset = Message.objects.all().select_related("author") # not optimal for author fields fk
+    queryset = Message.objects.all().select_related("author")  # not optimal for author fields fk
 
     # queryset = Message.objects.all().select_related("author").prefetch_related("groups", "user_permissions") # invalid parameters in prefetch
     # queryset = Message.objects.all().select_related("author").prefetch_related("author.groups", "author.user_permissions") # invalid parameters in prefetch
@@ -95,3 +103,7 @@ class MessagesViewSet(ModelViewSet):
             # 401 unauthorized
             print(self.request.user)
             serializer.save(author='unknown')
+
+    # def create(self, response, *args, **kwargs):
+    #     response['data'] = {}
+    #     return Response(response, status=status.HTTP_401_UNAUTHORIZED)
