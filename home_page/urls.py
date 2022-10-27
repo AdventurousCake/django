@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 
 app_name = 'home'
+
+# NOT DRF API
 urlpatterns = [
     path('', views.index_page, name='index'),
     path('send_msg/', views.send_msg, name='send_msg'),
