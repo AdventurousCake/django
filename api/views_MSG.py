@@ -9,7 +9,7 @@ from api.serializers import MsgSerializer
 from home_page.models import Message
 
 
-# msg_load/
+# msg_load/ # for js
 class MsgLoadView(APIView):
     throttle_classes = [UserRateThrottle]
     permission_classes = (permissions.AllowAny,)
@@ -42,7 +42,7 @@ class MsgSearchViewSet(ModelViewSet):
     ordering_fields = ['-created_date']
 
 
-# viewset - multiple actions
+# !!! MAIN MSG /msg; viewset - multiple actions
 # class ModelViewSet(mixins.CreateModelMixin,
 #                    mixins.RetrieveModelMixin,
 #                    mixins.UpdateModelMixin,
@@ -63,18 +63,20 @@ class MessagesViewSet(ModelViewSet):
 
     serializer_class = MsgSerializer
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)  #(permissions.IsAuthenticatedOrReadOnly,)
     # throttle_classes = [UserRateThrottle]
     # throttle_scope = 'low_request'
 
-    # TODO; PERFORM CREATE находится внутри create, после валидации! check overrides
+    # TODO; PERFORM CREATE находится внутри create, после валидации(is_valid)! check overrides
     def perform_create(self, serializer):
         if self.request.user:
             serializer.save(author=self.request.user)
         else:
             # 401 unauthorized
             print(self.request.user)
-            serializer.save(author='unknown')
+
+            # todo must be User instance
+            serializer.save(author='unknown')  # str for ONLY str field
 
     # def create(self, request, *args, **kwargs):
     #     return super().create(request, *args, **kwargs)

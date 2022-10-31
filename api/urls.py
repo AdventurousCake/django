@@ -8,7 +8,12 @@ from .views_func_and_APIView_test import hello
 from rest_framework.routers import DefaultRouter
 from rest_framework.schemas import get_schema_view
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
+# APPEND_SLASH=False
 router = DefaultRouter()
 router.register('msg', MessagesViewSet)
 router.register('msg_search', MsgSearchViewSet)
@@ -30,7 +35,7 @@ urlpatterns = [
     path('msg_load/', MsgLoadView.as_view(), name='msg_load'),
     path('users_view/<str:username>/', UserList.as_view()),
 
-    # auth
+    # auth; get token by login and pass, returns token
     path('api-token-auth/', views.obtain_auth_token),
 
     # swagger and schema
@@ -44,4 +49,10 @@ urlpatterns = [
             # public=True,
         ), name='openapi-schema'),
 
+]
+
+# JWT
+urlpatterns += [
+    path('jwt/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('jwt/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

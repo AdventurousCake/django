@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'social_django',
     'request',
+    'rest_framework_simplejwt',
 
     'polls.apps.PollsConfig',
     'simplesite1_bstrap.apps.Simplesite1Config',
@@ -77,6 +78,7 @@ INSTALLED_APPS = [
 
     'Anketa.apps.AnketaConfig',
     'api',
+
 ]
 
 MIDDLEWARE = [
@@ -165,11 +167,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',  # also SAVE default method!
 )
 
 SOCIAL_AUTH_GITHUB_KEY = '7fca0d975389a21a06e8'
 SOCIAL_AUTH_GITHUB_SECRET = 'dc9e715ff25878393d021b67c09ec8f811e3a02c'
-SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_JSONFIELD_ENABLED = True  # jsonb pgsql
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -231,6 +235,10 @@ CART_SESSION_ID = 'cart_1'
                   # мы можем использовать один и тот же ключ для разных пользователей.
                   # Это не приведет к конфликту данных."""
 
+# jwt settings
+# SIMPLE_JWT = {} # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
+
+
 # rest api
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -242,7 +250,9 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication', # get token by POST login,pass; /api-token-auth/
+
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 
     # THROTTLE
@@ -250,6 +260,7 @@ REST_FRAMEWORK = {
     #  подключим их только в тех view-классах, где надо установить лимиты
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.ScopedRateThrottle',
+
         # 'rest_framework.throttling.UserRateThrottle',
         # 'rest_framework.throttling.AnonRateThrottle',
     ],

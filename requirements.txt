@@ -22,3 +22,4 @@ django-filter
 social-auth-app-django
 # for requests stats
 django-request
+djangorestframework-simplejwt
