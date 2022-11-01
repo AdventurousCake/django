@@ -37,6 +37,16 @@ class UserDetails(DetailView):
 #     success_url = reverse_lazy('home:index')
 #     template_name = "home/msg_send.html"
 
+
+@login_required()
+def msg_list(request):
+    title = "Messages"
+    btn_caption = "Send"
+    template = "home/msg_list.html"
+
+    return render(request, template_name=template, context={"title": title})
+
+
 class SignUp(CreateView):
     form_class = CreationForm
     success_url = reverse_lazy("home:index")

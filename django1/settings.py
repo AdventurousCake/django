@@ -237,6 +237,7 @@ CART_SESSION_ID = 'cart_1'
 
 # jwt settings
 # SIMPLE_JWT = {} # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
+# DEFAULT 5 MIN TOKEN LIFETIME
 
 
 # rest api
@@ -250,9 +251,9 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.TokenAuthentication', # get token by POST login,pass; /api-token-auth/
+        'rest_framework.authentication.TokenAuthentication', # get token by POST login,pass; /api-token-auth/
 
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 
     # THROTTLE
