@@ -44,7 +44,9 @@ def msg_list(request):
     btn_caption = "Send"
     template = "home/msg_list.html"
 
-    return render(request, template_name=template, context={"title": title})
+    msgs_data = Message.objects.select_related().order_by('-created_date')
+
+    return render(request, template_name=template, context={"title": title, "msgs_data": msgs_data})
 
 
 class SignUp(CreateView):
@@ -57,6 +59,8 @@ class SignUp(CreateView):
 @login_required()
 def edit_msg(request, pk):
     # msg = Message.objects.get(pk)
+
+    # TODO PK SECURTIRY; check author
     msg = get_object_or_404(klass=Message, id=pk)
     title='Edit msg'
     template = "home/msg_send.html"

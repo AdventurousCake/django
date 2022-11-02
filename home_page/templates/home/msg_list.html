@@ -1,6 +1,6 @@
 {% extends 'home/base.html' %}
 
-{#MAY INCLUDE STATIC FROM MAIN PAGE#}
+{#MAY INCLUDE STATIC, CSS!!! FROM MAIN PAGE#}
 {% load static %}
 {% load custom_tags %}
 
@@ -8,39 +8,31 @@
 
 {% block content %}
 
-{#    for card#}
 <div class="row justify-content-center">
         <div class="col-md-8 p-5">
             <h1 class="p-1">Messages</h1>
 
-            <div class="card mb-4">
-                <div class="card-header">{{ title }}</div>
-                <div class="card-body">
-                    <p>Data1</p>
-                    <p>Data2</p>
+            {% if msgs_data %}
+            {% for msg in msgs_data %}
+                <div class="card mb-4">
+                    <div class="card-header">{{ title }}</div>
 
-                <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
-                    <button type="submit" class="btn btn-primary">LIKE
-{#                        {{ btn_caption }}#}
-                    </button>
-                </div>
+                    <div class="card-body">
+                        <p>{{ msg.author }}</p>
+                        <p>{{ msg.text }}</p>
+                        <p>{{ msg.created_date }}</p>
 
-                </div> <!-- card body -->
-            </div> <!-- card -->
+                    <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
+                        <button type="submit" class="btn btn-primary">LIKE
+    {#                        {{ btn_caption }}#}
+                        </button>
+                    </div>
 
-            <div class="card mb-4">
-                <div class="card-header">{{ title }}</div>
-                <div class="card-body">
-                    <p>Data3</p>
-                    <p>Data4</p>
+                    </div> <!-- card body -->
+                </div> <!-- card -->
+            {% endfor %}
+            {% endif %}
 
-                <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
-                    <button type="submit" class="btn btn-primary">LIKE
-{#                        {{ btn_caption }}#}
-                    </button>
-                </div>
-
-                </div> <!-- card body -->
-            </div> <!-- card -->
-
+        </div>
+</div>
 {% endblock %}
