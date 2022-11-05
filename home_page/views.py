@@ -37,18 +37,6 @@ class UserDetails(DetailView):
 #     success_url = reverse_lazy('home:index')
 #     template_name = "home/msg_send.html"
 
-
-@login_required()
-def msg_list(request):
-    title = "Messages"
-    btn_caption = "Send"
-    template = "home/msg_list.html"
-
-    msgs_data = Message.objects.select_related().order_by('-created_date')
-
-    return render(request, template_name=template, context={"title": title, "msgs_data": msgs_data})
-
-
 class SignUp(CreateView):
     form_class = CreationForm
     success_url = reverse_lazy("home:index")
@@ -57,12 +45,40 @@ class SignUp(CreateView):
 
 
 @login_required()
+def msg_list(request):
+    title = "Messages"
+    btn_caption = ""
+    template = "home/msg_list.html"
+
+    msgs_data = Message.objects.select_related('author').values('author__username', 'text', 'created_date').order_by(
+        '-created_date')
+
+    return render(request, template_name=template, context={"title": title, "msgs_data": msgs_data})
+
+
+@login_required()
+def get_msg(request, pk):
+    # CHECK
+    # if request.user.username != username:
+    #     return redirect(f"/{username}/{post_id}")
+
+    template = 'home/msg_BY_ID.html'
+    msg = get_object_or_404(klass=Message, id=pk)
+
+    # print(msg.__dict__)
+
+    title = f"Message"
+    # title = f"Message #{msg.id}" # query doesnt load
+    return render(request, template_name=template, context={"title": title, "msgs_data": msg})
+
+
+@login_required()
 def edit_msg(request, pk):
     # msg = Message.objects.get(pk)
 
-    # TODO PK SECURTIRY; check author
+    # TODO PK SECURITY; check author
     msg = get_object_or_404(klass=Message, id=pk)
-    title='Edit msg'
+    title = 'Edit msg'
     template = "home/msg_send.html"
     btn_caption = "Save"
     error = ''

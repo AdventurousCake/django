@@ -11,6 +11,7 @@ urlpatterns = [
     path('delete_msg/<int:pk>/', views.delete_msg, name='delete_msg'),
 
     path('msg/', views.msg_list, name='home_msg_list'),
+    path('msg/<int:pk>/', views.get_msg, name='show_msg'),
 
     path('ping/', views.ping_req, name='ping'),
     path("signup/", views.SignUp.as_view(), name="signup"),
