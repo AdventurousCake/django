@@ -42,6 +42,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
 
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")  # in dj 3.x without https
+
 ADMIN_PATH = env.str('ADMIN_PATH') or 'admin'
 
 # debug tools ip
