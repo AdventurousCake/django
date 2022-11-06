@@ -22,6 +22,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views
 
 from core.views import core_auth
+from django1.settings import ADMIN_PATH
 from home_page.views import admin_old_page
 
 # ORDER IS IMPORTANT
@@ -29,7 +30,7 @@ from home_page.views import admin_old_page
 urlpatterns = [
     # path('admin/', admin.site.urls, name='admin_page'),
     path('admin/', admin_old_page, name='admin_old'),
-    path('admin-secure1/', admin.site.urls, name='admin_page'),
+    path(ADMIN_PATH+'/', admin.site.urls, name='admin_page'),
 
     path('polls/', include('polls.urls'), name='polls'),
     path('', include('home_page.urls'), name='home'),

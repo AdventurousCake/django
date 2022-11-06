@@ -42,6 +42,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
 
+ADMIN_PATH = env.str('ADMIN_PATH') or 'admin'
+
 # debug tools ip
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -230,10 +232,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CART_SESSION_ID = 'cart_1'
-                  # """Это ключ, по которому мы будем хранить данные корзины в сессии.
-                  # Так как сессии Django ассоциируются с конкретным посетителем сайта,
-                  # мы можем использовать один и тот же ключ для разных пользователей.
-                  # Это не приведет к конфликту данных."""
+# """Это ключ, по которому мы будем хранить данные корзины в сессии.
+# Так как сессии Django ассоциируются с конкретным посетителем сайта,
+# мы можем использовать один и тот же ключ для разных пользователей.
+# Это не приведет к конфликту данных."""
 
 # jwt settings
 # SIMPLE_JWT = {} # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
@@ -251,7 +253,7 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication', # get token by POST login,pass; /api-token-auth/
+        'rest_framework.authentication.TokenAuthentication',  # get token by POST login,pass; /api-token-auth/
 
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
