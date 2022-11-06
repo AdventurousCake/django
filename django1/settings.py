@@ -14,6 +14,15 @@ import os
 from environs import Env
 from sys import platform
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+
+env = Env()
+env.read_env(path=os.path.join(BASE_DIR, '.env'))
+
 # SYSTEM CHECK; HARDCODED!
 RUN_OS = platform
 if platform == 'linux':
@@ -21,24 +30,17 @@ if platform == 'linux':
 else:
     IS_SERVER = False
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env.str("KEY")
+# also for drf
 # UPD DB AFTER KEY
-env = Env()
-env.read_env(path=os.path.join(BASE_DIR, '.env'))
-SECRET_KEY = '35v8fq@foht=8#@f-n1%nmj@zlq&0l1nk2gpbyj$nm$56dyk$3'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['158.101.173.182', '127.0.0.1', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
+# ALLOWED_HOSTS = ['127.0.0.1', '158.101.173.182', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
+ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
 
 # debug tools ip
 INTERNAL_IPS = [
@@ -46,7 +48,6 @@ INTERNAL_IPS = [
 ]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,8 +61,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',  # api filters
     'rest_framework.authtoken',
-    # debug tools
-    "debug_toolbar",
+    "debug_toolbar",  # debug tools
     'social_django',
     'request',
     'rest_framework_simplejwt',
@@ -171,9 +171,9 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # also SAVE default method!
 )
 
-SOCIAL_AUTH_GITHUB_KEY = '7fca0d975389a21a06e8'
-SOCIAL_AUTH_GITHUB_SECRET = 'dc9e715ff25878393d021b67c09ec8f811e3a02c'
-SOCIAL_AUTH_JSONFIELD_ENABLED = True  # jsonb pgsql
+SOCIAL_AUTH_GITHUB_KEY = env.str('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = env.str('SOCIAL_AUTH_GITHUB_SECRET')
+SOCIAL_AUTH_JSONFIELD_ENABLED = True  # jsonb field for pgsql
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

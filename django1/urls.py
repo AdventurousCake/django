@@ -30,6 +30,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls, name='admin_page'),
     path('admin/', admin_old_page, name='admin_old'),
     path('admin-secure1/', admin.site.urls, name='admin_page'),
+
     path('polls/', include('polls.urls'), name='polls'),
     path('', include('home_page.urls'), name='home'),
     path('simplesite1/', include('simplesite1_bstrap.urls')),
