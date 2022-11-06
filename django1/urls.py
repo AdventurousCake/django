@@ -60,7 +60,7 @@ urlpatterns = [
 # api root; PRIVATE URL API
 API_PATH = 'api/v1/'
 if settings.IS_SERVER:
-    API_PATH = 'api-secure1/v1/'
+    API_PATH = settings.API_PATH
 urlpatterns.append(path(API_PATH, include('api.urls'), name='api'))
 
 
