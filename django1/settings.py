@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     "debug_toolbar",  # debug tools
     'social_django',
-    'request',
+    # 'request',  # save all requests; also in middleware
     'rest_framework_simplejwt',
 
     'polls.apps.PollsConfig',
@@ -101,7 +101,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'request.middleware.RequestMiddleware',
+    # 'request.middleware.RequestMiddleware',
 
 ]
 
@@ -173,7 +173,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
 
-    'django.contrib.auth.backends.ModelBackend',  # also SAVE default method!
+    'django.contrib.auth.backends.ModelBackend',  # also SAVE default method! dont delete
 )
 
 SOCIAL_AUTH_GITHUB_KEY = env.str('SOCIAL_AUTH_GITHUB_KEY')

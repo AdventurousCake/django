@@ -10,6 +10,7 @@ from django.views.generic import CreateView, DetailView
 import datetime
 import requests
 import logging
+import locale
 
 from core.models import User
 from home_page.forms import MsgForm, CreationForm
@@ -26,6 +27,19 @@ class UserDetails(DetailView):
     # extra_context = 'доп данные'
 
     queryset = User.objects.all().select_related()
+
+    def get_context_data(self, **kwargs):
+        pk = self.kwargs.get('pk', '')
+
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['msgs_data'] = Message.objects.select_related('author').values('author__username', 'text',
+                                                                               'created_date') \
+            .order_by('-created_date') \
+            .filter(author__id=pk)  # !! todo filter; count
+        # .filter(author=self.request.user) # !! todo filter; count
+        return context
 
     # def get_queryset(self):
     #     pass
@@ -165,10 +179,17 @@ def index_page(request):
             'userinfo': {
                 'username': request.user.username,
                 'is_staff': request.user.is_staff
-            }
+            },
+            'date_block': get_date_format()
             }
     return render(request, 'home/index.html', data)
     # return HttpResponse("hi")
+
+
+def get_date_format():
+    # with locale.setlocale(locale.LC_ALL, 'ru_RU.utf8'):
+    result = datetime.datetime.now().strftime("%A, %#d %B") # "📅 " +
+    return result
 
 
 def _ping():
