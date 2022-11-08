@@ -26,19 +26,30 @@ class UserDetails(DetailView):
     # context_object_name = ''
     # extra_context = 'доп данные'
 
+    # change to context
     queryset = User.objects.all().select_related()
 
     def get_context_data(self, **kwargs):
         pk = self.kwargs.get('pk', '')
 
+        # v1
         # Call the base implementation first to get a context
+        # context = super().get_context_data(**kwargs)
+        # context['msgs_data'] = Message.objects.select_related('author').values('id', 'author__username', 'text',
+        #                                                                        'created_date') \
+        #     .order_by('-created_date') \
+        #     .filter(author__id=pk)
+        # # .filter(author=self.request.user)
+        # return context
+        # and in template Записей: {{user.messages.count}}
+
+        # v2
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['msgs_data'] = Message.objects.select_related('author').values('author__username', 'text',
-                                                                               'created_date') \
+        query = Message.objects.select_related('author').values('id', 'author__username', 'text','created_date') \
             .order_by('-created_date') \
-            .filter(author__id=pk)  # !! todo filter; count
-        # .filter(author=self.request.user) # !! todo filter; count
+            .filter(author__id=pk)
+        context['msgs_data'] = query
+        context['msgs_data_count'] = query.count()
         return context
 
     # def get_queryset(self):
@@ -64,7 +75,8 @@ def msg_list(request):
     btn_caption = ""
     template = "home/msg_list.html"
 
-    msgs_data = Message.objects.select_related('author').values('author__username', 'text', 'created_date').order_by(
+    msgs_data = Message.objects.select_related('author').values('id', 'author__username', 'text',
+                                                                'created_date').order_by(
         '-created_date')
 
     return render(request, template_name=template, context={"title": title, "msgs_data": msgs_data})
@@ -174,21 +186,22 @@ def send_msg(request):
 # @login_required
 def index_page(request):
     date_now = str(datetime.datetime.now().isoformat(' ', 'seconds'))
+
     data = {'date': date_now,
             'bot': _ping(),
             'userinfo': {
                 'username': request.user.username,
                 'is_staff': request.user.is_staff
             },
-            'date_block': get_date_format()
+            'date_block': get_date_formatted()
             }
     return render(request, 'home/index.html', data)
     # return HttpResponse("hi")
 
 
-def get_date_format():
+def get_date_formatted():
     # with locale.setlocale(locale.LC_ALL, 'ru_RU.utf8'):
-    result = datetime.datetime.now().strftime("%A, %#d %B") # "📅 " +
+    result = datetime.datetime.now().strftime("%A, %#d %B")  # "📅 " +
     return result
 
 
