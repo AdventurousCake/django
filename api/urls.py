@@ -13,6 +13,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+app_name = 'api'
+
 # APPEND_SLASH=False
 router = DefaultRouter()
 router.register('msg', MessagesViewSet)
@@ -29,11 +31,11 @@ router.register('users_vset', UserViewSet)
 
 # порядок важен, частный случай выше
 urlpatterns = [
-    # ROUTER VSETS
+    # ROUTER VSETS!!!
     path('', include(router.urls)),
 
     path('msg_load/', MsgLoadView.as_view(), name='msg_load'),
-    path('users_view/<str:username>/', UserList.as_view()),
+    path('users_view/<str:username>/', UserList.as_view(), name='msg_user'),
 
     # auth; get token by login and pass, returns token
     path('api-token-auth/', views.obtain_auth_token),

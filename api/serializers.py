@@ -11,7 +11,7 @@ class MsgSerializerSIMPLE(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # messages = serializers.StringRelatedField(read_only=True, many=True)
+    # messages = serializers.StringRelatedField(read_only=True, many=True, queryset=...)
     messages = MsgSerializerSIMPLE(many=True)  # MANY TRUE
     # messages = None
 
@@ -29,6 +29,9 @@ class UserSerializer(serializers.ModelSerializer):
 class MsgSerializer(serializers.ModelSerializer):
     # author = serializers.StringRelatedField(read_only=True)
     author = UserSerializer(read_only=True)  # not many!
+
+    # !!! проверить без оптимизации сначала, брать автора из msg
+    # owner = serializers.ReadOnlyField(source='owner.username')
 
     # or save in perform create
 

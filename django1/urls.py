@@ -47,6 +47,9 @@ urlpatterns = [
     path('auth_github/', include('social_django.urls', namespace='social')),
     path('page_github/', core_auth),
 
+    # todo!
+    path('msg1/', include('FORM_MSG.urls')),
+
     # api root; BELOW
     # path('api/v1/', include('api.urls'), name='api'),
 
@@ -61,7 +64,7 @@ urlpatterns = [
 API_PATH = 'api/v1/'
 if settings.IS_SERVER:
     API_PATH = settings.API_PATH
-urlpatterns.append(path(API_PATH, include('api.urls'), name='api'))
+urlpatterns.append(path(API_PATH, include('api.urls', namespace='api')))
 
 
 # Add Django site authentication urls (for login, logout, password management)

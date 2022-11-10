@@ -1,8 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+import django.http
+# from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+
 # from django.template import loader
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, DetailView
@@ -13,7 +15,7 @@ import logging
 import locale
 
 from core.models import User
-from home_page.forms import MsgForm, CreationForm
+from home_page.forms import MsgForm, CreationFormUser
 from home_page.models import Message
 
 log = logging.getLogger(__name__)
@@ -48,6 +50,7 @@ class UserDetails(DetailView):
         query = Message.objects.select_related('author').values('id', 'author__username', 'text','created_date') \
             .order_by('-created_date') \
             .filter(author__id=pk)
+
         context['msgs_data'] = query
         context['msgs_data_count'] = query.count()
         return context
@@ -63,7 +66,7 @@ class UserDetails(DetailView):
 #     template_name = "home/msg_send.html"
 
 class SignUp(CreateView):
-    form_class = CreationForm
+    form_class = CreationFormUser
     success_url = reverse_lazy("home:index")
     # success_url = reverse_lazy("login")  # где login — это параметр "name" в path()
     template_name = "home/signup.html"
@@ -104,6 +107,9 @@ def edit_msg(request, pk):
 
     # TODO PK SECURITY; check author
     msg = get_object_or_404(klass=Message, id=pk)
+    if msg.author != request.user:
+        raise django.http.HttpResponseNotAllowed
+
     title = 'Edit msg'
     template = "home/msg_send.html"
     btn_caption = "Save"
@@ -128,6 +134,9 @@ def delete_msg(request, pk):
     #     return redirect(f"/{username}/{post_id}")
 
     msg = get_object_or_404(klass=Message, id=pk)
+    if msg.author != request.user:
+        raise django.http.HttpResponseNotAllowed
+
     msg.delete()
 
     return redirect('home:send_msg')

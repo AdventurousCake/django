@@ -1,8 +1,11 @@
 from django.http import JsonResponse
-from rest_framework import permissions, filters
+from rest_framework import permissions, filters, status
+from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+
+from api.permissions import IsOwnerOrReadOnly
 from api.serializers import MsgSerializer
 # from rest_framework.decorators import action
 
@@ -63,7 +66,8 @@ class MessagesViewSet(ModelViewSet):
 
     serializer_class = MsgSerializer
 
-    permission_classes = (permissions.AllowAny,)  #(permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (permissions.AllowAny,)  #(permissions.IsAuthenticatedOrReadOnly,)
     # throttle_classes = [UserRateThrottle]
     # throttle_scope = 'low_request'
 
@@ -73,10 +77,11 @@ class MessagesViewSet(ModelViewSet):
             serializer.save(author=self.request.user)
         else:
             # 401 unauthorized
-            print(self.request.user)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-            # todo must be User instance
-            serializer.save(author='unknown')  # str for ONLY str field
+            # print(self.request.user)
+            # # can be User instance
+            # serializer.save(author='unknown')  # str for ONLY str field
 
     # def create(self, request, *args, **kwargs):
     #     return super().create(request, *args, **kwargs)

@@ -26,7 +26,7 @@ class MsgForm(ModelForm):
 
 
 # форма регистрации
-class CreationForm(UserCreationForm):
+class CreationFormUser(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         # укажем модель, с которой связана создаваемая форма
         model = User

@@ -8,3 +8,6 @@ Private dashboard, user management and store with some code from book Antonio Me
 ##  Main features
 * Dashboard for own projects
 * Shop example
+* oauth github
+* DRF api
+* swagger

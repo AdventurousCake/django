@@ -83,6 +83,7 @@ INSTALLED_APPS = [
 
     'Anketa.apps.AnketaConfig',
     'api',
+    'FORM_MSG'
 
 ]
 
@@ -256,7 +257,7 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # get token by POST login,pass; /api-token-auth/
+        'rest_framework.authentication.TokenAuthentication',  # get token by POST login,pass; /api-token-auth/ # "6c05a922d4d73462e0b837835cc7d44955fe984b"
 
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],

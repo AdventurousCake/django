@@ -15,7 +15,7 @@ class UserViewSet(ModelViewSet):
 
 
 class UserViewSetRO(ReadOnlyModelViewSet):
-    """alt users ReadOnlyModelViewSet; др юзеры не могут менять данные"""
+    """alt users ReadOnlyModelViewSet; ТОЛЬКО RETRIEVE AND LIST"""
     queryset = User.objects.all()
     serializer = UserSerializer
 
