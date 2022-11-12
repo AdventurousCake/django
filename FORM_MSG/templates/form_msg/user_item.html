@@ -1,5 +1,5 @@
  <div class="col-md-3 mb-3 mt-1">
-    <div class="card">
+    <div class="card" style="border: none">
         <div class="card-body">
             <div class="h2 text">
                 <legend class="h2">{{user.get_full_name}}</legend>
@@ -12,16 +12,16 @@
         </div>
             <ul class="list-group list-group-flush">
 
-                <li class="list-group-item">
-                    <div class="h6 text-muted">
-{#                    Подписчиков: {{followers}}<br />#}
-{#                    Подписан: {{follows}}#}
-                    </div>
-                </li>
+{#                <li class="list-group-item">#}
+{#                    <div class="h6 text-muted">#}
+{#                    subs: {{followers}}<br />#}
+{#                    follow: {{follows}}#}
+{#                    </div>#}
+{#                </li>#}
 
                 <li class="list-group-item">
                     <div class="h6 text-muted">
-                        Записей: {{msgs_data_count}}
+                        Count: {{msgs_data_count}}
 {#                        Записей: {{posts_count}}#}
                     </div>
                 </li>

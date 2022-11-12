@@ -1,4 +1,4 @@
-{% extends 'home/base_msg.html' %}
+{% extends 'form_msg/base_msg.html' %}
 
 {#MAY INCLUDE STATIC, CSS!!! FROM MAIN PAGE#}
 {% load static %}
@@ -97,7 +97,8 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.text }}</td>
                         <td>{{ item.created_date }}</td>
-                        <td><a href="{% url 'home:edit_msg' item.id %}">
+
+                        <td><a href="{% url 'form_msg:edit_msg' item.id %}">
                             {#                            edit#}
                             <svg id="i-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32"
                                  height="32" fill="none" stroke="currentcolor" stroke-linecap="round"
@@ -105,7 +106,7 @@
                                 <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
                             </svg>
                         </a></td>
-                        <td><a href="{% url 'home:delete_msg' item.id %}">
+                        <td><a href="{% url 'form_msg:delete_msg' item.id %}">
                             {#                            delete#}
                             <svg id="i-trash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32"
                                  height="32" fill="none" stroke="currentcolor" stroke-linecap="round"

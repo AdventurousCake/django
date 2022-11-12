@@ -1,4 +1,4 @@
-{% extends 'home/base_msg.html' %}
+{% extends 'form_msg/base_msg.html' %}
 
 {#MAY INCLUDE STATIC, CSS!!! FROM MAIN PAGE#}
 {% load static %}
@@ -9,11 +9,11 @@
 {% block content %}
 
     <div class="row justify-content-center">
-        <div class="col-md-8 p-5">
+        <div class="col-md-7 p-5">
             {% if msgs_data %}
                 {% with msg=msgs_data %}
                     <h1 class="p-1">Message #{{ msg.id }}</h1>
-                    {% include 'home/card_item_msg.html' %}
+                    {% include 'form_msg/card_item_msg.html' %}
                 {% endwith %}
             {% endif %}
 

@@ -15,181 +15,180 @@ import logging
 import locale
 
 from core.models import User
-from home_page.forms import MsgForm, CreationFormUser
-from home_page.models import Message
+# from home_page.forms import MsgForm, CreationFormUser
+# from home_page.models import Message
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 
-class UserDetails(DetailView):
-    # model = User
-    template_name = 'home/USERPAGE.html'
-    # context_object_name = ''
-    # extra_context = 'доп данные'
-
-    # change to context
-    queryset = User.objects.all().select_related()
-
-    def get_context_data(self, **kwargs):
-        pk = self.kwargs.get('pk', '')
-
-        # v1
-        # Call the base implementation first to get a context
-        # context = super().get_context_data(**kwargs)
-        # context['msgs_data'] = Message.objects.select_related('author').values('id', 'author__username', 'text',
-        #                                                                        'created_date') \
-        #     .order_by('-created_date') \
-        #     .filter(author__id=pk)
-        # # .filter(author=self.request.user)
-        # return context
-        # and in template Записей: {{user.messages.count}}
-
-        # v2
-        context = super().get_context_data(**kwargs)
-        query = Message.objects.select_related('author').values('id', 'author__username', 'text','created_date') \
-            .order_by('-created_date') \
-            .filter(author__id=pk)
-
-        context['msgs_data'] = query
-        context['msgs_data_count'] = query.count()
-        return context
-
-    # def get_queryset(self):
-    #     pass
-
-
-# alternative for send_msg
-# class MsgFormView(LoginRequiredMixin, CreateView):
-#     form_class = MsgForm
-#     success_url = reverse_lazy('home:index')
-#     template_name = "home/msg_send.html"
-
-class SignUp(CreateView):
-    form_class = CreationFormUser
-    success_url = reverse_lazy("home:index")
-    # success_url = reverse_lazy("login")  # где login — это параметр "name" в path()
-    template_name = "home/signup.html"
-
-
-@login_required()
-def msg_list(request):
-    title = "Messages"
-    btn_caption = ""
-    template = "home/msg_list.html"
-
-    msgs_data = Message.objects.select_related('author').values('id', 'author__username', 'text',
-                                                                'created_date').order_by(
-        '-created_date')
-
-    return render(request, template_name=template, context={"title": title, "msgs_data": msgs_data})
-
-
-@login_required()
-def get_msg(request, pk):
-    # CHECK
-    # if request.user.username != username:
-    #     return redirect(f"/{username}/{post_id}")
-
-    template = 'home/msg_BY_ID.html'
-    msg = get_object_or_404(klass=Message, id=pk)
-
-    # print(msg.__dict__)
-
-    title = f"Message"
-    # title = f"Message #{msg.id}" # query doesnt load
-    return render(request, template_name=template, context={"title": title, "msgs_data": msg})
-
-
-@login_required()
-def edit_msg(request, pk):
-    # msg = Message.objects.get(pk)
-
-    # TODO PK SECURITY; check author
-    msg = get_object_or_404(klass=Message, id=pk)
-    if msg.author != request.user:
-        raise django.http.HttpResponseNotAllowed
-
-    title = 'Edit msg'
-    template = "home/msg_send.html"
-    btn_caption = "Save"
-    error = ''
-
-    form = MsgForm(request.POST or None, files=request.FILES or None, instance=msg)
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect("home:send_msg")
-    else:
-        error = f'Incorrect form\n' \
-                f'{form.errors}'
-
-    return render(request, template_name=template, context=
-    {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": ""})
-
-
-@login_required()
-def delete_msg(request, pk):
-    # CHECK
-    # if request.user.username != username:
-    #     return redirect(f"/{username}/{post_id}")
-
-    msg = get_object_or_404(klass=Message, id=pk)
-    if msg.author != request.user:
-        raise django.http.HttpResponseNotAllowed
-
-    msg.delete()
-
-    return redirect('home:send_msg')
-
-
-@login_required()
-def send_msg(request):
-    title = "📨 Send message form"
-    btn_caption = "Send"
-    template = "home/msg_send.html"
-
-    error = ''
-    form = None
-
-    # не оптимально, на каждую связанную таблицу будет запрос (author.id...); если будет цикл - то по каждому айтему еще запрос
-    # data = Message.objects.all().order_by('-created_date')[:5]
-
-    # INNER JOIN сразу
-    msgs_data = Message.objects.select_related().order_by('-created_date')[:5]
-
-    form = MsgForm(request.POST or None, request.FILES or None,
-                   initial={'text': 'example'})  # and FILES
-    # form = MsgForm(request.POST or None)
-
-    if form.is_valid() and request.method == "POST":
-        # if form.is_valid():
-        form.save(commit=True)
-
-        # fields actions
-        # cd = form.cleaned_data
-        # form.save()
-
-        # # Создаем комментарий, но пока не сохраняем в базе данных.
-        # new_comment = comment_form.save(commit=False)
-        # # Привязываем комментарий к текущей статье.
-        # new_comment.post = post
-        # # Сохраняем комментарий в базе данных.
-        # new_comment.save()
-
-        # or render in end
-        # return redirect('home:index')
-        return redirect('home:send_msg')
-    else:
-        # сброс формы с данными
-        # old_form_with_errors = form
-        # form = MsgForm()
-
-        error = f'Incorrect form\n' \
-                f'{form.errors}'
-        # return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
-
-    return render(request, template_name=template, context=
-    {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": msgs_data})
+# class UserDetails(DetailView):
+#     # model = User
+#     template_name = 'home/../FORM_MSG/templates/form_msg/USERPAGE.html'
+#     # context_object_name = ''
+#     # extra_context = 'доп данные'
+#
+#     # change to context
+#     queryset = User.objects.all().select_related()
+#
+#     def get_context_data(self, **kwargs):
+#         pk = self.kwargs.get('pk', '')
+#
+#         # v1
+#         # Call the base implementation first to get a context
+#         # context = super().get_context_data(**kwargs)
+#         # context['msgs_data'] = Message.objects.select_related('author').values('id', 'author__username', 'text',
+#         #                                                                        'created_date') \
+#         #     .order_by('-created_date') \
+#         #     .filter(author__id=pk)
+#         # # .filter(author=self.request.user)
+#         # return context
+#         # and in template Записей: {{user.messages.count}}
+#
+#         # v2
+#         context = super().get_context_data(**kwargs)
+#         query = Message.objects.select_related('author').values('id', 'author__username', 'text','created_date') \
+#             .order_by('-created_date') \
+#             .filter(author__id=pk)
+#
+#         context['msgs_data'] = query
+#         context['msgs_data_count'] = query.count()
+#         return context
+#
+#     # def get_queryset(self):
+#     #     pass
+#
+#
+# # alternative for send_msg
+# # class MsgFormView(LoginRequiredMixin, CreateView):
+# #     form_class = MsgForm
+# #     success_url = reverse_lazy('home:index')
+# #     template_name = "home/msg_send.html"
+#
+# class SignUp(CreateView):
+#     form_class = CreationFormUser
+#     success_url = reverse_lazy("home:index")
+#     # success_url = reverse_lazy("login")  # где login — это параметр "name" в path()
+#     template_name = "home/../FORM_MSG/templates/form_msg/signup.html"
+#
+#
+# @login_required()
+# def msg_list(request):
+#     title = "Messages"
+#     btn_caption = ""
+#     template = "home/msg_list.html"
+#
+#     msgs_data = Message.objects.select_related('author').values('id', 'author__username', 'text',
+#                                                                 'created_date').order_by(
+#         '-created_date')
+#
+#     return render(request, template_name=template, context={"title": title, "msgs_data": msgs_data})
+#
+#
+# @login_required()
+# def get_msg(request, pk):
+#     # CHECK
+#     # if request.user.username != username:
+#     #     return redirect(f"/{username}/{post_id}")
+#
+#     template = 'home/msg_BY_ID.html'
+#     msg = get_object_or_404(klass=Message, id=pk)
+#
+#     # print(msg.__dict__)
+#
+#     title = f"Message"
+#     # title = f"Message #{msg.id}" # query doesnt load
+#     return render(request, template_name=template, context={"title": title, "msgs_data": msg})
+#
+#
+# @login_required()
+# def edit_msg(request, pk):
+#     # msg = Message.objects.get(pk)
+#
+#     msg = get_object_or_404(klass=Message, id=pk)
+#     if msg.author != request.user:
+#         raise django.http.HttpResponseNotAllowed
+#
+#     title = 'Edit msg'
+#     template = "home/msg_send.html"
+#     btn_caption = "Save"
+#     error = ''
+#
+#     form = MsgForm(request.POST or None, files=request.FILES or None, instance=msg)
+#     if request.method == "POST" and form.is_valid():
+#         form.save()
+#         return redirect("home:send_msg")
+#     else:
+#         error = f'Incorrect form\n' \
+#                 f'{form.errors}'
+#
+#     return render(request, template_name=template, context=
+#     {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": ""})
+#
+#
+# @login_required()
+# def delete_msg(request, pk):
+#     # CHECK
+#     # if request.user.username != username:
+#     #     return redirect(f"/{username}/{post_id}")
+#
+#     msg = get_object_or_404(klass=Message, id=pk)
+#     if msg.author != request.user:
+#         raise django.http.HttpResponseNotAllowed
+#
+#     msg.delete()
+#
+#     return redirect('home:send_msg')
+#
+#
+# @login_required()
+# def send_msg(request):
+#     title = "📨 Send message form"
+#     btn_caption = "Send"
+#     template = "home/msg_send.html"
+#
+#     error = ''
+#     form = None
+#
+#     # не оптимально, на каждую связанную таблицу будет запрос (author.id...); если будет цикл - то по каждому айтему еще запрос
+#     # data = Message.objects.all().order_by('-created_date')[:5]
+#
+#     # INNER JOIN сразу
+#     msgs_data = Message.objects.select_related().order_by('-created_date')[:5]
+#
+#     form = MsgForm(request.POST or None, request.FILES or None,
+#                    initial={'text': 'example'})  # and FILES
+#     # form = MsgForm(request.POST or None)
+#
+#     if form.is_valid() and request.method == "POST":
+#         # if form.is_valid():
+#         form.save(commit=True)
+#
+#         # fields actions
+#         # cd = form.cleaned_data
+#         # form.save()
+#
+#         # # Создаем комментарий, но пока не сохраняем в базе данных.
+#         # new_comment = comment_form.save(commit=False)
+#         # # Привязываем комментарий к текущей статье.
+#         # new_comment.post = post
+#         # # Сохраняем комментарий в базе данных.
+#         # new_comment.save()
+#
+#         # or render in end
+#         # return redirect('home:index')
+#         return redirect('home:send_msg')
+#     else:
+#         # сброс формы с данными
+#         # old_form_with_errors = form
+#         # form = MsgForm()
+#
+#         error = f'Incorrect form\n' \
+#                 f'{form.errors}'
+#         # return render(request, "home/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
+#
+#     return render(request, template_name=template, context=
+#     {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": msgs_data})
 
 
 # @login_required

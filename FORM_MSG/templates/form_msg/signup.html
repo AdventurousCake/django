@@ -1,4 +1,4 @@
-{% extends "home/base.html" %}
+{% extends "form_msg/base_msg.html" %}
 {% load custom_tags %}
 
 {% block title %}Зарегистрироваться{% endblock %}
@@ -17,7 +17,7 @@
                     {% endfor %}
 
 
-                <form method="post" action="{% url 'home:signup' %}">
+                <form method="post" action="{% url 'form_msg:signup' %}">
                     {% csrf_token %}
 
                     {% for field in form %}

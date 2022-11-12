@@ -9,7 +9,7 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers import MsgSerializer
 # from rest_framework.decorators import action
 
-from home_page.models import Message
+from FORM_MSG.models import Message
 
 
 # msg_load/ # for js
@@ -71,7 +71,7 @@ class MessagesViewSet(ModelViewSet):
     # throttle_classes = [UserRateThrottle]
     # throttle_scope = 'low_request'
 
-    # TODO; PERFORM CREATE находится внутри create, после валидации(is_valid)! check overrides
+    # PERFORM CREATE находится внутри create, после валидации(is_valid)! check overrides
     def perform_create(self, serializer):
         if self.request.user:
             serializer.save(author=self.request.user)

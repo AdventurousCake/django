@@ -1,6 +1,6 @@
 <nav id="navbar" class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-xl">
-        <a class="navbar-brand" href="#">Messages</a>
+        <a class="navbar-brand" href="{% url 'form_msg:msg_list' %}">Messages</a>
 
         {% if user.is_authenticated %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
@@ -10,14 +10,16 @@
             <div class="collapse navbar-collapse" id="nav">
                 {#bs4: ml-auto, bs5: me-auto#}
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Main</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'form_msg:msg_list' %}">All</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'form_msg:send_msg' %}">SEND</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url "api:msg_load" %}">API msg</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url "api:msg_user" request.user.username %}">API user</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url "api:swagger-ui" %}">Swagger</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">index</a></li>
 {#                    <li class="nav-item"><a class="nav-link" href="{% url "home:home_msg_list" %}">All</a></li>#}
 
 {#                    {% url "home:user_detail" request.user.id %}#}
-                    <li class="nav-item"><a class="nav-link" href="/">
+                    <li class="nav-item"><a class="nav-link" href="{% url "form_msg:users_details" request.user.id %}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"
                              style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
                              viewBox="0 0 1024 1024" version="1.1">

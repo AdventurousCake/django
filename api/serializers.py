@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from core.models import User
-from home_page.models import Message
+from FORM_MSG.models import Message
 
 
 class MsgSerializerSIMPLE(serializers.ModelSerializer):
