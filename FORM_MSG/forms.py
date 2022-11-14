@@ -8,7 +8,7 @@ class MsgForm(ModelForm):
     class Meta:
         model = Message
         fields = '__all__'  # fix ('text',), ('__all__',)
-        exclude = ('id',)
+        exclude = ('id', 'author')
         help_texts = {'text': "Validator check this", 'name': 'Your name'}
 
     # clean_FIELD validation
@@ -32,4 +32,3 @@ class CreationFormUser(UserCreationForm):
         model = User
         # укажем, какие поля должны быть видны в форме и в каком порядке
         fields = ("first_name", "last_name", "username", "email")
-        

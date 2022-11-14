@@ -3,13 +3,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
-from api.serializers import UserSerializer
+from api.serializers import UserSerializer, UserSerializerSIMPLE
 from core.models import User
 
 
 class UserViewSet(ModelViewSet):
     """users_vset/ get by id"""
-    queryset = User.objects.all()
+    queryset = User.objects.all().prefetch_related('messages')
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 

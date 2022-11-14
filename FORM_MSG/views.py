@@ -10,10 +10,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, DetailView
 
-import datetime
-import requests
 import logging
-import locale
 
 from core.models import User
 from .forms import MsgForm, CreationFormUser
@@ -126,7 +123,8 @@ def edit_msg(request, pk):
     btn_caption = "Save"
     error = ''
 
-    form = MsgForm(request.POST or None, files=request.FILES or None, instance=msg)
+    form = MsgForm(request.POST or None, files=request.FILES or None,
+                   instance=msg)
     if request.method == "POST" and form.is_valid():
         form.save()
         return redirect("form_msg:send_msg")
@@ -140,10 +138,6 @@ def edit_msg(request, pk):
 
 @login_required()
 def delete_msg(request, pk):
-    # CHECK
-    # if request.user.username != username:
-    #     return redirect(f"/{username}/{post_id}")
-
     msg = get_object_or_404(klass=Message, id=pk)
     if msg.author != request.user:
         raise django.http.HttpResponseNotAllowed
@@ -165,20 +159,21 @@ def send_msg(request):
     # не оптимально, на каждую связанную таблицу будет запрос (author.id...); если будет цикл - то по каждому айтему еще запрос
     # data = Message.objects.all().order_by('-created_date')[:5]
 
-    # INNER JOIN сразу
-    msgs_data = Message.objects.select_related().order_by('-created_date')[:5]
+    # FOR TABLE
+    msgs_data = Message.objects.select_related().order_by('-created_date')[:5]  # INNER JOIN сразу
 
     form = MsgForm(request.POST or None, request.FILES or None,
                    initial={'text': 'example'})  # and FILES
-    # form = MsgForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
-        # if form.is_valid():
-        form.save(commit=True)
+        msg = form.save(commit=False)
+        msg.author = request.user
+        msg.save()
 
         # fields actions
         # cd = form.cleaned_data
         # form.save()
+        # form.save(commit=True)
 
         # # Создаем комментарий, но пока не сохраняем в базе данных.
         # new_comment = comment_form.save(commit=False)

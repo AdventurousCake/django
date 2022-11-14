@@ -12,11 +12,9 @@ from django.views.generic import CreateView, DetailView
 import datetime
 import requests
 import logging
-import locale
+# import locale
 
 from core.models import User
-# from home_page.forms import MsgForm, CreationFormUser
-# from home_page.models import Message
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)

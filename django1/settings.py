@@ -37,8 +37,6 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['127.0.0.1', '158.101.173.182', 'oracle1.testig.ml', 'oracle2.testig.ml', 'testig.ml']
 ALLOWED_HOSTS = ['127.0.0.1']
 ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
 

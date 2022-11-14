@@ -40,8 +40,7 @@ class MsgSearchViewSet(ModelViewSet):
     serializer_class = MsgSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['text', ]  # 'name'
-    permission_classes = (permissions.AllowAny,)
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)  # (permissions.IsAuthenticatedOrReadOnly,)
     ordering_fields = ['-created_date']
 
 
@@ -54,22 +53,21 @@ class MsgSearchViewSet(ModelViewSet):
 #                    GenericViewSet)
 class MessagesViewSet(ModelViewSet):
     http_method_names = ('get', 'post', 'put', 'patch', 'head', 'delete')  # option
+    permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)  # (permissions.AllowAny,)
+    # throttle_classes = [UserRateThrottle]
+    # throttle_scope = 'low_request'
 
     # queryset = Message.objects.all() # not optimal for author field
     # queryset = Message.objects.all().select_related("author").prefetch_related("groups", "user_permissions") # invalid parameters in prefetch
     # queryset = Message.objects.all().select_related("author").prefetch_related("author.groups", "author.user_permissions") # invalid parameters in prefetch
 
-    queryset = Message.objects.all().select_related("author")  # not optimal for author fields fk
+    # queryset = Message.objects.all().select_related("author")  # not optimal for author fields fk
+    queryset = Message.objects.all().prefetch_related("author")
 
     # FOR ALL USER DATA; UNDERSCORE in fields
     # queryset = Message.objects.all().select_related("author").prefetch_related("author__groups", "author__user_permissions")
 
     serializer_class = MsgSerializer
-
-    permission_classes = (IsOwnerOrReadOnly,)
-    # permission_classes = (permissions.AllowAny,)  #(permissions.IsAuthenticatedOrReadOnly,)
-    # throttle_classes = [UserRateThrottle]
-    # throttle_scope = 'low_request'
 
     # PERFORM CREATE находится внутри create, после валидации(is_valid)! check overrides
     def perform_create(self, serializer):
@@ -79,9 +77,9 @@ class MessagesViewSet(ModelViewSet):
             # 401 unauthorized
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-            # print(self.request.user)
             # # can be User instance
             # serializer.save(author='unknown')  # str for ONLY str field
+
 
     # def create(self, request, *args, **kwargs):
     #     return super().create(request, *args, **kwargs)

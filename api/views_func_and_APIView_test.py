@@ -13,8 +13,7 @@ def hello(request):
 
 
 class ExampleView(APIView):
-    #  здесь подключили класс UserRateThrottle
-    #  и для этого view-класса сработает лимит "10000/day" для залогиненных пользователей,
+    #  класс UserRateThrottle; и для этого view-класса сработает лимит "10000/day" для залогиненных пользователей,
     #  объявленный в settings.py
     throttle_classes = [UserRateThrottle]
 
