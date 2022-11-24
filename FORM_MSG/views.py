@@ -65,12 +65,12 @@ class UserDetails(DetailView):
 
 class SignUp(CreateView):
     form_class = CreationFormUser
-    success_url = reverse_lazy("form_msg:index")
+    success_url = reverse_lazy("form_msg:msg_list")
     # success_url = reverse_lazy("login")  # где login — это параметр "name" в path()
     template_name = "form_msg/signup.html"
 
 
-@login_required()
+# @login_required()
 def msg_list(request):
     title = "Messages"
     btn_caption = ""
@@ -87,7 +87,7 @@ def msg_list(request):
                   context={"title": title, "msgs_data": page, "page": page})
 
 
-@login_required()
+# @login_required()
 def get_msg(request, pk):
     # CHECK
     # if request.user.username != username:
@@ -95,11 +95,15 @@ def get_msg(request, pk):
 
     template = 'form_msg/msg_BY_ID.html'
 
-    msg = get_object_or_404(klass=Message.objects.select_related("author").values('id', 'author__username', 'text',
-                                                                'created_date'),
+    # msg = get_object_or_404(klass=Message.objects.select_related("author"), id=pk)
+    # show_buttons = msg.author == request.user
+
+
+    msg = get_object_or_404(klass=Message.objects.select_related("author")
+                            .values('id', 'author__username', 'text', 'created_date'),
                             id=pk)
 
-    show_buttons = True
+    show_buttons = msg['author__username'] == request.user.username
     is_get_msg = True
 
     # print(msg.__dict__)
@@ -116,7 +120,8 @@ def edit_msg(request, pk):
 
     msg = get_object_or_404(klass=Message, id=pk)
     if msg.author != request.user:
-        raise django.http.HttpResponseNotAllowed
+        return django.http.HttpResponseBadRequest()
+        # return django.http.HttpResponseNotAllowed()
 
     title = 'Edit msg'
     template = "form_msg/msg_send.html"
@@ -132,8 +137,8 @@ def edit_msg(request, pk):
         error = f'Incorrect form\n' \
                 f'{form.errors}'
 
-    return render(request, template_name=template, context=
-    {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": ""})
+    return render(request, template_name=template,
+                  context={"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": ""})
 
 
 @login_required()

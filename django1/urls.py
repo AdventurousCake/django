@@ -71,6 +71,7 @@ urlpatterns.append(path(API_PATH, include('api.urls', namespace='api')))
 urlpatterns += [
     # custom login
     path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/login/', views.LoginView.as_view(template_name='registration/login.html'), name='login'), # default
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
     # path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
