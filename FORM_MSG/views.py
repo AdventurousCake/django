@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 import django.http
@@ -120,8 +121,9 @@ def edit_msg(request, pk):
 
     msg = get_object_or_404(klass=Message, id=pk)
     if msg.author != request.user:
-        return django.http.HttpResponseBadRequest()
-        # return django.http.HttpResponseNotAllowed()
+        raise PermissionDenied()
+        # return django.http.HttpResponseForbidden()
+        # return django.http.HttpResponseBadRequest()
 
     title = 'Edit msg'
     template = "form_msg/msg_send.html"

@@ -30,7 +30,7 @@ from home_page.views import admin_old_page
 urlpatterns = [
     # path('admin/', admin.site.urls, name='admin_page'),
     path('admin/', admin_old_page, name='admin_old'),
-    path(ADMIN_PATH+'/', admin.site.urls, name='admin_page'),
+    path(ADMIN_PATH + '/', admin.site.urls, name='admin_page'),
 
     path('polls/', include('polls.urls'), name='polls'),
     path('', include('home_page.urls'), name='home'),
@@ -66,7 +66,6 @@ if settings.IS_SERVER:
     API_PATH = settings.API_PATH
 urlpatterns.append(path(API_PATH, include('api.urls', namespace='api')))
 
-
 # Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
     # custom login
@@ -75,6 +74,11 @@ urlpatterns += [
     # path('accounts/login/', views.LoginView.as_view(), name='login'),
     # path('accounts/logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
+
+
+handler403 = 'core.views.forbidden'
+handler404 = 'core.views.page_not_found'
+handler500 = 'core.views.server_error'
 
 # check for nginx static
 if settings.DEBUG:
