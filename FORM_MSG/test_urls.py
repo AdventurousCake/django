@@ -34,4 +34,4 @@ class MessageTestURLS(MessageTestBase):
     def test_edit_msg_other_user(self):
         """redirect to login"""
         response = self.authorized_client2.get(reverse('form_msg:edit_msg', kwargs={'pk': 1}))
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 403)

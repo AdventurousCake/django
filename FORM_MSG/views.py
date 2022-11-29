@@ -66,8 +66,8 @@ class UserDetails(DetailView):
 
 class SignUp(CreateView):
     form_class = CreationFormUser
-    success_url = reverse_lazy("form_msg:msg_list")
-    # success_url = reverse_lazy("login")  # где login — это параметр "name" в path()
+    # success_url = reverse_lazy("form_msg:msg_list")
+    success_url = reverse_lazy("login")
     template_name = "form_msg/signup.html"
 
 
@@ -117,13 +117,10 @@ def get_msg(request, pk):
 
 @login_required()
 def edit_msg(request, pk):
-    # msg = Message.objects.get(pk)
-
     msg = get_object_or_404(klass=Message, id=pk)
     if msg.author != request.user:
         raise PermissionDenied()
         # return django.http.HttpResponseForbidden()
-        # return django.http.HttpResponseBadRequest()
 
     title = 'Edit msg'
     template = "form_msg/msg_send.html"
@@ -147,7 +144,7 @@ def edit_msg(request, pk):
 def delete_msg(request, pk):
     msg = get_object_or_404(klass=Message, id=pk)
     if msg.author != request.user:
-        raise django.http.HttpResponseNotAllowed
+        raise PermissionDenied()
 
     msg.delete()
 
