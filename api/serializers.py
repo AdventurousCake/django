@@ -6,7 +6,7 @@ from FORM_MSG.models import Message
 class MsgSerializerSIMPLE(serializers.ModelSerializer):
     # author = serializers.StringRelatedField(read_only=True)
     class Meta:
-        fields = ('text', 'created_date')
+        fields = ('id', 'text', 'created_date')
         model = Message
 
 

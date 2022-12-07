@@ -54,12 +54,15 @@ class MessageViewTest(MessageTestBase):
         for template, reverse_name in templates_page_names.items():
             with self.subTest(template=template):
                 response = self.authorized_client.get(reverse_name)
+                self.assertEqual(response.status_code, 200)
                 self.assertTemplateUsed(response, template)
 
     # todo форма
     # def test_home_page_show_correct_context(self):
     #     """Шаблон home сформирован с правильным контекстом."""
     #     response = self.guest_client.get(reverse('form_msg:send_msg'))
+    #     self.assertEqual(response.status_code, 200)
+    #
     #     # Словарь ожидаемых типов полей формы:
     #     # указываем, объектами какого класса должны быть поля формы
     #     form_fields = {
@@ -84,7 +87,9 @@ class MessageViewTest(MessageTestBase):
         """тест контекста"""
         """проверка кол-ва объектов на странице"""
         response = self.authorized_client.get(reverse('form_msg:msg_list'))
+        self.assertEqual(response.status_code, 200)
         print(response.context['msgs_data'])
+
         self.assertEqual(response.context['msgs_data'].count(), 1)
 
     # БЕЗ PAGINATOR
@@ -93,6 +98,7 @@ class MessageViewTest(MessageTestBase):
     def test_msg_list_page_show_correct_context(self):
         """Шаблон msg_list сформирован с правильным контекстом."""
         response = self.authorized_client.get(reverse('form_msg:msg_list'))
+        self.assertEqual(response.status_code, 200)
 
         # взяли превый элемент из списка и проверили, что его содержание совпадает с ожидаемым
         first_object = response.context['msgs_data'][0]
@@ -107,6 +113,8 @@ class MessageViewTest(MessageTestBase):
     def test_initial_value(self):
         """Предустановленнное значение формы."""
         response = self.authorized_client.get(reverse('form_msg:send_msg'))
+        self.assertEqual(response.status_code, 200)
+
         print(response.context['form'])
         print(response.context['form'].fields['text'])
 

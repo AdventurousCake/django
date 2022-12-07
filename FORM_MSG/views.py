@@ -187,7 +187,7 @@ def send_msg(request):
         # new_comment.save()
 
         # or render in end
-        # return redirect('form_msg:index')
+        # for msg table on page
         return redirect('form_msg:send_msg')
     else:
         # сброс формы с данными
