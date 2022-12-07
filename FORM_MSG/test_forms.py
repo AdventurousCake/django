@@ -21,4 +21,4 @@ class MessageFormTest(MessageTestBase):
         self.assertRedirects(response, expected_url=reverse('form_msg:send_msg'))
         self.assertEqual(Message.objects.count(), msg_count + 1)
 
-        self.assertTrue(Message.objects.filter(Q(name='username') & Q(text='text1')).exists())
+        self.assertTrue(Message.objects.filter(Q(name='username1') & Q(text='text1')).exists())
