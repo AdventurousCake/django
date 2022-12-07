@@ -57,7 +57,7 @@ class MessageViewTest(MessageTestBase):
                 self.assertEqual(response.status_code, 200)
                 self.assertTemplateUsed(response, template)
 
-    # todo форма
+    # форма в forms
     # def test_home_page_show_correct_context(self):
     #     """Шаблон home сформирован с правильным контекстом."""
     #     response = self.guest_client.get(reverse('form_msg:send_msg'))
