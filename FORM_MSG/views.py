@@ -151,6 +151,31 @@ def delete_msg(request, pk):
     return redirect('form_msg:send_msg')
 
 
+class MsgFormView(LoginRequiredMixin, CreateView):
+    form_class = MsgForm
+    template_name = "form_msg/msg_send.html"
+    initial = {'text': 'example'}
+    success_url = reverse_lazy('form_msg:send_msg')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "📨 Send message form"
+        context['btn_caption'] = "Send"
+        context['table_data'] = Message.objects.select_related().order_by('-created_date')[:5]
+
+        return context
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+
+        return super(MsgFormView, self).form_valid(form)
+
+    # def form_invalid(self, form):
+    #     error
+    #     return super(MsgFormView, self).form_invalid(form)
+
+
 @login_required()
 def send_msg(request):
     title = "📨 Send message form"
@@ -164,7 +189,7 @@ def send_msg(request):
     # data = Message.objects.all().order_by('-created_date')[:5]
 
     # FOR TABLE
-    msgs_data = Message.objects.select_related().order_by('-created_date')[:5]  # INNER JOIN сразу
+    table_data = Message.objects.select_related().order_by('-created_date')[:5]  # INNER JOIN сразу
 
     form = MsgForm(request.POST or None, request.FILES or None,
                    initial={'text': 'example'})  # and FILES
@@ -199,4 +224,4 @@ def send_msg(request):
         # return render(request, "form_msg/msg_send.html", {"form": form, "title": title, "btn_caption": btn_caption, "error": error})
 
     return render(request, template_name=template, context=
-    {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": msgs_data})
+    {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "table_data": table_data})

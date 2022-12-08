@@ -3,11 +3,13 @@ from django.test import TestCase, Client, override_settings
 from django.core.cache import cache
 from django.urls import reverse
 
+from FORM_MSG.forms import MsgForm
 from core.models import User
 
 from FORM_MSG.models import Message
 
 
+# BASE CLASS
 class MessageTestBase(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -83,6 +85,7 @@ class MessageViewTest(MessageTestBase):
     #             # указанного класса
     #             self.assertIsInstance(form_field, expected)
 
+    # БЕЗ PAGINATOR
     def test_msg_list_is_1(self):
         """тест контекста"""
         """проверка кол-ва объектов на странице"""
@@ -100,6 +103,7 @@ class MessageViewTest(MessageTestBase):
         response = self.authorized_client.get(reverse('form_msg:msg_list'))
         self.assertEqual(response.status_code, 200)
 
+
         # взяли превый элемент из списка и проверили, что его содержание совпадает с ожидаемым
         first_object = response.context['msgs_data'][0]
         message_author_0 = first_object.author
@@ -110,13 +114,20 @@ class MessageViewTest(MessageTestBase):
         self.assertEqual(message_name_0, 'Name')
         self.assertEqual(message_text_0, '123')
 
+    def test_msg_create_page_context(self):
+        response = self.authorized_client.get(reverse('form_msg:send_msg'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['form'], MsgForm)
+
+
     def test_initial_value(self):
         """Предустановленнное значение формы."""
         response = self.authorized_client.get(reverse('form_msg:send_msg'))
         self.assertEqual(response.status_code, 200)
 
-        print(response.context['form'])
-        print(response.context['form'].fields['text'])
+        # print(response.context['form'])
+        # print(response.context['form'].fields['text'])
 
-        title_inital = response.context['form'].fields['text'].initial
-        self.assertEqual(title_inital, 'Значение по-умолчанию')
+        title_inital = response.context['form'].initial['text']
+        self.assertEqual(title_inital, 'example')
+        # self.assertEqual(title_inital, 'Значение по-умолчанию')

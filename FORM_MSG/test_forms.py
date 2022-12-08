@@ -19,6 +19,6 @@ class MessageFormTest(MessageTestBase):
         response = self.authorized_client.post(path=reverse('form_msg:send_msg'),
                                                data=form_data)
         self.assertRedirects(response, expected_url=reverse('form_msg:send_msg'))
-        self.assertEqual(Message.objects.count(), msg_count + 1)
 
+        self.assertEqual(Message.objects.count(), msg_count + 1)
         self.assertTrue(Message.objects.filter(Q(name='username1') & Q(text='text1')).exists())
