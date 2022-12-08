@@ -1,3 +1,5 @@
+import datetime
+
 from django import forms
 from django.test import TestCase, Client, override_settings
 from django.core.cache import cache
@@ -91,9 +93,9 @@ class MessageViewTest(MessageTestBase):
         """проверка кол-ва объектов на странице"""
         response = self.authorized_client.get(reverse('form_msg:msg_list'))
         self.assertEqual(response.status_code, 200)
-        print(response.context['msgs_data'])
+        # print(response.context['object_list'])
 
-        self.assertEqual(response.context['msgs_data'].count(), 1)
+        self.assertEqual(response.context['object_list'].count(), 1)
 
     # БЕЗ PAGINATOR
     # Проверяем, что словарь context страницы /msg_list
@@ -105,14 +107,20 @@ class MessageViewTest(MessageTestBase):
 
 
         # взяли превый элемент из списка и проверили, что его содержание совпадает с ожидаемым
-        first_object = response.context['msgs_data'][0]
-        message_author_0 = first_object.author
-        message_name_0 = first_object.name
-        message_text_0 = first_object.text
+        first_object = response.context['object_list'][0]
+        message_id_0 = first_object.get('id')
+        message_author_0 = first_object.get('author__username')
+        message_text_0 = first_object.get('text')
+        message_date_0 = first_object.get('date')
 
-        self.assertEqual(message_author_0, self.user)
-        self.assertEqual(message_name_0, 'Name')
+        # message_author_0 = first_object.get('author')
+        # message_name_0 = first_object.get('name')
+        # message_text_0 = first_object.get('text')
+
+        self.assertEqual(message_id_0, 1)
+        self.assertEqual(message_author_0, self.user.username)
         self.assertEqual(message_text_0, '123')
+        # self.assertIsInstance(message_date_0, datetime.datetime)
 
     def test_msg_create_page_context(self):
         response = self.authorized_client.get(reverse('form_msg:send_msg'))

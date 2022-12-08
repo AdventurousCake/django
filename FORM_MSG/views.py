@@ -9,7 +9,7 @@ import django.http
 from django.http import Http404, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 import logging
 
@@ -71,6 +71,17 @@ class SignUp(CreateView):
     template_name = "form_msg/signup.html"
 
 
+class MsgList(ListView):
+    template_name = "form_msg/msg_list.html"
+    paginate_by = 2
+
+    queryset = Message.objects.select_related('author').order_by('-created_date').values('id', 'author__username', 'text',
+                                                                'created_date')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(MsgList, self).get_context_data(**kwargs)
+        return context
+
 # @login_required()
 def msg_list(request):
     title = "Messages"
@@ -82,10 +93,17 @@ def msg_list(request):
 
     paginator = Paginator(msgs_data, 2)
     page_number = request.GET.get("page")
-    page = paginator.get_page(page_number)
+    page_obj = paginator.get_page(page_number)
     # "msgs_data": page
     return render(request, template_name=template,
-                  context={"title": title, "msgs_data": page, "page": page})
+                  context={"title": title, "object_list": page_obj.object_list, "page_obj": page_obj})
+
+
+class DetailMsgView(DetailView):
+    model = Message
+
+    def get_context_data(self, **kwargs):
+        pass
 
 
 # @login_required()
@@ -113,6 +131,34 @@ def get_msg(request, pk):
     # title = f"Message #{msg.id}" # query doesnt load
     return render(request, template_name=template,
                   context={"title": title, "msgs_data": msg, "show_buttons": show_buttons, 'is_get_msg': is_get_msg})
+
+
+class UpdateMsgView(UpdateView):
+    model = Message
+    form_class = MsgForm
+
+    template_name = "form_msg/msg_send.html"
+    success_url = reverse_lazy('form_msg:send_msg')
+
+    def get_object(self, *args, **kwargs):
+        obj = super(UpdateMsgView, self).get_object(*args, **kwargs)
+        if obj.author != self.request.user:
+            raise PermissionDenied()  # or Http404
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "📨 Send message form"
+        context['btn_caption'] = "Send"
+        context['table_data'] = Message.objects.select_related().order_by('-created_date')[:5]
+
+        return context
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+
+        return super(UpdateMsgView, self).form_valid(form)
 
 
 @login_required()
