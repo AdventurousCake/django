@@ -6,12 +6,14 @@ import django.http
 # from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 # from django.template import loader
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 
 import logging
+
+from django.views.generic.edit import BaseDeleteView
 
 from core.models import User
 from .forms import MsgForm, CreationFormUser
@@ -75,12 +77,14 @@ class MsgList(ListView):
     template_name = "form_msg/msg_list.html"
     paginate_by = 2
 
-    queryset = Message.objects.select_related('author').order_by('-created_date').values('id', 'author__username', 'text',
-                                                                'created_date')
+    queryset = Message.objects.select_related('author').order_by('-created_date').values('id', 'author__username',
+                                                                                         'text',
+                                                                                         'created_date')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(MsgList, self).get_context_data(**kwargs)
         return context
+
 
 # @login_required()
 def msg_list(request):
@@ -101,9 +105,23 @@ def msg_list(request):
 
 class DetailMsgView(DetailView):
     model = Message
+    template_name = 'form_msg/msg_BY_ID.html'
+    context_object_name = 'msg'
+
+    queryset = Message.objects.select_related("author").values('id', 'author__username', 'text', 'created_date')
+
+    # def get_queryset(self):
+    #     return get_object_or_404(klass=Message.objects.select_related("author")
+    #                              .values('id', 'author__username', 'text', 'created_date'),
+    #                              id=self.kwargs.get('pk'))
 
     def get_context_data(self, **kwargs):
-        pass
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Message'
+        context['is_get_msg'] = True
+        context['show_buttons'] = self.object.get('author__username') == self.request.user.username
+        # context['show_buttons'] = self.object.author__username == self.request.user.username
+        return context
 
 
 # @login_required()
@@ -117,7 +135,6 @@ def get_msg(request, pk):
     # msg = get_object_or_404(klass=Message.objects.select_related("author"), id=pk)
     # show_buttons = msg.author == request.user
 
-
     msg = get_object_or_404(klass=Message.objects.select_related("author")
                             .values('id', 'author__username', 'text', 'created_date'),
                             id=pk)
@@ -127,13 +144,13 @@ def get_msg(request, pk):
 
     # print(msg.__dict__)
 
-    title = f"Message"
+    title = "Message"
     # title = f"Message #{msg.id}" # query doesnt load
     return render(request, template_name=template,
                   context={"title": title, "msgs_data": msg, "show_buttons": show_buttons, 'is_get_msg': is_get_msg})
 
 
-class UpdateMsgView(UpdateView):
+class UpdateMsgView(LoginRequiredMixin, UpdateView):
     model = Message
     form_class = MsgForm
 
@@ -184,6 +201,22 @@ def edit_msg(request, pk):
 
     return render(request, template_name=template,
                   context={"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": ""})
+
+
+class DeleteMsgView(LoginRequiredMixin, DeleteView):
+    model = Message
+    success_url = reverse_lazy('form_msg:send_msg')
+
+    # ignore confirm template
+    def get(self, request, *args, **kwargs):
+        # return self.post(request, *args, **kwargs)
+        return self.delete(request, *args, **kwargs)
+
+    def get_object(self, *args, **kwargs):
+        obj = super(DeleteMsgView, self).get_object(*args, **kwargs)
+        if obj.author != self.request.user:
+            raise PermissionDenied()  # or Http404
+        return obj
 
 
 @login_required()

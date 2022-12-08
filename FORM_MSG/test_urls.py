@@ -35,3 +35,16 @@ class MessageTestURLS(MessageTestBase):
         """redirect to login"""
         response = self.authorized_client2.get(reverse('form_msg:edit_msg', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 403)
+
+    def test_delete_msg_guest(self):
+        response = self.client.get(reverse('form_msg:delete_msg', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 302)
+        # self.assertEqual(response.url, '/accounts/login/?next=/msg1/edit/1/')
+
+    def test_delete_msg_other_user(self):
+        response = self.authorized_client2.get(reverse('form_msg:delete_msg', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_msg_by_creator(self):
+        response = self.authorized_client.get(reverse('form_msg:delete_msg', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 302)

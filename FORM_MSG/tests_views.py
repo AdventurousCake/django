@@ -40,6 +40,7 @@ class MessageTestBase(TestCase):
         cache.clear()
 
 
+# TESTS START
 class MessageViewTest(MessageTestBase):
     # Проверка используемых шаблонов
     def test_pages_uses_correct_template(self):

@@ -10,11 +10,9 @@
 
     <div class="row justify-content-center">
         <div class="col-md-7 p-5">
-            {% if msgs_data %}
-                {% with msg=msgs_data %}
-                    <h1 class="p-1">Message #{{ msg.id }}</h1>
-                    {% include 'form_msg/card_item_msg.html' %}
-                {% endwith %}
+            {% if msg %}
+                <h1 class="p-1">Message #{{ msg.id }}</h1>
+                {% include 'form_msg/card_item_msg.html' %}
             {% endif %}
 
         </div>
