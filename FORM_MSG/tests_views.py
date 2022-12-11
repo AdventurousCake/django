@@ -140,3 +140,11 @@ class MessageViewTest(MessageTestBase):
         title_inital = response.context['form'].initial['text']
         self.assertEqual(title_inital, 'example')
         # self.assertEqual(title_inital, 'Значение по-умолчанию')
+
+    # last
+    def test_delete_msg(self):
+        response = self.authorized_client.get(reverse('form_msg:delete_msg', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('form_msg:send_msg'))
+
+        self.assertFalse(Message.objects.filter(id=1).exists())

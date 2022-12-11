@@ -6,7 +6,7 @@ from FORM_MSG.tests_views import MessageTestBase
 
 
 class MessageFormTest(MessageTestBase):
-    def test_create_msg(self):
+    def test_create_form_msg(self):
         msg_count = Message.objects.count()
         self.assertEqual(msg_count, 1)
 
