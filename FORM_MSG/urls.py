@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, views_likes
 
 app_name = 'form_msg'
 
@@ -19,6 +19,10 @@ urlpatterns = [
 
     path('<int:pk>/', views.DetailMsgView.as_view(), name='show_msg'),
     # path('<int:pk>/', views.get_msg, name='show_msg'),
+
+
+    # TODO LIKES
+    path('like/<int:pk>/', views_likes.UpdateLikeView.as_view(), name='like'),
 
 
     path("signup/", views.SignUp.as_view(), name="signup"),

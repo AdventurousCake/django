@@ -47,9 +47,26 @@ class Message(models.Model):
     # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
     #     pass
 
+    def likes_count(self):
+        return self.likes.count()
+
     # python_field = None
     def msg_length(self):
         return len(self.text)
 
     def __str__(self):
         return f"{self.name} {self.text}"
+
+
+# TODO NAMING
+class Like(models.Model):
+    id = models.BigAutoField(null=False, unique=True, primary_key=True, auto_created=True)
+    user = models.ForeignKey(to=User, related_name='likes', on_delete=models.CASCADE)
+    message = models.ForeignKey(to=Message, related_name='likes', on_delete=models.CASCADE)
+    created_date = models.DateTimeField(null=False, auto_now_add=True)
+
+    # ensure that a user cannot like the same message multiple times
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'message'], name='unique_action_like')
+        ]

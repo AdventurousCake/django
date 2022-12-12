@@ -2,7 +2,7 @@
 
 <div class="card mb-4 shadow justify-content-center">
     {% if not is_get_msg %}
-    <div class="card-header"><a href="{% url 'form_msg:show_msg' pk=msg.id %}">Message #{{ msg.id }}</a></div>
+        <div class="card-header"><a href="{% url 'form_msg:show_msg' pk=msg.id %}">Message #{{ msg.id }}</a></div>
     {% endif %}
     {#                        max-width='400px'#}
     {#                        <img class="card-img img-fluid mx-auto" width="400px" src="https://cdn-icons-png.flaticon.com/512/342/342647.png">#}
@@ -19,11 +19,25 @@
         </div>
 
         {% if show_buttons %}
-        <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
-{#            <button type="submit" class="btn btn-primary">Edit</button>#}
-{#            <button type="button" onclick="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-primary">Edit</button>#}
-            <a href="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-light">Edit</a>
-            <a href="{% url 'form_msg:delete_msg' msg.id %}" class="btn btn-light ml-1">Delete</a>
+            <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
+                {#            <button type="submit" class="btn btn-primary">Edit</button>#}
+                {#            <button type="button" onclick="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-primary">Edit</button>#}
+                <a href="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-light">Edit</a>
+                <a href="{% url 'form_msg:delete_msg' msg.id %}" class="btn btn-light ml-1">Delete</a>
+            </div>
+        {% endif %}
+
+        {% if user.is_authenticated and likes %}
+        <div class="row justify-content-center">
+        <form action="{% url 'form_msg:like' msg.id %}" method="POST">
+            {% csrf_token %}
+
+            {% if msg.id in likes %}
+                <button type="submit" name="msg_id" value="{{ msg.id }}" class="btn btn-danger">Unlike</button>
+            {% else %}
+                <button type="submit" name="msg_id" value="{{ msg.id }}" class="btn btn-primary">👍 Like</button>
+            {% endif %}
+        </form>
         </div>
         {% endif %}
 
