@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Count, F
 from django.shortcuts import render, get_object_or_404, redirect
 import django.http
 # from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -16,7 +16,6 @@ from django.views.generic.edit import BaseDeleteView
 import logging
 
 from itertools import groupby
-
 
 from core.models import User
 from .forms import MsgForm, CreationFormUser
@@ -92,6 +91,7 @@ class MsgList(ListView):
     #     .values('id', 'author__username', 'text', 'created_date', 'likes__user',) \
     #     .order_by('-created_date')
 
+    # TODO move to get_queryset?
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(MsgList, self).get_context_data(**kwargs)
 
@@ -99,11 +99,17 @@ class MsgList(ListView):
         if self.request.user.is_authenticated:
             msgs = context['object_list']
 
-            # без группировки не считает
-            msgs2 = msgs.all().values('id', 'likes__user', count=Count('likes'))
+            msgs2=msgs.values('id').annotate(likes_cnt=Count('likes__id')).order_by('id')
 
-            for id, data_list in groupby(msgs2, lambda x: x.get('id')):
-                print(f"msg id {id} : {list(data_list)}")
+            # msgs2 = Message.objects.annotate(
+            #     like_id=F('likes__id'),
+            #     likes_cnt=Count('likes__id')
+            # ).values('id', 'likes_cnt').order_by('id')
+
+
+            # msgs2 = msgs.all().values('id', 'likes__user', count=Count('likes'))
+            # for id, data_list in groupby(msgs2, lambda x: x.get('id')):
+            #     print(f"msg id {id} : {list(data_list)}")
 
             print(msgs2)
 

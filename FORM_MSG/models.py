@@ -55,7 +55,7 @@ class Message(models.Model):
         return len(self.text)
 
     def __str__(self):
-        return f"{self.name} {self.text}"
+        return f"{self.name} {self.text}; likes: {self.likes_count()}"
 
 
 # TODO NAMING
