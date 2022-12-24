@@ -42,17 +42,19 @@ def process_ip(request) -> bool:
         logging.info('TWO IP X-Forwarded-For')
         ip = ip.split(',')[0]
 
-    ip_data = r.hgetall(ip)
+    key = f"ips:{ip}"
+    ip_data = r.hgetall(key)
     if ip_data:
-        r.hincrby(name=f"ips:{ip}", key='c', amount=1)
+        r.hincrby(name=key, key='c', amount=1)
 
     else:
+        print('new ip')
         # if not in redis
         l = get_location(ip)
 
         data = {'l': l,
                 'c': 1}
-        r.hset(name=f"ips:{ip}", mapping=data)
+        r.hset(name=key, mapping=data)
 
         if l in ALLOWED_REGION:
             return True
