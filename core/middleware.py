@@ -14,6 +14,7 @@ def simple_ip_check(get_response):
     # if not IS_SERVER:
 
     def middleware(request):
+        # todo TRY
         if process_ip(request):
             response = get_response(request)
             return response
@@ -32,7 +33,10 @@ def get_location(ip):
 
 
 def process_ip(request) -> bool:
-    ip = str(request.META.get("X_FORWARDED_FOR"))  # nginx header
+    ip = str(request.META.get("X-Forwarded-For"))  # nginx header
+    if len(ip) > 15:
+        print('TWO IP X-Forwarded-For')
+        ip = ip.split(',')[0]
 
     print(ip)
 
