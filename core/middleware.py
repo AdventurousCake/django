@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from core.redis_conn import r
 
 allowed = {}
-ALLOWED_REGION = ['DE']
+ALLOWED_REGION = ['RU']
 
 
 def simple_ip_check(get_response):
@@ -43,7 +43,6 @@ def process_ip(request) -> bool:
         ip = ip.split(',')[0]
 
     ip_data = r.hgetall(ip)
-
     if ip_data:
         r.hincrby(name=f"ips:{ip}", key='c', amount=1)
 
