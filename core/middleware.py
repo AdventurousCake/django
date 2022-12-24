@@ -42,7 +42,7 @@ def process_ip(request) -> bool:
 
     print(ip)
 
-    ip_data = r.hget(ip)
+    ip_data = r.hgetall(ip)
 
     if ip_data:
         r.hincrby(name=f"ips:{ip}", key='c', amount=1)
