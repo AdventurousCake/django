@@ -16,8 +16,6 @@ def simple_ip_check(get_response):
     # if not IS_SERVER:
 
     def middleware(request):
-        print(request)
-
         # todo TRY
         if process_ip(request):
             response = get_response(request)
@@ -46,6 +44,7 @@ def process_ip(request) -> bool:
     ip_data = r.hgetall(key)
     if ip_data:
         r.hincrby(name=key, key='c', amount=1)
+        l = ip_data.get('l')
 
     else:
         print('new ip')
@@ -56,11 +55,12 @@ def process_ip(request) -> bool:
                 'c': 1}
         r.hset(name=key, mapping=data)
 
-        if l in ALLOWED_REGION:
-            return True
-        else:
-            logging.info(f'ip block for: {ip}, {l}')
-            return False
+    if l in ALLOWED_REGION:
+        return True
+    else:
+        print(f'ip block for: {ip}, {l}')
+        logging.info(f'ip block for: {ip}, {l}')
+        return False
 
 
 # pipe = client.pipeline()
