@@ -14,6 +14,8 @@ def simple_ip_check(get_response):
     # if not IS_SERVER:
 
     def middleware(request):
+        print(request)
+
         # todo TRY
         if process_ip(request):
             response = get_response(request)
