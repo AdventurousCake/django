@@ -53,7 +53,7 @@ def process_ip(request) -> bool:
 
         data = {'l': l,
                 'c': 1}
-        r.hset(name=ip, mapping=data)
+        r.hset(name=f"ips:{ip}", mapping=data)
 
         if l in ALLOWED_REGION:
             return True
