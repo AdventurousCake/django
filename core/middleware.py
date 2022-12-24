@@ -1,3 +1,5 @@
+import logging
+
 import requests
 from django.http import HttpResponse
 
@@ -29,18 +31,16 @@ def simple_ip_check(get_response):
 def get_location(ip):
 
     req = requests.get(f'https://ipinfo.io/{ip}', timeout=150).json()
-    print(req)
     return req['country']
     # return req['region'] in ALLOWED_REGION
 
 
 def process_ip(request) -> bool:
     ip = str(request.META.get("HTTP_X_FORWARDED_FOR"))  # nginx header
-    if len(ip) > 15:
-        print('TWO IP X-Forwarded-For')
-        ip = ip.split(',')[0]
 
-    print(ip)
+    if len(ip) > 15:
+        logging.info('TWO IP X-Forwarded-For')
+        ip = ip.split(',')[0]
 
     ip_data = r.hgetall(ip)
 
@@ -58,6 +58,7 @@ def process_ip(request) -> bool:
         if l in ALLOWED_REGION:
             return True
         else:
+            logging.info(f'ip block for: {ip}, {l}')
             return False
 
 
