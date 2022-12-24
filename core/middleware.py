@@ -35,7 +35,7 @@ def get_location(ip):
 
 
 def process_ip(request) -> bool:
-    ip = str(request.META.get("X-Forwarded-For"))  # nginx header
+    ip = str(request.META.get("HTTP_X_FORWARDED_FOR"))  # nginx header
     if len(ip) > 15:
         print('TWO IP X-Forwarded-For')
         ip = ip.split(',')[0]
