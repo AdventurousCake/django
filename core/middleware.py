@@ -26,10 +26,11 @@ def simple_ip_check(get_response):
     return middleware
 
 
-def get_location(ip):
-
+def get_data(ip):
     req = requests.get(f'https://ipinfo.io/{ip}', timeout=150).json()
-    return req['country']
+    return {'c': req['country'],
+            'org': req['org']
+            }
     # return req['region'] in ALLOWED_REGION
 
 
@@ -44,24 +45,24 @@ def process_ip(request) -> bool:
     ip_data = r.hgetall(key)
     if ip_data:
         r.hincrby(name=key, key='c', amount=1)
-        l = ip_data.get('l')
+        location = ip_data.get('l')
 
     else:
-        print('new ip')
         # if not in redis
-        l = get_location(ip)
+        new_data = get_data(ip)
+        location = new_data['c']
 
-        data = {'l': l,
+        data = {'l': location,
                 'c': 1}
         r.hset(name=key, mapping=data)
+        print(f'new ip: {ip}, {location}, {new_data.get("org")}')
 
-    if l in ALLOWED_REGION:
+    if location in ALLOWED_REGION:
         return True
     else:
-        print(f'ip block for: {ip}, {l}')
-        logging.info(f'ip block for: {ip}, {l}')
+        print(f'ip block for: {ip}, {location}')
+        logging.info(f'ip block for: {ip}, {location}')
         return False
-
 
 # pipe = client.pipeline()
 # pipe.hset(key, mapping=your_object).expire(duration_in_sec).execute()
