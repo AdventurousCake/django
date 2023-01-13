@@ -41,6 +41,8 @@ class Message(models.Model):
     file = models.FileField(null=True, upload_to='form_files/', blank=True)
     image = models.ImageField(null=True, upload_to='form_imgs/', blank=True)
 
+    # json = models.JSONField()
+
     created_date = models.DateTimeField(null=False, auto_now_add=True)
     updated_date = models.DateTimeField(null=False, auto_now=True)
 

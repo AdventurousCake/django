@@ -5,7 +5,7 @@ app_name = 'form_msg'
 
 # NOT DRF API
 urlpatterns = [
-    path('send/', views.MsgFormView.as_view(), name='send_msg'),
+    path('send/', views.MsgFormCreateView.as_view(), name='send_msg'),
     # path('send/', views.send_msg, name='send_msg'),
 
     path('edit/<int:pk>/', views.UpdateMsgView.as_view(), name='edit_msg'),

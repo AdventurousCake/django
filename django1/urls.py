@@ -28,9 +28,11 @@ from home_page.views import admin_old_page
 # ORDER IS IMPORTANT
 
 urlpatterns = [
-    # path('admin/', admin.site.urls, name='admin_page'),
-    path('admin/', admin_old_page, name='admin_old'),
-    path(ADMIN_PATH + '/', admin.site.urls, name='admin_page'),
+    path('admin/', admin.site.urls, name='admin_page'),
+
+    # hide admin
+    # path('admin/', admin_old_page, name='admin_old'),
+    # path(ADMIN_PATH + '/', admin.site.urls, name='admin_page'),
 
     path('polls/', include('polls.urls'), name='polls'),
     path('', include('home_page.urls'), name='home'),
@@ -62,8 +64,8 @@ urlpatterns = [
 
 # api root; PRIVATE URL API
 API_PATH = 'api/v1/'
-if settings.IS_SERVER:
-    API_PATH = settings.API_PATH
+# if settings.IS_SERVER:
+#     API_PATH = settings.API_PATH
 urlpatterns.append(path(API_PATH, include('api.urls', namespace='api')))
 
 # Add Django site authentication urls (for login, logout, password management)

@@ -27,7 +27,7 @@ def simple_ip_check(get_response):
 
 
 def get_data(ip):
-    req = requests.get(f'https://ipinfo.io/{ip}', timeout=150).json()
+    req = requests.get(f'https://ipinfo.io/{ip}', timeout=150).json()  # or https://ipapi.co/
     return {'c': req['country'],
             'org': req['org']
             }
@@ -38,8 +38,9 @@ def process_ip(request) -> bool:
     ip = str(request.META.get("HTTP_X_FORWARDED_FOR"))  # nginx header
 
     if len(ip) > 15:
+        # '1.2.3.4, 176.222.444.555' - last is real; or use 'x-real-ip'
         logging.info('TWO IP X-Forwarded-For')
-        ip = ip.split(',')[0]
+        ip = ip.strip().split(',')[-1]
 
     key = f"ips:{ip}"
     ip_data = r.hgetall(key)
@@ -55,7 +56,7 @@ def process_ip(request) -> bool:
         data = {'l': location,
                 'c': 1}
         r.hset(name=key, mapping=data)
-        print(f'new ip: {ip}, {location}, {new_data.get("org")}')
+        print(f'new ip: {ip} | {location} | {new_data.get("org")}')
 
     if location in ALLOWED_REGION:
         return True

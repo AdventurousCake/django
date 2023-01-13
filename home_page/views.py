@@ -58,7 +58,7 @@ log.setLevel(logging.INFO)
 #
 #
 # # alternative for send_msg
-# # class MsgFormView(LoginRequiredMixin, CreateView):
+# # class MsgFormCreateView(LoginRequiredMixin, CreateView):
 # #     form_class = MsgForm
 # #     success_url = reverse_lazy('home:index')
 # #     template_name = "home/msg_send.html"

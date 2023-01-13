@@ -63,7 +63,7 @@ class UserDetails(DetailView):
 
 
 # alternative for send_msg
-# class MsgFormView(LoginRequiredMixin, CreateView):
+# class MsgFormCreateView(LoginRequiredMixin, CreateView):
 #     form_class = MsgForm
 #     success_url = reverse_lazy('form_msg:index')
 #     template_name = "form_msg/msg_send.html"
@@ -138,7 +138,7 @@ def msg_list(request):
         .order_by('-created_date')
 
     paginator = Paginator(msgs_data, 2)
-    page_number = request.GET.get("page")
+    page_number = request.GET.get("page")  # self.kwargs.get
     page_obj = paginator.get_page(page_number)
     # "msgs_data": page
     return render(request, template_name=template,
@@ -271,7 +271,7 @@ def delete_msg(request, pk):
     return redirect('form_msg:send_msg')
 
 
-class MsgFormView(LoginRequiredMixin, CreateView):
+class MsgFormCreateView(LoginRequiredMixin, CreateView):
     form_class = MsgForm
     template_name = "form_msg/msg_send.html"
     initial = {'text': 'example'}
@@ -289,11 +289,11 @@ class MsgFormView(LoginRequiredMixin, CreateView):
         obj = form.save(commit=False)
         obj.author = self.request.user
 
-        return super(MsgFormView, self).form_valid(form)
+        return super(MsgFormCreateView, self).form_valid(form)
 
     # def form_invalid(self, form):
     #     error
-    #     return super(MsgFormView, self).form_invalid(form)
+    #     return super(MsgFormCreateView, self).form_invalid(form)
 
 
 @login_required()

@@ -94,7 +94,8 @@
         {% else %}
             <h1 class="greeting">Welcome, new user.<br/>
 {#                was admin/login...#}
-                <b>Please <a href="{% url 'admin_old' %}login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>
+{#                <b>Please <a href="{% url 'admin_old' %}login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>#}
+                <b>Please <a href="admin/login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>
         {% endif %}
 
     </div>
@@ -108,7 +109,8 @@
                     <a href="{% url 'logout' %}">Log out</a>
                 {% else %}
 {#                    !!!#}
-                    <a href="{% url 'admin_old' %}login/?next=/">Login</a>
+{#                    <a href="{% url 'admin_old' %}login/?next=/">Login</a>#}
+                    <a href="admin/login/?next=/">Login</a>
                 {% endif %}
             </div>
             <p>2022</p>
@@ -148,6 +150,8 @@
                             fetch("{% url "home:ping" %}").then(function (response) {
                                 // data.innerHTML = response.json()
                                 // first parse response then use value
+
+                                {#todo check status#}
                                 return response.text();
                             }).then(function (data) {
                                 console.log(data);
