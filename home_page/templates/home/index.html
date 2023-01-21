@@ -4,7 +4,7 @@
 {% block content %}
     <nav id="navbar" class="navbar navbar-expand-md navbar-dark" style="background-color: black">
         <div class="container-xl">
-            <a class="navbar-brand" href="#">🚀 My Django Project</a>
+            <a class="navbar-brand" href="#">🚀 My Dashboard</a>
 
             {% if user.is_authenticated %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
@@ -68,12 +68,11 @@
 {#                    <div>Keep evolve</div>#}
                     {#<hr>#}
                 </div>
-
-                {#                <div>321</div>#}
-                {#                <div>123</div>#}
             </div>
 
             <div class="data-container" id="c2">
+{#                    flex-wrap: nowrap; - to 1 row#}
+
                 <div class="flex-block">
                     <div>Date</div>
                     {{ date }}
@@ -88,6 +87,10 @@
                 </div>
                 <div class="flex-block">
                     <div>🧩 Data</div>
+                </div>
+                <div class="flex-block" id="wday">
+                    <div>🔋 {{ wday }}%</div>
+                    <div>Productive time</div>
                 </div>
             </div>
 
@@ -113,7 +116,8 @@
                     <a href="admin/login/?next=/">Login</a>
                 {% endif %}
             </div>
-            <p>2022</p>
+
+            <p>2023</p>
         </div>
     </footer>
 

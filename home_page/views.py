@@ -15,6 +15,7 @@ import logging
 # import locale
 
 from core.models import User
+from home_page.utils_homepage import get_wday_percent
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -199,7 +200,8 @@ def index_page(request):
                 'username': request.user.username,
                 'is_staff': request.user.is_staff
             },
-            'date_block': get_date_formatted()
+            'date_block': get_date_formatted(),
+            'wday': get_wday_percent(),
             }
     return render(request, 'home/index.html', data)
     # return HttpResponse("hi")

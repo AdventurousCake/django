@@ -98,21 +98,24 @@ class MsgList(ListView):
         if self.request.user.is_authenticated:
             msgs = context['object_list']
 
-            msgs2=msgs.values('id').annotate(likes_cnt=Count('likes__id')).order_by('id')
+            context['show_buttons'] = True
 
+            # not used DEBUG
+            # msgs2=msgs.values('id').annotate(likes_cnt=Count('likes__id')).order_by('id')
+
+            # OLD
             # msgs2 = Message.objects.annotate(
             #     like_id=F('likes__id'),
             #     likes_cnt=Count('likes__id')
             # ).values('id', 'likes_cnt').order_by('id')
-
-
+            #
             # msgs2 = msgs.all().values('id', 'likes__user', count=Count('likes'))
             # for id, data_list in groupby(msgs2, lambda x: x.get('id')):
             #     print(f"msg id {id} : {list(data_list)}")
 
-            print(msgs2)
+            # print(msgs2)
 
-            # user likes
+            # user likes msg ids
             context['likes'] = msgs.filter(likes__user=self.request.user.id) \
                 .values_list('id', flat=True)
             print(context['likes'])

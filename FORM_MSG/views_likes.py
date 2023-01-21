@@ -40,12 +40,16 @@ class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
         # action = self.kwargs['pk']
 
         if not obj.likes.filter(user=self.request.user, message=obj).exists():
-            # only check oem query
+            # only check orm query
             try:
                 obj.likes.create(user=self.request.user, message=obj)
                 obj.save()
-            except IntegrityError:
-                return JsonResponse({'status': 'error'})
+            # date not null constraint
+            except Exception as e:
+                print(e)
+
+            # except IntegrityError:
+            #     return JsonResponse({'status': 'error:UpdateLikeView'})
 
             # return JsonResponse({'status': 'ok',
             #                      'like_count': obj.likes.count()})
