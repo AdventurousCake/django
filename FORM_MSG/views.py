@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
+from django.db.models import Count, F
 from django.shortcuts import render, get_object_or_404, redirect
 import django.http
 # from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -10,14 +11,15 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
+from django.views.generic.edit import BaseDeleteView
 
 import logging
 
-from django.views.generic.edit import BaseDeleteView
+from itertools import groupby
 
 from core.models import User
 from .forms import MsgForm, CreationFormUser
-from .models import Message
+from .models import Message, Like
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -61,29 +63,71 @@ class UserDetails(DetailView):
 
 
 # alternative for send_msg
-# class MsgFormView(LoginRequiredMixin, CreateView):
+# class MsgFormCreateView(LoginRequiredMixin, CreateView):
 #     form_class = MsgForm
 #     success_url = reverse_lazy('form_msg:index')
 #     template_name = "form_msg/msg_send.html"
 
 class SignUp(CreateView):
     form_class = CreationFormUser
-    # success_url = reverse_lazy("form_msg:msg_list")
-    success_url = reverse_lazy("login")
+    success_url = reverse_lazy("login")  # reverse_lazy("form_msg:msg_list")
     template_name = "form_msg/signup.html"
 
 
 class MsgList(ListView):
+    """List of messages with user likes"""
     template_name = "form_msg/msg_list.html"
-    paginate_by = 2
 
-    queryset = Message.objects.select_related('author').order_by('-created_date').values('id', 'author__username',
-                                                                                         'text',
-                                                                                         'created_date')
+    # paginate_by = 2
 
+    # queryset = Message.objects.select_related('author') \
+    #     .values('id', 'author__username', 'text', 'created_date') \
+    #     .order_by('-created_date')
+
+    queryset = Message.objects.select_related('author').prefetch_related('likes')
+
+    # queryset = Message.objects.select_related('author').prefetch_related('likes') \
+    #     .values('id', 'author__username', 'text', 'created_date', 'likes__user',) \
+    #     .order_by('-created_date')
+
+    # TODO move to get_queryset?
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(MsgList, self).get_context_data(**kwargs)
+
+        # msg ids which user likes
+        if self.request.user.is_authenticated:
+            msgs = context['object_list']
+
+            context['show_buttons'] = True
+
+            # not used DEBUG
+            # msgs2=msgs.values('id').annotate(likes_cnt=Count('likes__id')).order_by('id')
+
+            # OLD
+            # msgs2 = Message.objects.annotate(
+            #     like_id=F('likes__id'),
+            #     likes_cnt=Count('likes__id')
+            # ).values('id', 'likes_cnt').order_by('id')
+            #
+            # msgs2 = msgs.all().values('id', 'likes__user', count=Count('likes'))
+            # for id, data_list in groupby(msgs2, lambda x: x.get('id')):
+            #     print(f"msg id {id} : {list(data_list)}")
+
+            # print(msgs2)
+
+            # user likes msg ids
+            context['likes'] = msgs.filter(likes__user=self.request.user.id) \
+                .values_list('id', flat=True)
+            print(context['likes'])
         return context
+
+        # # msg ids which user likes
+        # if self.request.user.is_authenticated:
+        #     context['likes'] = Like.objects.filter(message__in=context['object_list'].values_list('id', flat=True),
+        #                                            user=self.request.user) \
+        #         .values_list('message__id', flat=True)
+        #     print(context['likes'])
+        # return context
 
 
 # @login_required()
@@ -92,11 +136,12 @@ def msg_list(request):
     btn_caption = ""
     template = "form_msg/msg_list.html"
 
-    msgs_data = Message.objects.select_related('author').values('id', 'author__username', 'text',
-                                                                'created_date').order_by('-created_date')
+    msgs_data = Message.objects.select_related('author') \
+        .values('id', 'author__username', 'text', 'created_date') \
+        .order_by('-created_date')
 
     paginator = Paginator(msgs_data, 2)
-    page_number = request.GET.get("page")
+    page_number = request.GET.get("page")  # self.kwargs.get
     page_obj = paginator.get_page(page_number)
     # "msgs_data": page
     return render(request, template_name=template,
@@ -182,8 +227,7 @@ class UpdateMsgView(LoginRequiredMixin, UpdateView):
 def edit_msg(request, pk):
     msg = get_object_or_404(klass=Message, id=pk)
     if msg.author != request.user:
-        raise PermissionDenied()
-        # return django.http.HttpResponseForbidden()
+        raise PermissionDenied()  # or return django.http.HttpResponseForbidden()
 
     title = 'Edit msg'
     template = "form_msg/msg_send.html"
@@ -230,7 +274,7 @@ def delete_msg(request, pk):
     return redirect('form_msg:send_msg')
 
 
-class MsgFormView(LoginRequiredMixin, CreateView):
+class MsgFormCreateView(LoginRequiredMixin, CreateView):
     form_class = MsgForm
     template_name = "form_msg/msg_send.html"
     initial = {'text': 'example'}
@@ -248,11 +292,11 @@ class MsgFormView(LoginRequiredMixin, CreateView):
         obj = form.save(commit=False)
         obj.author = self.request.user
 
-        return super(MsgFormView, self).form_valid(form)
+        return super(MsgFormCreateView, self).form_valid(form)
 
     # def form_invalid(self, form):
     #     error
-    #     return super(MsgFormView, self).form_invalid(form)
+    #     return super(MsgFormCreateView, self).form_invalid(form)
 
 
 @login_required()

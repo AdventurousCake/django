@@ -4,7 +4,7 @@
 {% block content %}
     <nav id="navbar" class="navbar navbar-expand-md navbar-dark" style="background-color: black">
         <div class="container-xl">
-            <a class="navbar-brand" href="#">🚀 My Django Project</a>
+            <a class="navbar-brand" href="#">🚀 My Dashboard</a>
 
             {% if user.is_authenticated %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
@@ -17,6 +17,7 @@
                         {#                    <li class="nav-item active">#}
                         {#                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
                         {#                    </li>#}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'form_msg:msg_list' %}">📧 MSG</a></li>
                         <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
                         <li class="nav-item"><a class="nav-link" href="/accounts">Accounts</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url "user_list" %}">People</a></li>
@@ -67,12 +68,11 @@
 {#                    <div>Keep evolve</div>#}
                     {#<hr>#}
                 </div>
-
-                {#                <div>321</div>#}
-                {#                <div>123</div>#}
             </div>
 
             <div class="data-container" id="c2">
+{#                    flex-wrap: nowrap; - to 1 row#}
+
                 <div class="flex-block">
                     <div>Date</div>
                     {{ date }}
@@ -88,12 +88,17 @@
                 <div class="flex-block">
                     <div>🧩 Data</div>
                 </div>
+                <div class="flex-block" id="wday">
+                    <div>🔋 {{ wday }}%</div>
+                    <div>Productive time</div>
+                </div>
             </div>
 
         {% else %}
             <h1 class="greeting">Welcome, new user.<br/>
 {#                was admin/login...#}
-                <b>Please <a href="{% url 'admin_old' %}login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>
+{#                <b>Please <a href="{% url 'admin_old' %}login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>#}
+                <b>Please <a href="admin/login/?next=/">log in (NEW ADMIN PAGE)</a></b></h1>
         {% endif %}
 
     </div>
@@ -107,10 +112,12 @@
                     <a href="{% url 'logout' %}">Log out</a>
                 {% else %}
 {#                    !!!#}
-                    <a href="{% url 'admin_old' %}login/?next=/">Login</a>
+{#                    <a href="{% url 'admin_old' %}login/?next=/">Login</a>#}
+                    <a href="admin/login/?next=/">Login</a>
                 {% endif %}
             </div>
-            <p>2022</p>
+
+            <p>2023</p>
         </div>
     </footer>
 
@@ -147,6 +154,8 @@
                             fetch("{% url "home:ping" %}").then(function (response) {
                                 // data.innerHTML = response.json()
                                 // first parse response then use value
+
+                                {#todo check status#}
                                 return response.text();
                             }).then(function (data) {
                                 console.log(data);

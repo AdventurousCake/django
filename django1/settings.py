@@ -103,6 +103,8 @@ MIDDLEWARE = [
     # 'request.middleware.RequestMiddleware',
 
 ]
+# MIDDLEWARE.insert(0, 'core.middleware.simple_ip_check')
+
 
 ROOT_URLCONF = 'django1.urls'
 
