@@ -141,6 +141,7 @@ h1.greeting {
 }
 
 #c2 > div{
+    /*background: linear-gradient(#efff00,#ff076ec7); red yellow*/
     background: linear-gradient(yellow,#ffc107);
     /*background-color: #ffc107;*/
 }
