@@ -1,4 +1,5 @@
 # from django.conf import settings
+from django.core.validators import RegexValidator
 from django.db import models
 from core.models import User
 
@@ -36,7 +37,7 @@ class Message(models.Model):
     id = models.BigAutoField(null=False, unique=True, primary_key=True,
                              auto_created=True)  # limit int remove (max_length)
     name = models.CharField(null=False, max_length=10, blank=False)
-    text = models.TextField(null=False, max_length=100, blank=False)
+    text = models.TextField(null=False, max_length=100, blank=False, validators=[RegexValidator(r'^[\w]+$')])
     accept_terms = models.BooleanField(null=False, default=False, verbose_name='Согласен с правилами', blank=False)
     file = models.FileField(null=True, upload_to='form_files/', blank=True)
     image = models.ImageField(null=True, upload_to='form_imgs/', blank=True)
@@ -60,7 +61,6 @@ class Message(models.Model):
         return f"{self.name} {self.text}; likes: {self.likes_count()}"
 
 
-# TODO NAMING
 class Like(models.Model):
     id = models.BigAutoField(null=False, unique=True, primary_key=True, auto_created=True)
     user = models.ForeignKey(to=User, related_name='likes', on_delete=models.CASCADE)

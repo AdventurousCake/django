@@ -5,6 +5,9 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import UpdateView
 from django.views.generic.edit import BaseUpdateView
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from FORM_MSG.models import Like, Message
 
@@ -26,37 +29,57 @@ from FORM_MSG.models import Like, Message
 #             return JsonResponse({'liked': True})
 
 
+# used for form action, then redirect to LIST; uses only django
 class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
     model = Like
-    fields = ('likes',)
+
+    # fields = ('likes',) # form
 
     def get_object(self, queryset=None):
         return get_object_or_404(klass=Message, id=self.kwargs['pk'])
 
     def post(self, request, *args, **kwargs):
-        obj: Message = self.get_object()
+        # using func, not method
 
-        # todo if liked == 'true':
-        # action = self.kwargs['pk']
+        msg: Message = get_object_or_404(klass=Message.objects.only('id'), id=self.kwargs['pk'])
+        like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)  # returns all fields
+        if not is_created:
+            like.delete()
+        return redirect(reverse('form_msg:msg_list'))
+
+    def post_OLD(self, request, *args, **kwargs):
+        obj: Message = self.get_object()
 
         if not obj.likes.filter(user=self.request.user, message=obj).exists():
             # only check orm query
             try:
                 obj.likes.create(user=self.request.user, message=obj)
                 obj.save()
-            # date not null constraint
+
+            # date not null constraint error
             except Exception as e:
                 print(e)
 
-            # except IntegrityError:
-            #     return JsonResponse({'status': 'error:UpdateLikeView'})
+            # DoesNotExist processing in getor404
 
-            # return JsonResponse({'status': 'ok',
-            #                      'like_count': obj.likes.count()})
+            # except IntegrityError:
+            #     return Response({'status': 'error:UpdateLikeView'})
+            # return Response({'status': 'ok', 'like_count': obj.likes.count()})
 
         else:
             obj.likes.filter(user=self.request.user, message=obj).delete()
-            # return JsonResponse({'status': 'ok',
-            #                      'like_count': obj.likes.count()})
-
+            # return Response({'status': 'ok', 'like_count': obj.likes.count()})
         return redirect(to=reverse('form_msg:msg_list'))
+
+
+# API
+class UpdateLikeViewAPI(APIView):
+    def post(self, request, pk):
+        msg = get_object_or_404(Message, id=pk)
+        try:
+            like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)
+            if not is_created:
+                like.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except IntegrityError as e:
+            return Response({'error': f'Error updating like: {str(e)}'})

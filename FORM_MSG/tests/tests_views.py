@@ -8,7 +8,7 @@ from django.urls import reverse
 from FORM_MSG.forms import MsgForm
 from core.models import User
 
-from FORM_MSG.models import Message
+from FORM_MSG.models import Message, Like
 
 
 # BASE CLASS
@@ -108,7 +108,10 @@ class MessageViewTest(MessageTestBase):
 
 
         # взяли превый элемент из списка и проверили, что его содержание совпадает с ожидаемым
-        first_object = response.context['object_list'][0]
+        first_object = response.context['object_list'][0].__dict__
+        print(first_object)
+
+
         message_id_0 = first_object.get('id')
         message_author_0 = first_object.get('author__username')
         message_text_0 = first_object.get('text')
@@ -148,3 +151,23 @@ class MessageViewTest(MessageTestBase):
         self.assertRedirects(response, reverse('form_msg:send_msg'))
 
         self.assertFalse(Message.objects.filter(id=1).exists())
+
+
+class LikeMessageViewTest(MessageTestBase):
+    def test_like_initial(self):
+        response = self.authorized_client.get(reverse('form_msg:msg_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNotNone(response.context['likes'])
+        # print(response.context['object_list'])
+        self.assertEqual(response.context['object_list'][0].likes_count(), 0)
+
+    def test_like(self):
+        response = self.authorized_client.get(reverse('form_msg:msg_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['object_list'][0].likes_count(), 0)
+
+        response2 = self.authorized_client.post(reverse('form_msg:like', kwargs={'pk': 1}), {})
+        response = self.authorized_client.get(reverse('form_msg:msg_list'))
+        self.assertEqual(response.context['object_list'][0].likes_count(), 1)
+
+        self.assertTrue(Like.objects.filter(id=1).exists())
