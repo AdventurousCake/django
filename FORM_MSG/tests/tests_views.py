@@ -4,6 +4,7 @@ from django import forms
 from django.test import TestCase, Client, override_settings
 from django.core.cache import cache
 from django.urls import reverse
+from django.forms.models import model_to_dict
 
 from FORM_MSG.forms import MsgForm
 from core.models import User
@@ -106,14 +107,13 @@ class MessageViewTest(MessageTestBase):
         response = self.authorized_client.get(reverse('form_msg:msg_list'))
         self.assertEqual(response.status_code, 200)
 
-
         # взяли превый элемент из списка и проверили, что его содержание совпадает с ожидаемым
-        first_object = response.context['object_list'][0].__dict__
+        first_object = model_to_dict(response.context['object_list'][0])
         print(first_object)
 
-
         message_id_0 = first_object.get('id')
-        message_author_0 = first_object.get('author__username')
+        # message_author_0 = first_object.get('author__username')
+        message_author_id_0 = first_object.get('author')
         message_text_0 = first_object.get('text')
         message_date_0 = first_object.get('date')
 
@@ -122,7 +122,8 @@ class MessageViewTest(MessageTestBase):
         # message_text_0 = first_object.get('text')
 
         self.assertEqual(message_id_0, 1)
-        self.assertEqual(message_author_0, self.user.username)
+        # self.assertEqual(message_author_0, self.user.username)
+        self.assertEqual(message_author_id_0, 1)
         self.assertEqual(message_text_0, '123')
         # self.assertIsInstance(message_date_0, datetime.datetime)
 
@@ -130,7 +131,6 @@ class MessageViewTest(MessageTestBase):
         response = self.authorized_client.get(reverse('form_msg:send_msg'))
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], MsgForm)
-
 
     def test_initial_value(self):
         """Предустановленнное значение формы."""
