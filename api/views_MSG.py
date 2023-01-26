@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from rest_framework import permissions, filters, status
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
@@ -28,7 +27,7 @@ class MsgLoadView(APIView):
             'status': 'ok',
             'data': serializer.data
         }
-        return JsonResponse(text)
+        return Response(text)
 
 
 # GET http://127.0.0.1:8000/api/v1/msg_search/?search=123

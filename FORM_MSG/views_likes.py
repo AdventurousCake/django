@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
 from FORM_MSG.models import Like, Message
+from api.serializers import LikeSerializerSIMPLE
 
 # get in api or viewlist
 
@@ -90,7 +91,9 @@ class UpdateLikeViewAPI(APIView):
 
             if not is_created:
                 like.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+
+            # return Response(status=status.HTTP_204_NO_CONTENT)
+            return redirect(to=reverse('form_msg:msg_list'))
         except IntegrityError as e:
             return Response({'error': f'Error updating like: {str(e)}'})
 

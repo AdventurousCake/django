@@ -29,8 +29,8 @@ urlpatterns = [
 
     # TODO LIKES
     path('', include(router.urls)),
-    # path('like/<int:pk>/', views_likes.UpdateLikeView.as_view(), name='like'),
-    path('like/<int:pk>/', views_likes.UpdateLikeViewAPI.as_view(), name='like'),
+    # path('like/<int:pk>/', views_likes.UpdateLikeView.as_view(), name='like'), # dj
+    path('like/<int:pk>/', views_likes.UpdateLikeViewAPI.as_view(), name='like'), #drf
 
 
     path("signup/", views.SignUp.as_view(), name="signup"),
