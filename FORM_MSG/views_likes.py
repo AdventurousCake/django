@@ -5,12 +5,14 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import UpdateView
 from django.views.generic.edit import BaseUpdateView
-from rest_framework import status
+from rest_framework import status, permissions
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
 from FORM_MSG.models import Like, Message
-
 
 # get in api or viewlist
 
@@ -30,6 +32,9 @@ from FORM_MSG.models import Like, Message
 
 
 # used for form action, then redirect to LIST; uses only django
+from core.models import User
+
+
 class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
     model = Like
 
@@ -72,12 +77,55 @@ class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
         return redirect(to=reverse('form_msg:msg_list'))
 
 
-# API
+# API apiview
 class UpdateLikeViewAPI(APIView):
+    permission_classes = (permissions.AllowAny,)
+
     def post(self, request, pk):
         msg = get_object_or_404(Message, id=pk)
         try:
-            like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)
+            u = User.objects.get(pk=1)
+            like, is_created = Like.objects.get_or_create(user=u, message=msg)
+            # like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)
+
+            if not is_created:
+                like.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except IntegrityError as e:
+            return Response({'error': f'Error updating like: {str(e)}'})
+
+
+# API gengericApiView
+class UpdateLikeViewGenericAPIView(UpdateModelMixin, GenericAPIView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = None
+
+    def post(self, request, *args, **kwargs):
+        msg = get_object_or_404(Message, id=kwargs['pk'])
+        try:
+            u = User.objects.get(pk=1)
+            like, is_created = Like.objects.get_or_create(user=u, message=msg)
+            # like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)
+
+            if not is_created:
+                like.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except IntegrityError as e:
+            return Response({'error': f'Error updating like: {str(e)}'})
+
+
+# API mix
+class UpdateLikeMix(UpdateModelMixin, GenericViewSet):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = None
+
+    # PUT, PATCH; createmix - post
+    def update(self, request, *args, **kwargs):
+        msg = get_object_or_404(Message, id=kwargs['pk'])
+        try:
+            u = User.objects.get(pk=1)
+            like, is_created = Like.objects.get_or_create(user=u, message=msg)
+            # like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)
             if not is_created:
                 like.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)

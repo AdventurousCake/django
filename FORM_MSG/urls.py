@@ -1,7 +1,13 @@
-from django.urls import path
-from . import views, views_likes
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+from FORM_MSG import views, views_likes
+from FORM_MSG.views_likes import UpdateLikeMix
 
 app_name = 'form_msg'
+
+router = DefaultRouter()
+router.register('like_router', UpdateLikeMix, basename='like_router')
 
 # NOT DRF API
 urlpatterns = [
@@ -22,7 +28,9 @@ urlpatterns = [
 
 
     # TODO LIKES
-    path('like/<int:pk>/', views_likes.UpdateLikeView.as_view(), name='like'),
+    path('', include(router.urls)),
+    # path('like/<int:pk>/', views_likes.UpdateLikeView.as_view(), name='like'),
+    path('like/<int:pk>/', views_likes.UpdateLikeViewAPI.as_view(), name='like'),
 
 
     path("signup/", views.SignUp.as_view(), name="signup"),
