@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from core.models import User
-from FORM_MSG.models import Message
+from FORM_MSG.models import Message, Like
+
+
+class LikeSerializerSIMPLE(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'user', 'message', 'created_date')
+        model = Like
 
 
 class MsgSerializerSIMPLE(serializers.ModelSerializer):
@@ -45,7 +51,7 @@ class MsgSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'text', 'created_date', 'author', 'msg_length')  # 'author'
 
         # сериализатор не ждёт в теле POST-запроса поле owner (а если оно придёт, то будет проигнорировано).
-        read_only_fields = ('author',)  #('post', 'created', 'OWNER')
+        read_only_fields = ('author',)  # ('post', 'created', 'OWNER')
 
         model = Message
 
