@@ -179,8 +179,9 @@ class DetailMsgANDCommentView(CreateView):
     context_object_name = 'msg'
     form_class = CommentForm
 
+    # queryset = Message.objects.select_related("author")
     queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
-                                                                           'created_date')
+                                                                           'created_date')  # may save form issue
 
     def get_success_url(self):
         return reverse_lazy('form_msg:show_msg', kwargs={'pk': self.kwargs['pk']})
@@ -206,11 +207,9 @@ class DetailMsgANDCommentView(CreateView):
         context['is_get_msg'] = True
         context['show_buttons'] = msg.get('author__username') == self.request.user.username
         # context['show_buttons'] = self.object.get('author__username') == self.request.user.username
-        # context['show_buttons'] = False
-        # context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
 
-        # todo
-        context['comments'] = Comment.objects.select_related('user').filter(message_id=1).values('user__username', 'text')
+        # context['comments'] = Comment.objects.filter(message__id=self.object.get('id')) # none err get
+        context['comments'] = Comment.objects.select_related('user').filter(message__id=msg.get('id')).values('user__username', 'text')
         context['msg'] = msg
         return context
 
@@ -220,8 +219,7 @@ class DetailMsgANDCommentView(CreateView):
 
         obj = form.save(commit=False)
         obj.user = self.request.user
-        # todo
-        obj.message = Message.objects.get(pk=1)
+        obj.message = Message.objects.get(pk=self.kwargs['pk'])
         # obj.message = self.get_object()
 
         return super(DetailMsgANDCommentView, self).form_valid(form)
