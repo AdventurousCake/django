@@ -23,7 +23,9 @@ urlpatterns = [
     # path('', views.msg_list, name='msg_list'),
     path('', views.MsgList.as_view(), name='msg_list'),
 
-    path('<int:pk>/', views.DetailMsgView.as_view(), name='show_msg'),
+    # todo
+    path('<int:pk>/', views.DetailMsgANDCommentView.as_view(), name='show_msg'),
+    # path('<int:pk>/', views.DetailMsgView.as_view(), name='show_msg'),
     # path('<int:pk>/', views.get_msg, name='show_msg'),
 
 

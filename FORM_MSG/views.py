@@ -18,8 +18,8 @@ import logging
 from itertools import groupby
 
 from core.models import User
-from .forms import MsgForm, CreationFormUser
-from .models import Message, Like
+from .forms import MsgForm, CreationFormUser, CommentForm
+from .models import Message, Like, Comment
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -153,7 +153,10 @@ class DetailMsgView(DetailView):
     template_name = 'form_msg/msg_BY_ID.html'
     context_object_name = 'msg'
 
-    queryset = Message.objects.select_related("author").values('id', 'author__username', 'text', 'created_date')
+    queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
+                                                                           'created_date')
+
+    # queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text', 'created_date', 'comments__id','comments__user', 'comments__text')
 
     # def get_queryset(self):
     #     return get_object_or_404(klass=Message.objects.select_related("author")
@@ -166,7 +169,62 @@ class DetailMsgView(DetailView):
         context['is_get_msg'] = True
         context['show_buttons'] = self.object.get('author__username') == self.request.user.username
         # context['show_buttons'] = self.object.author__username == self.request.user.username
+        context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
         return context
+
+
+class DetailMsgANDCommentView(CreateView):
+    model = Message
+    template_name = 'form_msg/msg_BY_ID.html'
+    context_object_name = 'msg'
+    form_class = CommentForm
+
+    queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
+                                                                           'created_date')
+
+    def get_success_url(self):
+        return reverse_lazy('form_msg:show_msg', kwargs={'pk': self.kwargs['pk']})
+
+    # def get_object(self, queryset=None):
+    #     pk = self.kwargs['pk']
+    #     return get_object_or_404(
+    #         klass=Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
+    #                                                                           'created_date'), pk=pk)
+
+    # queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
+    # 'created_date', 'comments__id','comments__user', 'comments__text')
+
+    # def get_queryset(self):
+    #     return get_object_or_404(klass=Message.objects.select_related("author")
+    #                              .values('id', 'author__username', 'text', 'created_date'),
+    #                              id=self.kwargs.get('pk'))
+
+    def get_context_data(self, **kwargs):
+        msg = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Message'
+        context['is_get_msg'] = True
+        context['show_buttons'] = msg.get('author__username') == self.request.user.username
+        # context['show_buttons'] = self.object.get('author__username') == self.request.user.username
+        # context['show_buttons'] = False
+        # context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
+
+        # todo
+        context['comments'] = Comment.objects.select_related('user').filter(message_id=1).values('user__username', 'text')
+        context['msg'] = msg
+        return context
+
+    def form_valid(self, form):
+        if self.request.user.is_anonymous:
+            raise PermissionDenied()
+
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        # todo
+        obj.message = Message.objects.get(pk=1)
+        # obj.message = self.get_object()
+
+        return super(DetailMsgANDCommentView, self).form_valid(form)
 
 
 # @login_required()
@@ -180,6 +238,7 @@ def get_msg(request, pk):
     # msg = get_object_or_404(klass=Message.objects.select_related("author"), id=pk)
     # show_buttons = msg.author == request.user
 
+    # upd query like above
     msg = get_object_or_404(klass=Message.objects.select_related("author")
                             .values('id', 'author__username', 'text', 'created_date'),
                             id=pk)

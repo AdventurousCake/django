@@ -88,11 +88,11 @@ class Comment(CreatedUpdated):
     message = models.ForeignKey(to=Message, related_name='comments', on_delete=models.CASCADE)
     text = models.TextField(null=False, max_length=100, blank=False, validators=[RegexValidator(r'^[\w]+$')])
 
-    class Meta:
-        # one unique comment
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'message'], name='unique_comment')
-        ]
+    # class Meta:
+    #     # one unique comment
+    #     constraints = [
+    #         models.UniqueConstraint(fields=['user', 'message'], name='unique_comment')
+    #     ]
 
     def __str__(self):
         return f"{self.id}: {self.user}; msg: {self.message}, text: {self.text}"

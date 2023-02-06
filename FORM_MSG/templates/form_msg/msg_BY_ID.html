@@ -15,6 +15,51 @@
                 {% include 'form_msg/card_item_msg.html' %}
             {% endif %}
 
-        </div>
+            {% if comments %}
+                <p><b>{{ comments|length }}</b>  Comments</p>
+                {% for item in comments %}
+                    <ul>{{ item.user__username }}: {{ item.text }}</ul>
+                {% endfor %}
+
+                {% if user.is_authenticated %}
+                <form method="post" enctype="multipart/form-data">
+                    {#                        CSRF#}
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="form-group row"
+                             aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}
+                        </div>
+
+                        <label for="{{ field.id_for_label }}" class="col-md-3 col-form-label text-md-right">
+                            {{ field.label }}
+                            {% if field.field.required %}<span class="required">*</span>{% endif %}
+
+                            {% if field.help_text %}
+                                <small id="{{ field.id_for_label }}-help"
+                                       class="form-text text-muted">{{ field.help_text|safe }}</small>
+                            {% endif %}
+
+                        </label>
+
+                        {# input, width9 #}
+                        <div class="col-md-9">
+                            {# input tag #}
+                            {{ field|addclass:"form-control" }}
+                        </div>
+
+                        </div>
+                    {% endfor %}
+
+                <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
+                    <button type="submit" class="btn btn-primary">
+                        SEND COMMENT
+                    </button>
+                </div>
+                </form>
+                {% endif %}
+            {% endif %}
+
+    </div>
     </div>
 {% endblock %}

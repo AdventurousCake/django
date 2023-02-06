@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, ValidationError
 from core.models import User
-from .models import Message
+from .models import Message, Comment
 
 
 class MsgForm(ModelForm):
@@ -23,6 +23,12 @@ class MsgForm(ModelForm):
         if not data:
             raise ValidationError('You should accept terms')
         return data
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
 
 
 # форма регистрации
