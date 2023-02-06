@@ -1,6 +1,7 @@
 import datetime
 
 from django import forms
+from django.db import IntegrityError
 from django.test import TestCase, Client, override_settings
 from django.core.cache import cache
 from django.urls import reverse
@@ -171,3 +172,8 @@ class LikeMessageViewTest(MessageTestBase):
         self.assertEqual(response.context['object_list'][0].likes_count(), 1)
 
         self.assertTrue(Like.objects.filter(id=1).exists())
+
+    def test_like_unique(self):
+        with self.assertRaises(IntegrityError):
+            Like.objects.create(user=self.user, message=self.message)
+            Like.objects.create(user=self.user, message=self.message)

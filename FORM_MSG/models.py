@@ -72,3 +72,27 @@ class Like(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'message'], name='unique_action_like')
         ]
+
+
+class CreatedUpdated(models.Model):
+    created_date = models.DateTimeField(null=False, auto_now_add=True)
+    updated_date = models.DateTimeField(null=False, auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Comment(CreatedUpdated):
+    id = models.BigAutoField(null=False, unique=True, primary_key=True, auto_created=True)
+    user = models.ForeignKey(to=User, related_name='comments', on_delete=models.CASCADE)
+    message = models.ForeignKey(to=Message, related_name='comments', on_delete=models.CASCADE)
+    text = models.TextField(null=False, max_length=100, blank=False, validators=[RegexValidator(r'^[\w]+$')])
+
+    class Meta:
+        # one unique comment
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'message'], name='unique_comment')
+        ]
+
+    def __str__(self):
+        return f"{self.id}: {self.user}; msg: {self.message}, text: {self.text}"
