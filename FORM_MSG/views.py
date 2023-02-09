@@ -116,9 +116,8 @@ class MsgList(ListView):
             # print(msgs2)
 
             # user likes msg ids
-            context['likes'] = msgs.filter(likes__user=self.request.user.id) \
-                .values_list('id', flat=True)
-            print(context['likes'])
+            context['user_likes'] = msgs.filter(likes__user=self.request.user.id).values_list('id', flat=True)
+            print(context['user_likes'])
         return context
 
         # # msg ids which user likes
@@ -166,7 +165,7 @@ class DetailMsgView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Message'
-        context['is_get_msg'] = True
+        context['is_detail_msg'] = True
         context['show_buttons'] = self.object.get('author__username') == self.request.user.username
         # context['show_buttons'] = self.object.author__username == self.request.user.username
         context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
@@ -204,9 +203,9 @@ class DetailMsgANDCommentView(CreateView):
         msg = self.get_object()
         context = super().get_context_data(**kwargs)
         context['title'] = 'Message'
-        context['is_get_msg'] = True
-        context['show_buttons'] = True # EDIT BUTTONS
-        # context['show_buttons'] = msg.get('author__username') == self.request.user.username
+        context['is_detail_msg'] = True
+        # context['show_buttons'] = True  # EDIT BUTTONS
+        context['show_buttons'] = msg.get('author__username') == self.request.user.username
         # context['show_buttons'] = self.object.get('author__username') == self.request.user.username
 
         # context['comments'] = Comment.objects.filter(message__id=self.object.get('id')) # none err get
