@@ -36,6 +36,7 @@ from api.serializers import LikeSerializerSIMPLE
 from core.models import User
 
 
+# Django
 class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
     model = Like
 

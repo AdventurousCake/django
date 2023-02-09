@@ -28,8 +28,11 @@ class UpdateLikeViewAPITest(APITestCase):
         pass
 
     def test_post_like(self):
+        """after redirect to main"""
         response = self.client.post(reverse('form_msg:like', kwargs={'pk': self.msg.id}))
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        # print(response)
+        # self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT) # dj
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertEqual(Like.objects.count(), 1)
         self.assertEqual(Like.objects.first().message, self.msg)
 

@@ -205,7 +205,8 @@ class DetailMsgANDCommentView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Message'
         context['is_get_msg'] = True
-        context['show_buttons'] = msg.get('author__username') == self.request.user.username
+        context['show_buttons'] = True # EDIT BUTTONS
+        # context['show_buttons'] = msg.get('author__username') == self.request.user.username
         # context['show_buttons'] = self.object.get('author__username') == self.request.user.username
 
         # context['comments'] = Comment.objects.filter(message__id=self.object.get('id')) # none err get
