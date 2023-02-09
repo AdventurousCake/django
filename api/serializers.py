@@ -72,9 +72,11 @@ class MsgSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
-    message = serializers.ReadOnlyField(source='message.text')
+    message_id = serializers.ReadOnlyField(source='message.id')
+    message_text = serializers.ReadOnlyField(source='message.text')
+    comment_text = serializers.ReadOnlyField(source='text')
 
     class Meta:
-        fields = ('id', 'user', 'message', 'text', 'created_date')
+        fields = ('id', 'user', 'message_id', 'comment_text', 'message_text', 'created_date')
         # read_only_fields = ('post', 'created')
         model = Comment
