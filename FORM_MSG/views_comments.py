@@ -7,6 +7,7 @@ from FORM_MSG.forms import CommentForm
 from FORM_MSG.models import Comment, Message
 
 
+# UNUSED
 class UpdateLikeView(LoginRequiredMixin, BaseCreateView):
     model = Comment
     form_class = CommentForm
@@ -18,7 +19,7 @@ class UpdateLikeView(LoginRequiredMixin, BaseCreateView):
 
         msg: Message = get_object_or_404(klass=Comment.objects.only('id'), id=self.kwargs['pk'])
 
-        # todo valid + csrf
+        # valid + csrf
         text = self.kwargs['text']
         comment, is_created = Comment.objects.get_or_create(user=self.request.user, message=msg, text=text)
 

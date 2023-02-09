@@ -58,7 +58,10 @@ class Message(models.Model):
         return len(self.text)
 
     def __str__(self):
-        return f"{self.name} {self.text}; likes: {self.likes_count()}"
+        return f"Author: {self.name}; Text: {self.text}; likes: {self.likes_count()}"
+
+    class Meta:
+        verbose_name_plural = 'Messages'
 
 
 class Like(models.Model):
@@ -72,6 +75,7 @@ class Like(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'message'], name='unique_action_like')
         ]
+        verbose_name_plural = 'Likes'
 
 
 class CreatedUpdated(models.Model):
@@ -88,11 +92,12 @@ class Comment(CreatedUpdated):
     message = models.ForeignKey(to=Message, related_name='comments', on_delete=models.CASCADE)
     text = models.TextField(null=False, max_length=100, blank=False, validators=[RegexValidator(r'^[\w]+$')])
 
-    # class Meta:
-    #     # one unique comment
-    #     constraints = [
-    #         models.UniqueConstraint(fields=['user', 'message'], name='unique_comment')
-    #     ]
+    class Meta:
+        verbose_name_plural = 'Comments'
+        # one unique comment
+        # constraints = [
+        #     models.UniqueConstraint(fields=['user', 'message'], name='unique_comment')
+        # ]
 
     def __str__(self):
         return f"{self.id}: {self.user}; msg: {self.message}, text: {self.text}"
