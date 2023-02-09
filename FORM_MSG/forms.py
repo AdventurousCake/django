@@ -7,8 +7,7 @@ from .models import Message, Comment
 class MsgForm(ModelForm):
     class Meta:
         model = Message
-        fields = '__all__'  # fix ('text',), ('__all__',)
-        exclude = ('id', 'author')
+        fields = ('name', 'text', 'accept_terms', 'file', 'image')
         help_texts = {'text': "Validator check this", 'name': 'Your name'}
 
     # clean_FIELD validation
