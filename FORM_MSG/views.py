@@ -6,7 +6,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 import django.http
 # from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
-# from django.template import loader
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -26,7 +25,6 @@ log.setLevel(logging.INFO)
 
 
 class UserDetails(DetailView):
-    # model = User
     template_name = 'form_msg/USERPAGE.html'
     # context_object_name = ''
     # extra_context = 'доп данные'
@@ -61,12 +59,6 @@ class UserDetails(DetailView):
     # def get_queryset(self):
     #     pass
 
-
-# alternative for send_msg
-# class MsgFormCreateView(LoginRequiredMixin, CreateView):
-#     form_class = MsgForm
-#     success_url = reverse_lazy('form_msg:index')
-#     template_name = "form_msg/msg_send.html"
 
 class SignUp(CreateView):
     form_class = CreationFormUser
@@ -166,7 +158,7 @@ class DetailMsgView(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Message'
         context['is_detail_msg'] = True
-        context['show_buttons'] = self.object.get('author__username') == self.request.user.username
+        context['show_edit_buttons'] = self.object.get('author__username') == self.request.user.username
         # context['show_buttons'] = self.object.author__username == self.request.user.username
         context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
         return context
@@ -205,11 +197,12 @@ class DetailMsgANDCommentView(CreateView):
         context['title'] = 'Message'
         context['is_detail_msg'] = True
         # context['show_buttons'] = True  # EDIT BUTTONS
-        context['show_buttons'] = msg.get('author__username') == self.request.user.username
+        context['show_edit_buttons'] = msg.get('author__username') == self.request.user.username
         # context['show_buttons'] = self.object.get('author__username') == self.request.user.username
 
         # context['comments'] = Comment.objects.filter(message__id=self.object.get('id')) # none err get
-        context['comments'] = Comment.objects.select_related('user').filter(message__id=msg.get('id')).values('user__username', 'text')
+        context['comments'] = Comment.objects.select_related('user').filter(message__id=msg.get('id')).values(
+            'user__username', 'text')
         context['msg'] = msg
         return context
 
