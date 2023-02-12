@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, ValidationError
 from core.models import User
@@ -28,6 +29,9 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ('text',)
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 2}),
+        }
 
 
 # форма регистрации
