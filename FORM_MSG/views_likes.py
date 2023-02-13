@@ -79,7 +79,7 @@ class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
         return redirect(to=reverse('form_msg:msg_list'))
 
 
-# API apiview
+# API apiview; Anon user fixme
 class UpdateLikeViewAPI(APIView):
     permission_classes = (permissions.AllowAny,)
 

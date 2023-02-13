@@ -1,4 +1,3 @@
-# from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
 from core.models import User
@@ -26,7 +25,6 @@ from core.models import User
 # class MessageBase(models.Model):
 #     class Meta:
 #         abstract = True
-#
 #     created_date = models.DateTimeField(null=False, auto_now_add=True)
 #     updated_date = models.DateTimeField(null=False, auto_now=True)
 
