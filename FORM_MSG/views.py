@@ -61,12 +61,13 @@ class MsgList(ListView):
     """List of messages with user likes"""
     template_name = "form_msg/msg_list.html"
 
-    # paginate_by = 2
+    paginate_by = 2
 
     # queryset = Message.objects.select_related('author') \
     #     .values('id', 'author__username', 'text', 'created_date') \
     #     .order_by('-created_date')
 
+    # [:3]
     queryset = Message.objects.select_related('author').prefetch_related('likes')
 
     # queryset = Message.objects.select_related('author').prefetch_related('likes') \
@@ -79,7 +80,8 @@ class MsgList(ListView):
 
         # msg ids which user likes
         if self.request.user.is_authenticated:
-            msgs = context['object_list']
+            msgs = self.queryset  # fix pagination
+            # msgs = context['object_list']
 
             context['show_buttons'] = True
 
@@ -132,7 +134,6 @@ class DetailMsgView(DetailView):
         context['title'] = 'Message'
         context['is_detail_msg'] = True
         context['show_edit_buttons'] = self.object.get('author__username') == self.request.user.username
-        # context['show_buttons'] = self.object.author__username == self.request.user.username
         context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
         return context
 
@@ -143,7 +144,6 @@ class DetailMsgANDCommentView(CreateView):
     context_object_name = 'msg'
     form_class = CommentForm
 
-    # queryset = Message.objects.select_related("author")
     queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
                                                                            'created_date')  # may save form issue
 
@@ -171,7 +171,6 @@ class DetailMsgANDCommentView(CreateView):
         context['is_detail_msg'] = True
         # context['show_buttons'] = True  # EDIT BUTTONS
         context['show_edit_buttons'] = msg.get('author__username') == self.request.user.username
-        # context['show_buttons'] = self.object.get('author__username') == self.request.user.username
 
         # context['comments'] = Comment.objects.filter(message__id=self.object.get('id')) # none err get
         context['comments'] = Comment.objects.select_related('user').filter(message__id=msg.get('id')).values(
