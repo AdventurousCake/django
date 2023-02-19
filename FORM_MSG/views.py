@@ -98,8 +98,6 @@ class MsgList(ListView):
             # for id, data_list in groupby(msgs2, lambda x: x.get('id')):
             #     print(f"msg id {id} : {list(data_list)}")
 
-            # print(msgs2)
-
             # user likes msg ids
             context['user_likes'] = msgs.filter(likes__user=self.request.user.id).values_list('id', flat=True)
             print(context['user_likes'])
