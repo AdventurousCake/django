@@ -2,6 +2,7 @@ import logging
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 
@@ -84,6 +85,7 @@ class MsgList(ListView):
             # msgs = context['object_list']
 
             context['show_buttons'] = True
+            # likes_count in template
 
             # not used DEBUG
             # msgs2=msgs.values('id').annotate(likes_cnt=Count('likes__id')).order_by('id')
@@ -117,15 +119,15 @@ class DetailMsgView(DetailView):
     template_name = 'form_msg/msg_BY_ID.html'
     context_object_name = 'msg'
 
-    queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
-                                                                           'created_date')
+    # queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
+    #                                                                        'created_date')
 
-    # queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text', 'created_date', 'comments__id','comments__user', 'comments__text')
+    # values('id', 'author__username', 'text', 'created_date', 'comments__id','comments__user', 'comments__text')
 
-    # def get_queryset(self):
-    #     return get_object_or_404(klass=Message.objects.select_related("author")
-    #                              .values('id', 'author__username', 'text', 'created_date'),
-    #                              id=self.kwargs.get('pk'))
+    def get_queryset(self):
+        return get_object_or_404(klass=Message.objects.select_related("author", "comments")
+                                 .values('id', 'author__username', 'text', 'created_date'),
+                                 id=self.kwargs.get('pk'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -154,8 +156,7 @@ class DetailMsgANDCommentView(CreateView):
     #         klass=Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
     #                                                                           'created_date'), pk=pk)
 
-    # queryset = Message.objects.select_related("author", "comments").values('id', 'author__username', 'text',
-    # 'created_date', 'comments__id','comments__user', 'comments__text')
+    # .values('id', 'author__username', 'text', 'created_date', 'comments__id','comments__user', 'comments__text')
 
     # def get_queryset(self):
     #     return get_object_or_404(klass=Message.objects.select_related("author")
@@ -167,7 +168,6 @@ class DetailMsgANDCommentView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Message'
         context['is_detail_msg'] = True
-        # context['show_buttons'] = True  # EDIT BUTTONS
         context['show_edit_buttons'] = msg.get('author__username') == self.request.user.username
 
         # context['comments'] = Comment.objects.filter(message__id=self.object.get('id')) # none err get
@@ -212,7 +212,6 @@ class UpdateMsgView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.author = self.request.user
-
         return super(UpdateMsgView, self).form_valid(form)
 
 

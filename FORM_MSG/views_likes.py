@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
 from FORM_MSG.models import Like, Message
-from api.serializers import LikeSerializerSIMPLE
+from api.serializers import LikeSerializerSIMPLE, LikeSerializerSIMPLE2
 
 # get in api or viewlist
 
@@ -102,7 +102,7 @@ class UpdateLikeViewAPI(APIView):
 # API gengericApiView
 class UpdateLikeViewGenericAPIView(UpdateModelMixin, GenericAPIView):
     permission_classes = (permissions.AllowAny,)
-    serializer_class = None
+    serializer_class = LikeSerializerSIMPLE
 
     def post(self, request, *args, **kwargs):
         msg = get_object_or_404(Message, id=kwargs['pk'])
@@ -121,7 +121,7 @@ class UpdateLikeViewGenericAPIView(UpdateModelMixin, GenericAPIView):
 # API mix
 class UpdateLikeMix(UpdateModelMixin, GenericViewSet):
     permission_classes = (permissions.AllowAny,)
-    serializer_class = None
+    serializer_class = LikeSerializerSIMPLE
 
     # PUT, PATCH; createmix - post
     def update(self, request, *args, **kwargs):
