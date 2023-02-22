@@ -114,6 +114,7 @@ class MsgList(ListView):
         # return context
 
 
+# NO COMMENTS
 class DetailMsgView(DetailView):
     model = Message
     template_name = 'form_msg/msg_BY_ID.html'
@@ -134,7 +135,8 @@ class DetailMsgView(DetailView):
         context['title'] = 'Message'
         context['is_detail_msg'] = True
         context['show_edit_buttons'] = self.object.get('author__username') == self.request.user.username
-        context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
+        # context['show_comments'] = True
+        # context['comments'] = Comment.objects.filter(message_id=self.object.get('id'))
         return context
 
 
@@ -173,6 +175,7 @@ class DetailMsgANDCommentView(CreateView):
         # context['comments'] = Comment.objects.filter(message__id=self.object.get('id')) # none err get
         context['comments'] = Comment.objects.select_related('user').filter(message__id=msg.get('id')).values(
             'user__username', 'text')
+        context['show_comments'] = True
         context['msg'] = msg
         return context
 

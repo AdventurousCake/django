@@ -28,10 +28,10 @@
 
             {% endif %}
 
-            {#        ONLY FOR LIST#}
-            {#            {% if user.is_authenticated and user_likes %}#}
+{#                    ONLY FOR LIST#}
+{#                        {% if user.is_authenticated and user_likes %}#}
+{#                        {% if user_likes %} #}
 
-            {#            {% if user_likes %} #}
             <form action="{% url 'form_msg:like' msg.id %}" method="POST">
                 {% csrf_token %}
 
@@ -41,10 +41,15 @@
                             ({{ msg.likes_count }})
                         </button>
                     {% else %}
-                        <button type="submit" name="msg_id" value="{{ msg.id }}" class="btn btn-primary">👍 Like
-                            ({{ msg.likes_count }})
+                        <button type="submit" name="msg_id" value="{{ msg.id }}" class="btn btn-primary">
+                            {% if msg.likes_count != 0 %}
+                                👍 Like ({{ msg.likes_count }})
+                            {% else %}
+                                👍 Like
+                            {% endif %}
                         </button>
                     {% endif %}
+
                 {% else %}
                     {#                    pass#}
                 {% endif %}

@@ -41,12 +41,10 @@ class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
     model = Like
 
     # fields = ('likes',) # form
-
     # def get_object(self, queryset=None):
     #     return get_object_or_404(klass=Message, id=self.kwargs['pk'])
 
     def post(self, request, *args, **kwargs):
-        # using func, not method
 
         msg: Message = get_object_or_404(klass=Message.objects.only('id'), id=self.kwargs['pk'])
         like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)  # returns all fields
@@ -54,29 +52,29 @@ class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
             like.delete()
         return redirect(reverse('form_msg:msg_list'))
 
-    def post_OLD(self, request, *args, **kwargs):
-        obj: Message = self.get_object()
-
-        if not obj.likes.filter(user=self.request.user, message=obj).exists():
-            # only check orm query
-            try:
-                obj.likes.create(user=self.request.user, message=obj)
-                obj.save()
-
-            # date not null constraint error
-            except Exception as e:
-                print(e)
-
-            # DoesNotExist processing in getor404
-
-            # except IntegrityError:
-            #     return Response({'status': 'error:UpdateLikeView'})
-            # return Response({'status': 'ok', 'like_count': obj.likes.count()})
-
-        else:
-            obj.likes.filter(user=self.request.user, message=obj).delete()
-            # return Response({'status': 'ok', 'like_count': obj.likes.count()})
-        return redirect(to=reverse('form_msg:msg_list'))
+    # def post_OLD(self, request, *args, **kwargs):
+    #     obj: Message = self.get_object()
+    #
+    #     if not obj.likes.filter(user=self.request.user, message=obj).exists():
+    #         # only check orm query
+    #         try:
+    #             obj.likes.create(user=self.request.user, message=obj)
+    #             obj.save()
+    #
+    #         # date not null constraint error
+    #         except Exception as e:
+    #             print(e)
+    #
+    #         # DoesNotExist processing in getor404
+    #
+    #         # except IntegrityError:
+    #         #     return Response({'status': 'error:UpdateLikeView'})
+    #         # return Response({'status': 'ok', 'like_count': obj.likes.count()})
+    #
+    #     else:
+    #         obj.likes.filter(user=self.request.user, message=obj).delete()
+    #         # return Response({'status': 'ok', 'like_count': obj.likes.count()})
+    #     return redirect(to=reverse('form_msg:msg_list'))
 
 
 # API apiview; Anon user fixme
