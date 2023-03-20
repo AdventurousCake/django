@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.urls import reverse
 
 from FORM_MSG.models import Message
-from FORM_MSG.tests_views import MessageTestBase
+from FORM_MSG.tests.tests_views import MessageTestBase
 
 
 class MessageFormTest(MessageTestBase):

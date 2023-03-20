@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
 from FORM_MSG.models import Like, Message
-from api.serializers import LikeSerializerSIMPLE
+from api.serializers import LikeSerializerSIMPLE, LikeSerializerSIMPLE2
 
 # get in api or viewlist
 
@@ -36,16 +36,15 @@ from api.serializers import LikeSerializerSIMPLE
 from core.models import User
 
 
+# Django
 class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
     model = Like
 
     # fields = ('likes',) # form
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(klass=Message, id=self.kwargs['pk'])
+    # def get_object(self, queryset=None):
+    #     return get_object_or_404(klass=Message, id=self.kwargs['pk'])
 
     def post(self, request, *args, **kwargs):
-        # using func, not method
 
         msg: Message = get_object_or_404(klass=Message.objects.only('id'), id=self.kwargs['pk'])
         like, is_created = Like.objects.get_or_create(user=self.request.user, message=msg)  # returns all fields
@@ -53,32 +52,32 @@ class UpdateLikeView(LoginRequiredMixin, BaseUpdateView):
             like.delete()
         return redirect(reverse('form_msg:msg_list'))
 
-    def post_OLD(self, request, *args, **kwargs):
-        obj: Message = self.get_object()
+    # def post_OLD(self, request, *args, **kwargs):
+    #     obj: Message = self.get_object()
+    #
+    #     if not obj.likes.filter(user=self.request.user, message=obj).exists():
+    #         # only check orm query
+    #         try:
+    #             obj.likes.create(user=self.request.user, message=obj)
+    #             obj.save()
+    #
+    #         # date not null constraint error
+    #         except Exception as e:
+    #             print(e)
+    #
+    #         # DoesNotExist processing in getor404
+    #
+    #         # except IntegrityError:
+    #         #     return Response({'status': 'error:UpdateLikeView'})
+    #         # return Response({'status': 'ok', 'like_count': obj.likes.count()})
+    #
+    #     else:
+    #         obj.likes.filter(user=self.request.user, message=obj).delete()
+    #         # return Response({'status': 'ok', 'like_count': obj.likes.count()})
+    #     return redirect(to=reverse('form_msg:msg_list'))
 
-        if not obj.likes.filter(user=self.request.user, message=obj).exists():
-            # only check orm query
-            try:
-                obj.likes.create(user=self.request.user, message=obj)
-                obj.save()
 
-            # date not null constraint error
-            except Exception as e:
-                print(e)
-
-            # DoesNotExist processing in getor404
-
-            # except IntegrityError:
-            #     return Response({'status': 'error:UpdateLikeView'})
-            # return Response({'status': 'ok', 'like_count': obj.likes.count()})
-
-        else:
-            obj.likes.filter(user=self.request.user, message=obj).delete()
-            # return Response({'status': 'ok', 'like_count': obj.likes.count()})
-        return redirect(to=reverse('form_msg:msg_list'))
-
-
-# API apiview
+# API apiview; Anon user fixme
 class UpdateLikeViewAPI(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -101,7 +100,7 @@ class UpdateLikeViewAPI(APIView):
 # API gengericApiView
 class UpdateLikeViewGenericAPIView(UpdateModelMixin, GenericAPIView):
     permission_classes = (permissions.AllowAny,)
-    serializer_class = None
+    serializer_class = LikeSerializerSIMPLE
 
     def post(self, request, *args, **kwargs):
         msg = get_object_or_404(Message, id=kwargs['pk'])
@@ -120,7 +119,7 @@ class UpdateLikeViewGenericAPIView(UpdateModelMixin, GenericAPIView):
 # API mix
 class UpdateLikeMix(UpdateModelMixin, GenericViewSet):
     permission_classes = (permissions.AllowAny,)
-    serializer_class = None
+    serializer_class = LikeSerializerSIMPLE
 
     # PUT, PATCH; createmix - post
     def update(self, request, *args, **kwargs):

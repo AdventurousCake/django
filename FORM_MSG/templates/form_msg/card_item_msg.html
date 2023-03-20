@@ -19,9 +19,8 @@
         </div>
 
         <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
-            {% if show_buttons %}
+            {% if show_edit_buttons %}
 
-                {#                TODO RETURN EDIT BTNS#}
                 {#                <button type="submit" class="btn btn-primary">Edit</button>#}
                 {#                <button type="button" onclick="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-primary">Edit</button>#}
                 <a href="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-light">Edit</a>
@@ -29,22 +28,33 @@
 
             {% endif %}
 
-            {#        ONLY FOR LIST#}
-            {% if user.is_authenticated and likes %}
-                <form action="{% url 'form_msg:like' msg.id %}" method="POST">
-                    {% csrf_token %}
+{#                    ONLY FOR LIST#}
+{#                        {% if user.is_authenticated and user_likes %}#}
+{#                        {% if user_likes %} #}
 
-                    {% if msg.id in likes %}
+            <form action="{% url 'form_msg:like' msg.id %}" method="POST">
+                {% csrf_token %}
+
+                {% if not is_detail_msg %}
+                    {% if user_likes and msg.id in user_likes %}
                         <button type="submit" name="msg_id" value="{{ msg.id }}" class="btn btn-danger">Unlike
                             ({{ msg.likes_count }})
                         </button>
                     {% else %}
-                        <button type="submit" name="msg_id" value="{{ msg.id }}" class="btn btn-primary">👍 Like
-                            ({{ msg.likes_count }})
+                        <button type="submit" name="msg_id" value="{{ msg.id }}" class="btn btn-primary">
+                            {% if msg.likes_count != 0 %}
+                                👍 Like ({{ msg.likes_count }})
+                            {% else %}
+                                👍 Like
+                            {% endif %}
                         </button>
                     {% endif %}
-                </form>
-            {% endif %}
+
+                {% else %}
+                    {#                    pass#}
+                {% endif %}
+            </form>
+            {#            {% endif %}#}
         </div> <!-- card btns -->
     </div> <!-- card body -->
 </div> <!-- card -->

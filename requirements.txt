@@ -19,6 +19,7 @@ djangorestframework
 django-cors-headers
 django-filter
 redis
+django-bootstrap-v5
 
 social-auth-app-django
 # for requests stats

@@ -15,6 +15,43 @@
                 {% include 'form_msg/card_item_msg.html' %}
             {% endif %}
 
-        </div>
+            {% if show_comments %}
+                {% if comments %}
+                    <p><b>{{ comments|length }}</b> Comments:</p>
+                    {% for item in comments %}
+                        <ul>{{ item.user__username }}: {{ item.text }}</ul>
+                    {% endfor %}
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    <form method="post" enctype="multipart/form-data">
+                        {#                        CSRF#}
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="form-group row"
+                                 aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}
+                            </div>
+
+                            {# input, width 9 #}
+                            <div class="col-md-12">
+                                {# input tag #}
+                                {{ field|addclass:"form-control" }}
+                            </div>
+
+                            </div>
+                        {% endfor %}
+
+                    <div class="row justify-content-center"> {# col-md-6 offset-md-4 #}
+                        <button type="submit" class="btn btn-primary">
+                            SEND COMMENT
+                        </button>
+                    </div>
+                    </form>
+                {% endif %}
+
+            {% endif %}
+
+    </div>
     </div>
 {% endblock %}

@@ -6,6 +6,15 @@ from django.urls import reverse
 from FORM_MSG.tests.tests_views import MessageTestBase
 
 
+class SwaggerTest(TestCase):
+    def test_get_page(self):
+        r = self.client.get(reverse('api:openapi-schema'))
+        self.assertEqual(r.status_code, 200)
+
+        r = self.client.get(reverse('api:swagger-ui'))
+        self.assertEqual(r.status_code, 200)
+
+
 class MessageTestURLS(MessageTestBase):
     def test_create_msg_auth(self):
         response = self.authorized_client.post(reverse('form_msg:send_msg'), {

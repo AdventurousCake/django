@@ -44,11 +44,7 @@ class MsgSearchViewSet(ModelViewSet):
 
 
 # !!! MAIN MSG /msg; viewset - multiple actions
-# class ModelViewSet(mixins.CreateModelMixin,
-#                    mixins.RetrieveModelMixin,
-#                    mixins.UpdateModelMixin,
-#                    mixins.DestroyModelMixin,
-#                    mixins.ListModelMixin,
+# class ModelViewSet(mixins.CreateModelMixin,...
 #                    GenericViewSet)
 class MessagesViewSet(ModelViewSet):
     http_method_names = ('get', 'post', 'put', 'patch', 'head', 'delete')  # option
