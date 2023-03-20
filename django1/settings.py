@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     # 'request',  # save all requests; also in middleware
     'rest_framework_simplejwt',
 
+    'bootstrap5',  # bs5 template tags
+
     'polls.apps.PollsConfig',
     'simplesite1_bstrap.apps.Simplesite1Config',
     'home_page.apps.MainConfig',
@@ -140,18 +142,25 @@ DATABASES = {
     }
 }
 
+# pgsql
 # DATABASES = {
 #     'default':
 #         {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': 'postgres',
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': 'postgres_1',  # postgres, pg_django_main
 #             'USER': 'postgres',
 #             # fixme
 #             'PASSWORD': 'postgres',
-#             'HOST': 'localhost',
+#             'HOST': 'db',  # 'HOST': 'localhost',
 #             'PORT': '5432',
 #         }
 # }
+
+# Heroku: Update database configuration from $DATABASE_URL.
+# import dj_database_url
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -204,24 +213,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'django1',
-#         'USER': 'name',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-
-# Heroku: Update database configuration from $DATABASE_URL.
-# import dj_database_url
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
-#
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 # LOGIN_REDIRECT_URL = '/'
