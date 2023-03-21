@@ -40,6 +40,11 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1']
 ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
 
+# ENV_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS")
+# ALLOWED_HOSTS = []
+# if ENV_HOSTS:
+#     ALLOWED_HOSTS.extend(ENV_HOSTS.split(" "))
+
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")  # in dj 3.x without https
 
 ADMIN_PATH = env.str('ADMIN_PATH') or 'admin'
