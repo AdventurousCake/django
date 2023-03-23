@@ -30,8 +30,7 @@ if platform == 'linux':
 else:
     IS_SERVER = False
 
-# also for drf
-# UPD DB AFTER KEY
+# also for drf; UPD DB AFTER KEY
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -161,12 +160,6 @@ DATABASES = {
 #         }
 # }
 
-# Heroku: Update database configuration from $DATABASE_URL.
-# import dj_database_url
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -224,7 +217,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 from django.urls import reverse_lazy
 
-# todo check
+# check
 ABSOLUTE_URL_OVERRIDES = {'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])}
 THUMBNAIL_DEBUG = True
 
