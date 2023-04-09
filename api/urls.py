@@ -6,7 +6,6 @@ from rest_framework.authtoken import views
 from .views_LIKES_AND_COMMENTS import LikeListView, CommentList
 from .views_MSG import MessagesViewSet, MsgSearchViewSet, MsgLoadView
 from .views_USER import UserViewSet, UserList
-from .views_func_and_APIView_test import hello
 from rest_framework.routers import DefaultRouter
 from rest_framework.schemas import get_schema_view
 
@@ -21,23 +20,22 @@ app_name = 'api'
 router = DefaultRouter()
 router.register('msg', MessagesViewSet)
 router.register('msg_search', MsgSearchViewSet)
+router.register('users_vset', UserViewSet)
 
 # You cannot add generic Views in routers
 # router.register('msg_load', MsgLoadView, basename="Message")
 
-router.register('users_vset', UserViewSet)
 # urlpatterns += router.urls
-
 # if config.DEV:
 #     urlpatterns.append(path())
 
 # порядок важен, частный случай выше
 urlpatterns = [
-    # ROUTER VSETS!!!
+    # ROUTER VSETS
     path('', include(router.urls)),
 
     path('msg_load/', MsgLoadView.as_view(), name='msg_load'),
-    path('users_view/<str:username>/', UserList.as_view(), name='msg_user'),
+    path('users/<str:username>/', UserList.as_view(), name='msg_users'),
     path('likes_list', LikeListView.as_view(), name='likes_list'),
     path('comments_list', CommentList.as_view(), name='comments_list'),
 

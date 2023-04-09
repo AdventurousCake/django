@@ -11,6 +11,13 @@ from api.serializers import MsgSerializer
 from FORM_MSG.models import Message
 
 
+class UserThrottleLow:
+    """5/minute"""
+    throttle_classes = [UserRateThrottle]
+    throttle_scope = 'low_request'
+
+
+# TODO HIDE
 # msg_load/ # for js
 class MsgLoadView(APIView):
     throttle_classes = [UserRateThrottle]
@@ -43,14 +50,12 @@ class MsgSearchViewSet(ModelViewSet):
     ordering_fields = ['-created_date']
 
 
-# !!! MAIN MSG /msg; viewset - multiple actions
+# todo !!! MAIN MSG /msg; viewset - multiple actions
 # class ModelViewSet(mixins.CreateModelMixin,...
 #                    GenericViewSet)
 class MessagesViewSet(ModelViewSet):
     http_method_names = ('get', 'post', 'put', 'patch', 'head', 'delete')  # option
     permission_classes = (IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)  # (permissions.AllowAny,)
-    # throttle_classes = [UserRateThrottle]
-    # throttle_scope = 'low_request'
 
     # queryset = Message.objects.all() # not optimal for author field
     # queryset = Message.objects.all().select_related("author").prefetch_related("groups", "user_permissions") # invalid parameters in prefetch
@@ -74,7 +79,6 @@ class MessagesViewSet(ModelViewSet):
 
             # # can be User instance
             # serializer.save(author='unknown')  # str for ONLY str field
-
 
     # def create(self, request, *args, **kwargs):
     #     return super().create(request, *args, **kwargs)

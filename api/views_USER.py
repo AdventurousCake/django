@@ -7,17 +7,18 @@ from api.serializers import UserSerializer, UserSerializerSIMPLE
 from core.models import User
 
 
+# todo not used
+class UserViewSetRO(ReadOnlyModelViewSet):
+    """alt users ReadOnlyModelViewSet; ТОЛЬКО RETRIEVE AND LIST"""
+    queryset = User.objects.all()
+    serializer = UserSerializer
+
+
 class UserViewSet(ModelViewSet):
     """users_vset/ get by id"""
     queryset = User.objects.all().prefetch_related('messages')
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-
-class UserViewSetRO(ReadOnlyModelViewSet):
-    """alt users ReadOnlyModelViewSet; ТОЛЬКО RETRIEVE AND LIST"""
-    queryset = User.objects.all()
-    serializer = UserSerializer
 
 
 class UserList(APIView):
