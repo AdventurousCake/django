@@ -189,6 +189,7 @@ log.setLevel(logging.INFO)
 #     return render(request, template_name=template, context=
 #     {"form": form, "title": title, "btn_caption": btn_caption, "error": error, "data": msgs_data})
 
+API_URL = 'https://api1.testig.tk/ping'
 
 # @login_required
 def index_page(request):
@@ -215,7 +216,7 @@ def get_date_formatted():
 
 def _ping():
     try:
-        req = requests.get("https://api1.testig.ml/ping", timeout=1)
+        req = requests.get(API_URL, timeout=1)
     except Exception as e:
         print(e)
         return None
