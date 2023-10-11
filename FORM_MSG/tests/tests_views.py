@@ -158,7 +158,7 @@ class LikeMessageViewTest(MessageTestBase):
     def test_like_initial(self):
         response = self.authorized_client.get(reverse('form_msg:msg_list'))
         self.assertEqual(response.status_code, 200)
-        self.assertIsNotNone(response.context['likes'])
+        self.assertIsNotNone(response.context['user_likes'])
         # print(response.context['object_list'])
         self.assertEqual(response.context['object_list'][0].likes_count(), 0)
 

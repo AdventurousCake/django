@@ -23,8 +23,12 @@
 
                 {#                <button type="submit" class="btn btn-primary">Edit</button>#}
                 {#                <button type="button" onclick="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-primary">Edit</button>#}
-                <a href="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-light">Edit</a>
-                <a href="{% url 'form_msg:delete_msg' msg.id %}" class="btn btn-light ml-1">Delete</a>
+{#                todo edit method#}
+                <a href="{{ msg.edit_url }}" class="btn btn-light">Edit</a>
+                <a href="{{ msg.delete_url }}" class="btn btn-light ml-1">Delete</a>
+
+{#                <a href="{% url 'form_msg:edit_msg' msg.id %}" class="btn btn-light">Edit</a>#}
+{#                <a href="{% url 'form_msg:delete_msg' msg.id %}" class="btn btn-light ml-1">Delete</a>#}
 
             {% endif %}
 
@@ -32,6 +36,8 @@
             {#            {% if user.is_authenticated and user_likes %}#}
 
             {#            {% if user_likes %} #}
+
+{#        todo#}
             <form action="{% url 'form_msg:like' msg.id %}" method="POST">
                 {% csrf_token %}
 

@@ -55,6 +55,14 @@ class Message(models.Model):
     def msg_length(self):
         return len(self.text)
 
+    def edit_url(self):
+        from django.urls import reverse
+        return reverse("form_msg:edit_msg", kwargs={"pk": self.pk})
+
+    def delete_url(self):
+        from django.urls import reverse
+        return reverse("form_msg:delete_msg", kwargs={"pk": self.pk})
+
     def __str__(self):
         return f"Author: {self.name}; Text: {self.text}; likes: {self.likes_count()}"
 

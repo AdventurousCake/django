@@ -37,13 +37,18 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
-ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
+# ALLOWED_HOSTS = ['127.0.0.1']
+# ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
+
+ENV_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS")
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
+if ENV_HOSTS:
+    ALLOWED_HOSTS.extend(ENV_HOSTS.split(" "))
 
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")  # in dj 3.x without https
 
-ADMIN_PATH = env.str('ADMIN_PATH') or 'admin'
-API_PATH = env.str('API_PATH') or 'api/v1/'
+ADMIN_PATH = env.str('ADMIN_PATH', 'admin')
+API_PATH = env.str('API_PATH', 'api/v1/')
 
 # debug tools ip
 INTERNAL_IPS = [
@@ -146,11 +151,32 @@ DATABASES = {
 #             'ENGINE': 'django.db.backends.postgresql',
 #             'NAME': 'postgres',
 #             'USER': 'postgres',
-#             # fixme
 #             'PASSWORD': 'postgres',
 #             'HOST': 'localhost',
 #             'PORT': '5432',
 #         }
+# }
+
+# fixme
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+#         'NAME': os.getenv('DB_NAME', 'postgres'),
+#         'USER': os.getenv('POSTGRES_USER', 'postgres'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
+#         'HOST': os.getenv('DB_HOST', 'localhost'),
+#         'PORT': os.getenv('DB_PORT', '5432'),
+#     }
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DB_ENGINE'),
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('POSTGRES_USER'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'HOST': os.getenv('DB_HOST'),
+#         'PORT': os.getenv('DB_PORT')
+#     }
 # }
 
 # Password validation
