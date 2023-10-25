@@ -13,7 +13,7 @@ uritemplate
 psycopg2-binary==2.9.5
 django-debug-toolbar
 requests~=2.28.1
-# python-dotenv
+# python-dotenv # better use environs
 environs~=9.5.0
 djangorestframework
 django-cors-headers

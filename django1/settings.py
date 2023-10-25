@@ -14,6 +14,10 @@ import os
 from environs import Env
 from sys import platform
 
+# outd
+# from dotenv import load_dotenv
+# load_dotenv()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -32,7 +36,7 @@ else:
 
 # also for drf
 # UPD DB AFTER KEY
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,12 +44,13 @@ DEBUG = True
 # ALLOWED_HOSTS = ['127.0.0.1']
 # ALLOWED_HOSTS.extend(env.list("ALLOWED_HOSTS"))
 
-ENV_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS")
+ENV_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
 ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 if ENV_HOSTS:
-    ALLOWED_HOSTS.extend(ENV_HOSTS.split(" "))
+    ALLOWED_HOSTS.extend(ENV_HOSTS) # from raw str
+    # ALLOWED_HOSTS.extend(ENV_HOSTS.split(" ")) # from raw  env str
 
-CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")  # in dj 3.x without https
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")  # 4.x with https; in dj 3.x without https
 
 ADMIN_PATH = env.str('ADMIN_PATH', 'admin')
 API_PATH = env.str('API_PATH', 'api/v1/')
